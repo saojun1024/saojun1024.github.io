@@ -16,7 +16,7 @@
 <meta property="og:description" content="本文整理了当前前端岗位经常遇到的面试题。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/2019/10/13/images/proto.png">
-<meta property="og:updated_time" content="2019-10-13T10:08:56.247Z">
+<meta property="og:updated_time" content="2019-10-15T13:18:12.623Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端面试指南">
 <meta name="twitter:description" content="本文整理了当前前端岗位经常遇到的面试题。">
@@ -96,11 +96,24 @@
         <p>本文整理了当前前端岗位经常遇到的面试题。</p>
 <a id="more"></a>
 
-<h2 id="JS的数据类型有哪些？"><a href="#JS的数据类型有哪些？" class="headerlink" title="JS的数据类型有哪些？"></a>JS的数据类型有哪些？</h2><p>JS数据类型一般分为两类，<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">基本类型有：</span><br><span class="line">- string</span><br><span class="line">- boolean</span><br><span class="line">- number</span><br><span class="line">- null</span><br><span class="line">- undefined</span><br><span class="line"></span><br><span class="line">引用类型：</span><br><span class="line">- Object (衍生出 Function,Array,reg等类型))</span><br><span class="line"></span><br><span class="line">## typeof 与 instanceof 区别与使用</span><br><span class="line">typeof用于检验基本类型还是引用类型。例如：</span><br><span class="line">```js</span><br><span class="line">typeof 1 === &apos;number&apos;</span><br><span class="line">typeof &apos;123&apos; === &apos;string&apos;</span><br></pre></td></tr></table></figure></p>
+<h2 id="JS的数据类型有哪些？"><a href="#JS的数据类型有哪些？" class="headerlink" title="JS的数据类型有哪些？"></a>JS的数据类型有哪些？</h2><p>JS数据类型一般分为两类，<code>基本类型</code>和<code>引用类型</code>。</p>
+<h3 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h3><ul>
+<li>string</li>
+<li>boolean</li>
+<li>number</li>
+<li>null</li>
+<li>undefined</li>
+</ul>
+<h3 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h3><ul>
+<li>Object (衍生出 Function,Array,reg等类型))</li>
+</ul>
+<h2 id="typeof-与-instanceof-区别与使用"><a href="#typeof-与-instanceof-区别与使用" class="headerlink" title="typeof 与 instanceof 区别与使用"></a>typeof 与 instanceof 区别与使用</h2><p>typeof用于检验基本类型还是引用类型。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="number">1</span> === <span class="string">'number'</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="string">'123'</span> === <span class="string">'string'</span></span><br></pre></td></tr></table></figure>
+
 <p>但是有个奇葩例外，这个是js设计的一个bug.  </p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="literal">null</span> === object</span><br></pre></td></tr></table></figure>
 
-<h2 id="布尔值判断"><a href="#布尔值判断" class="headerlink" title="布尔值判断"></a>布尔值判断</h2><p>== 会进行类型转化再比较<br>=== 不会转换，需要值和类型都相等才为true<br>!=会转换类型 而！==不会转换<br>:::danger 提示：<br>    在lint规范中推荐使用===和!==<br>:::<br>判断NaN 只能使用isNaN() </p>
+<h2 id="真假值判断"><a href="#真假值判断" class="headerlink" title="真假值判断"></a>真假值判断</h2><p>== 会进行类型转化再比较<br>=== 不会转换，需要值和类型都相等才为true<br>!=会转换类型 而!==不会转换<br>判断NaN 只能使用isNaN() </p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span> <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
 
 <p>加法运算  </p>
@@ -123,78 +136,12 @@
 <p>filter()用于过滤数据  </p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a =[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>].filter(<span class="function">(<span class="params">val</span>)=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> val &gt; <span class="number">2</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">// [3,4]</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="reduce"><a href="#reduce" class="headerlink" title="reduce()"></a>reduce()</h4><p>reduce() 很强大，字面意思上可理解为缩减数组。例如：<br>求数组[1,2,3,4]元素之和。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>].reduce(<span class="function">(<span class="params">pre,current,index,self</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> pre+current</span><br><span class="line">&#125;,<span class="number">0</span>)</span><br><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">// 10</span></span><br></pre></td></tr></table></figure>
-
-<p>pre为先前值。初始值即为reduce(func,initVal)第二个参数。</p>
-<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>程序员务必掌握正则表达式的使用，用途非常广泛。  </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> patt = <span class="regexp">/test/i</span> <span class="comment">// i表示忽略大小写</span></span><br></pre></td></tr></table></figure>
-
-<p>patt会有两个方法 search()和replace()<br>-search()<br>搜索子串位置，返回第一次搜索到的字符串位置  </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = <span class="string">"Visit Runoob!"</span>; </span><br><span class="line"><span class="keyword">var</span> n = str.search(<span class="regexp">/Runoob/i</span>);</span><br></pre></td></tr></table></figure>
-
-<p>-replace()<br>替换字符串。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 正则式替换</span></span><br><span class="line"><span class="keyword">var</span> str = <span class="built_in">document</span>.getElementById(<span class="string">"demo"</span>).innerHTML; </span><br><span class="line"><span class="keyword">var</span> txt = str.replace(<span class="regexp">/microsoft/i</span>,<span class="string">"Runoob"</span>);</span><br><span class="line"><span class="comment">// 字符串替换</span></span><br><span class="line"><span class="keyword">var</span> str = <span class="built_in">document</span>.getElementById(<span class="string">"demo"</span>).innerHTML; </span><br><span class="line"><span class="keyword">var</span> txt = str.replace(<span class="string">"Microsoft"</span>,<span class="string">"Runoob"</span>);</span><br></pre></td></tr></table></figure>
-
+<h2 id="对象拷贝方式"><a href="#对象拷贝方式" class="headerlink" title="对象拷贝方式"></a>对象拷贝方式</h2><p>对象拷贝也是面试题之中的一大考点, 主要考察队JS数据结构的掌握和使用递归的技巧。</p>
 <ul>
-<li>test()<br>test() 方法用于检测一个字符串是否匹配某个模式，如果字符串中含有匹配的文本，则返回 true，否则返回 false。<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> patt = <span class="regexp">/e/</span>;</span><br><span class="line">patt.test(<span class="string">"The best things in life are free!"</span>);</span><br></pre></td></tr></table></figure>
+<li>对象使用<code>for in</code> 进行拷贝<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj= &#123;</span><br><span class="line">  name:<span class="string">'zhansan'</span>,</span><br><span class="line">  score:&#123;</span><br><span class="line">    math:<span class="number">90</span>,</span><br><span class="line">    history:<span class="number">89</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 </li>
 </ul>
-<p>js正则式方法比较简单，难点在于如何描述正则式。下面我列举几个常见的使用正则式场景。  </p>
-<ul>
-<li>遍历文件目录时，我们只想得到后缀名为.js的文件</li>
-<li>遍历文件夹目录时，我们只想得到以2019命名开头的文件夹  </li>
-<li>一段字符串中”<h1>234</h1>“我们需要提取标签里面的值  </li>
-<li>一段字符串中可能含有空格，我们需要去除这些空格</li>
-<li>表单验证，用户只能输入数字</li>
-<li>表单验证，用户只能输入邮箱格式</li>
-</ul>
-<p>我们先了解正则式里面的元字符，量词，范围的概念</p>
-<ul>
-<li><p>元字符 （具有特殊意义的,描述字符的字符）</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">. 表示一个字符（不包含换行和行结束符）</span><br><span class="line">\w 表示单词 words 包括数字，英语单词</span><br><span class="line">\W 表示非单词</span><br><span class="line">\d 表示数字 digit 数字</span><br><span class="line">\D 表示非数字</span><br><span class="line">\s 表示空格 space</span><br><span class="line">\S 表示非空格</span><br><span class="line">\n 表示换行 newLine</span><br><span class="line">\b 表示单词边界 boundary</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>表示范围的量词 ,数学上的区间概念</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">n* <span class="number">0</span>到多个n类型数据  </span><br><span class="line">n+ <span class="number">1</span>到多个n类型数据  </span><br><span class="line">n? <span class="number">0</span><span class="number">-1</span>个n类型  </span><br><span class="line">n&#123;x,y&#125; x-y个n类型</span><br><span class="line">n&#123;x&#125; 固定x个</span><br><span class="line">n&#123;x,&#125; 大于等于n个</span><br><span class="line">n$ n结尾</span><br><span class="line">^$ n开头</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<p>-表示集合范围，数学上集合概念</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">0</span><span class="number">-9</span>]  <span class="number">0</span><span class="number">-9</span>之间</span><br><span class="line">[abc]  a,b,c的集合  <span class="comment">//  /[abc]/.exec("acdfgjhjjabc") // a</span></span><br><span class="line">[^abc] 非a,b,c集合</span><br><span class="line">[a-z]</span><br><span class="line">(red|blue|green)</span><br></pre></td></tr></table></figure>
-
-<p>还有几点需要注意：</p>
-<ul>
-<li><p>有些特殊字符需要转义</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">\.</span><br><span class="line">\[</span><br><span class="line">\(</span><br><span class="line">\&#123;</span><br><span class="line">\\</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>有些描述是等价的  </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/[a-z0<span class="number">-9</span>A-Z]/ = <span class="regexp">/\w/</span></span><br><span class="line">/[<span class="number">0</span><span class="number">-9</span>]/  = <span class="regexp">/\d/</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>不同规则匹配可以使用|连接,使用()可以分组</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">020</span><span class="number">-123</span></span><br><span class="line"><span class="number">0209</span><span class="number">-123</span></span><br><span class="line"><span class="comment">//区号可以为三位或者四位</span></span><br><span class="line">/^\d&#123;<span class="number">3</span>&#125;-\d&#123;<span class="number">3</span>&#125;$|^\d&#123;<span class="number">4</span>&#125;-\d&#123;<span class="number">3</span>&#125;$/</span><br><span class="line"><span class="comment">// 使用分组写法如下</span></span><br><span class="line">/^(\d&#123;<span class="number">3</span>&#125;-\d&#123;<span class="number">3</span>&#125;)|(\d&#123;<span class="number">4</span>&#125;-\d&#123;<span class="number">3</span>&#125;)$/</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>贪婪与懒惰<br>默认情况下，正则式会尽可能多的匹配字符，即贪婪的，举个例子说明：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/a.*b/ <span class="comment">// 表示a和b之间可以有任何字符，例如ab acb acbabbb</span></span><br><span class="line">/a.*b/.exec(<span class="string">"acbabbb"</span>) <span class="comment">//将会默认匹配acbabbb而不是acb</span></span><br><span class="line">/a.*?b/.exec(<span class="string">"acbabbb"</span>) <span class="comment">// 加一个？会匹配acb</span></span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<p>训练：  </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 匹配020-123456格式电话 三位数字-6位数字</span></span><br><span class="line">/^\d&#123;<span class="number">3</span>&#125;-d&#123;<span class="number">8</span>&#125;$/  <span class="comment">//记得添加^$ 否则a020-123456b也会匹配</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 中国身份证验证 15数字或者18位 18位最后一位可能为数字，x和X</span></span><br><span class="line">/(^\d&#123;<span class="number">15</span>&#125;$)|(^\d&#123;<span class="number">18</span>&#125;$)|(^\d&#123;<span class="number">17</span>&#125;(\d|x|X)$)/.test(<span class="string">"362202199790802345"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 去除字符串前后空格</span></span><br><span class="line"><span class="string">" 234 "</span>.replace(<span class="regexp">/^\s*|\s*$/g</span>,<span class="string">''</span>)</span><br></pre></td></tr></table></figure>
-
-<p>推荐文章：<a href="http://caibaojian.com/javascript-regexp-2.html" target="_blank" rel="noopener">http://caibaojian.com/javascript-regexp-2.html</a></p>
-<h2 id="函数与回调函数"><a href="#函数与回调函数" class="headerlink" title="函数与回调函数"></a>函数与回调函数</h2><p>函数也是一种变量，存在变量提升  </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hello</span>(<span class="params"></span>)</span>&#123;&#125; <span class="comment">// 在window上声明</span></span><br></pre></td></tr></table></figure>
-
-<p>函数的参数也可以是函数</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a+b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">count</span>(<span class="params">m,n,func</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> func(m,n)</span><br><span class="line">&#125;</span><br><span class="line">count(<span class="number">1</span>,<span class="number">1</span>,sum) <span class="comment">//2</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="对象拷贝"><a href="#对象拷贝" class="headerlink" title="对象拷贝"></a>对象拷贝</h2><p>对象拷贝有深拷贝和浅拷贝两种。  </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj1 = &#123;</span><br><span class="line">    name:<span class="string">'zhangsan'</span>,</span><br><span class="line">    age:<span class="number">20</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> obj2 =&#123;&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> key <span class="keyword">in</span> obj1) &#123;</span><br><span class="line">    obj2[key] =obj1[key]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上述使用for in 方式显示的就是浅拷贝，对于多层嵌套的对象就会失效。例如：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj= &#123;</span><br><span class="line">    name:<span class="string">'zhansan'</span>,</span><br><span class="line">    score:&#123;</span><br><span class="line">        math:<span class="number">90</span>,</span><br><span class="line">        history:<span class="number">89</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>深拷贝可以拷贝里层对象</p>
 <ul>
 <li>简单数组可以使用slice()<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a =[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line"><span class="keyword">let</span> b =a.slice()</span><br><span class="line">b[<span class="number">0</span>]=<span class="number">3</span></span><br><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">// [1,2,3,4]</span></span><br></pre></td></tr></table></figure>
@@ -307,7 +254,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/10/13/前端面试指南/" data-id="ck1qe40gq0004q4vczlxwkibm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/10/13/前端面试指南/" data-id="ck1tghern0004n0vcqisg9ijg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -358,6 +305,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/10/15/Node.js搭建Cli工具教程/">Node.js搭建Cli工具教程。</a>
+          </li>
         
           <li>
             <a href="/2019/10/14/JS正则表达式学习与整理/">JS正则表达式学习与整理</a>
