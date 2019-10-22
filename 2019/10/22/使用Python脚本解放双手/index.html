@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>使用Python脚本解放双手 | 骚俊的个人博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="程序员日常工作除了码代码之外最多就是复制粘贴文件，重命名，上传下载，频繁启停服务。本文将教你使用 python 写一些日常脚本来辅助我们日常，告别繁重单调的任务。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Python脚本解放双手">
+<meta property="og:url" content="http://yoursite.com/2019/10/22/使用Python脚本解放双手/index.html">
+<meta property="og:site_name" content="骚俊的个人博客">
+<meta property="og:description" content="程序员日常工作除了码代码之外最多就是复制粘贴文件，重命名，上传下载，频繁启停服务。本文将教你使用 python 写一些日常脚本来辅助我们日常，告别繁重单调的任务。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:updated_time" content="2019-10-22T14:44:06.498Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Python脚本解放双手">
+<meta name="twitter:description" content="程序员日常工作除了码代码之外最多就是复制粘贴文件，重命名，上传下载，频繁启停服务。本文将教你使用 python 写一些日常脚本来辅助我们日常，告别繁重单调的任务。">
+  
+    <link rel="alternate" href="/atom.xml" title="骚俊的个人博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">骚俊的个人博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">博客,贵于精，不在多。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-使用Python脚本解放双手" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/22/使用Python脚本解放双手/" class="article-date">
+  <time datetime="2019-10-22T13:32:00.000Z" itemprop="datePublished">2019-10-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用Python脚本解放双手
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>程序员日常工作除了码代码之外最多就是复制粘贴文件，重命名，上传下载，频繁启停服务。本文将教你使用 python 写一些日常脚本来辅助我们日常，告别繁重单调的任务。</p>
+<a id="more"></a>
+
+<h2 id="OS-模块与文件操作"><a href="#OS-模块与文件操作" class="headerlink" title="OS 模块与文件操作"></a>OS 模块与文件操作</h2><p><code>os</code> 模块提供了非常丰富的方法用来处理文件和目录，os模块可以使得我们的程序与操作系统打交道，相当于一个桥梁作用。在其它例如node.js和php等语言也都有实现。下面我列举几个常用的python os模块提供的方法。</p>
+<table>
+<thead>
+<tr>
+<th align="left">方法名</th>
+<th>说明</th>
+<th>返回值示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">os.getcwd()</td>
+<td>返回脚本当前工作目录</td>
+<td>‘D:\pythontest\ostest’</td>
+</tr>
+<tr>
+<td align="left">os.listdir(path)</td>
+<td>列举路径下文件夹或者文件</td>
+<td>–</td>
+</tr>
+<tr>
+<td align="left">os.mkdir(path)</td>
+<td>创建一个名为path的文件夹</td>
+<td>–</td>
+</tr>
+<tr>
+<td align="left">os.remove(path)</td>
+<td>删除路径为path的文件</td>
+<td>–</td>
+</tr>
+<tr>
+<td align="left">os.path.isfile(path)</td>
+<td>是否为文件</td>
+<td>–</td>
+</tr>
+<tr>
+<td align="left">os.path.isdir(path)</td>
+<td>是否为目录</td>
+<td>–</td>
+</tr>
+</tbody></table>
+<h3 id="文件复制脚本"><a href="#文件复制脚本" class="headerlink" title="文件复制脚本"></a>文件复制脚本</h3><p>文件复制很常使用,python内置的<code>shutil</code>模块可以很方便进行文件复制</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件之间复制</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line">src = <span class="string">r"H:\python-tools\test\http.py"</span></span><br><span class="line">dist = <span class="string">r"H:\python-tools\demo\http.py"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">  shutil.copyfile(src, dist) </span><br><span class="line"><span class="keyword">except</span> IOError:</span><br><span class="line">  print(<span class="string">"复制文件失败！"</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">  print(<span class="string">"文件复制成功"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>copyfile</code>方法提供<code>文件到文件</code>之间的复制，如果目标文件夹下已经存在该文件，就会覆盖，否则会新建。另外注意，在windows路径使用的是字符串\表示。在一些时候需要转义，例如路径”c:\project\test”中为了”\t”不被识别为tab处理，我们可以使用以下两种方式表示路径：</p>
+<ul>
+<li>使用双反斜杆”\“表示，例如”H:\python-tools\“</li>
+<li>在路径字符串前加一个字母”r”</li>
+</ul>
+<h3 id="文件夹覆盖"><a href="#文件夹覆盖" class="headerlink" title="文件夹覆盖"></a>文件夹覆盖</h3><p>copyfile只能复制文件，而使用<code>copytree</code>可以进行<code>文件夹的复制</code>操作,例如：实现将demo文件夹下内容放置到demo文件夹下的test文件夹下。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件树拷贝</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line">src = <span class="string">r"H:\python-tools\test"</span></span><br><span class="line">dist = <span class="string">r"H:\python-tools\demo\test"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">  shutil.copytree(src, dist) </span><br><span class="line"><span class="keyword">except</span> IOError <span class="keyword">as</span> e :</span><br><span class="line">  print(<span class="string">"复制文件失败！"</span>,e)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">  print(<span class="string">"文件复制成功"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>上述程序会有个问题，就是只能将已存在的文件树放到一个<code>新的目录</code>下，假如这个目录已存在，就会报已存在错误。第一次我们执行上述文件，由于demo下还不存在test,程序正常运行，第二次由于test已经存在，所以再次运行会报错。所以我们需要变通一下，复制之前先判断一下目标文件夹是否存在，存在我们<code>先删除再进行复制</code>即可。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件树覆盖</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line">src = <span class="string">r"H:\python-tools\test"</span></span><br><span class="line">dist = <span class="string">r"H:\python-tools\demo\test"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">  <span class="keyword">if</span> os.path.isdir(dist): </span><br><span class="line">    shutil.rmtree(dist) <span class="comment"># 原先存在则删除原先的文件夹 </span></span><br><span class="line"></span><br><span class="line">  shutil.copytree(src, dist) </span><br><span class="line"><span class="keyword">except</span> IOError <span class="keyword">as</span> e :</span><br><span class="line">  print(<span class="string">"复制文件失败！"</span>,e)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">  print(<span class="string">"文件复制成功"</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件夹备份"><a href="#文件夹备份" class="headerlink" title="文件夹备份"></a>文件夹备份</h3><p>备份特点在于我们要将同一文件<code>保存多次</code>，例如每日备份一次，或者执行脚本就备份一次，为了区分不同次备份，我使用时间单位进行区分，例如每次生成的文件夹格式为<code>20190920103003程序备份</code>。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 文件树覆盖</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line">src = <span class="string">r"H:\python-tools\test"</span></span><br><span class="line">dist = <span class="string">r"H:\python-tools\demo"</span></span><br><span class="line">datetime = time.strftime(<span class="string">"%Y%m%d%H%M%S"</span>, time.localtime())</span><br><span class="line">new_dist = os.path.join(dist,datetime)+<span class="string">"程序包"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">  <span class="keyword">if</span> os.path.isdir(new_dist): </span><br><span class="line">    shutil.rmtree(new_dist) <span class="comment"># 原先存在则删除原先的文件夹 </span></span><br><span class="line"></span><br><span class="line">  shutil.copytree(src, new_dist) </span><br><span class="line"><span class="keyword">except</span> IOError <span class="keyword">as</span> e :</span><br><span class="line">  print(<span class="string">"备份文件夹失败！"</span>,e)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">  <span class="keyword">print</span> (<span class="string">"备份文件夹成功"</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="模糊查找"><a href="#模糊查找" class="headerlink" title="模糊查找"></a>模糊查找</h3><p>有时候我们并不一定精确知道文件夹名字。例如我们需要将D:\project\web\lib复制到E:\project\tools下的文件夹以axios开头的文件夹里。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line">src = <span class="string">r"D:\project\web\lib"</span></span><br><span class="line">dist = <span class="string">r"E:\project\tools"</span></span><br><span class="line">files = os.listdir(dist) <span class="comment"># 返回该文件夹下文件夹和文件数组</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> files:</span><br><span class="line">  new_path = os.path.join(dist,item) <span class="comment"># 连接文件，形成新的路径</span></span><br><span class="line">  <span class="comment"># 新路径是文件夹且最后一级以axios开头</span></span><br><span class="line">  <span class="keyword">if</span> os.path.isdir(new_path) <span class="keyword">and</span> item.startWith(<span class="string">"axios"</span>):</span><br><span class="line">    <span class="keyword">if</span> os.path.isdir(os.path.join(new_path,<span class="string">'lib'</span>)): <span class="comment">#已存在先移除</span></span><br><span class="line">      shutil.rmtree(new_dist)</span><br><span class="line">    </span><br><span class="line">    shutil.copytree(src,new_dist)</span><br><span class="line">    print(<span class="string">"文件夹复制完成！"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>利用os提供的<code>listdir</code>方法可以列举出路径下的所有文件夹和名字，只需要遍历这个列表即可，找到符合特点字符开头的文件即可，判断是文件可以使用 <code>os.path.isfile()</code> 方法,判断文件夹使用 <code>os.path.isdir()</code>方法。关于判断字符串，python也提供了许多好用的<a href="https://www.runoob.com/python/python-strings.html" target="_blank" rel="noopener">字符串方法</a>,下面我通过一个代码来说明：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">str = <span class="string">"Hello,world  "</span></span><br><span class="line">print(str.strip()) <span class="comment"># Hello,world 去除前后空格</span></span><br><span class="line">print(str[<span class="number">0</span>]) <span class="comment"># H 取第一个字符</span></span><br><span class="line">print(str[<span class="number">0</span>:<span class="number">2</span>]) <span class="comment"># He 取0到1位的字符，不包括2</span></span><br><span class="line">print(str.startswith(<span class="string">"h"</span>)) <span class="comment"># False 是否以特定字符开头</span></span><br><span class="line">print(str.strip().endswith(<span class="string">"ld"</span>)) <span class="comment"># True 是否以特定字符开头</span></span><br><span class="line">print(str.find(<span class="string">"w"</span>)) <span class="comment"># 6 返回字符出现的索引，没有出现则返回-1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 还有许多方法，可以查阅相应的文档...</span></span><br></pre></td></tr></table></figure>
+
+<p>更复杂的字符串处理，可以使用 python 提供的正则表达式。</p>
+<h3 id="路径遍历"><a href="#路径遍历" class="headerlink" title="路径遍历"></a>路径遍历</h3><p>有时候我们需要遍历整个系统盘符来查找特定文件或者删除文件，一种思路就是先确定根目录，再手动地使用listdir来逐一访问，这样显得很麻烦。下面我介绍os模块提供的walk方法。<br><code>os.walk()</code> 方法是一个简单易用的文件、目录遍历器，可以帮助我们高效的处理文件、目录方面的事情。</p>
+<p>os.walk(top, topdown=True, onerror=None, followlinks=False)</p>
+<ul>
+<li>top 为需要遍历的目录</li>
+<li>topdown 为True表示优先遍历目录</li>
+<li>onerror 需要一个 callable 对象，当walk需要异常时，会调用</li>
+<li>followlinks 如果为真，则会遍历目录下的快捷方式(linux 下是 symbolic link)实际所指的目录 (默认为False)</li>
+</ul>
+<p>os.walk()返回的是遍历器，不能单独使用，我们需要使用for in 来调用，例如：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">for</span> dir,subdir,files <span class="keyword">in</span> os.walk(<span class="string">r"E:\python-tools"</span>):</span><br><span class="line">  <span class="keyword">for</span> d <span class="keyword">in</span> subdir:</span><br><span class="line">    print(<span class="string">"python-tools下的文件夹有："</span>,d)</span><br></pre></td></tr></table></figure>
+
+<p>每次遍历可以获取当前文件夹路径对象，以及这个文件夹下的子文件夹列表和文件列表.每次的os.walk相当于我们使用鼠标点击了某个目录，dir就是这个目录，subdir就是里面的文件夹(不包含这个文件夹的子文件夹),files就是里面的文件列表。下一次os.walk就会从这个文件夹里的第一个文件夹开始,这样反复执行。</p>
+<p>例如查找某个盘符里所有的.json文件:</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">rootdir = <span class="string">r"H:"</span></span><br><span class="line"><span class="keyword">for</span> dir,subdir,files <span class="keyword">in</span> os.walk(rootdir):</span><br><span class="line">  <span class="keyword">for</span> d <span class="keyword">in</span> files:</span><br><span class="line">    <span class="keyword">if</span> d.endswith(<span class="string">'.json'</span>):</span><br><span class="line">      print(<span class="string">"找到了json文件"</span>,dir,d)</span><br></pre></td></tr></table></figure>
+
+<p>在查找到了的基础上我们也可以进行删除。例如利用这个来做一个简单的自动清理电脑垃圾文件脚本：  </p>
+<p>清理H盘符里的所有.log文件</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">rootdir = <span class="string">r"H:"</span></span><br><span class="line"><span class="keyword">for</span> dir,subdir,files <span class="keyword">in</span> os.walk(rootdir):</span><br><span class="line">  <span class="keyword">for</span> d <span class="keyword">in</span> files:</span><br><span class="line">    <span class="keyword">if</span> d.endswith(<span class="string">'.log'</span>):</span><br><span class="line">      print(<span class="string">"找到了log文件"</span>,dir,d)</span><br><span class="line">      <span class="keyword">try</span>:</span><br><span class="line">        os.remove(os.path.join(dir,d))</span><br><span class="line">        print(<span class="string">"删除成功！"</span>)</span><br><span class="line">      <span class="keyword">except</span> IOError <span class="keyword">as</span> e:</span><br><span class="line">        print(e)</span><br></pre></td></tr></table></figure>
+
+<h3 id="执行window命令"><a href="#执行window命令" class="headerlink" title="执行window命令"></a>执行window命令</h3><p>我们还可以使用os模块提供的system方法和popen()来执行系统自带的命令</p>
+<p>执行windows CMD自带的命令</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.system(<span class="string">"cls"</span>) <span class="comment"># CMD 清理输出。</span></span><br><span class="line">os.system(<span class="string">"echo hello,world"</span>) <span class="comment"># CMD 回显</span></span><br><span class="line">os.system(<span class="string">"tree"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>使用os.system()还可以代替我们提交git、svn、构建程序等工作，例如：  </p>
+<p>每次前端使用webpack命令 npm run build 打包会生成程序包 dist ，我们需要将dist本地备份一次，再复制到后台程序中去。工作流程应该是这样的：  </p>
+<p>开发 &gt;&gt;&gt; git提交 &gt;&gt;&gt; npm run build构建 &gt;&gt;&gt; 最好备份一次 &gt;&gt;&gt; 前端包复制到后台程序中</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> shutil</span><br><span class="line"><span class="comment"># 先切换到前端工作目录</span></span><br><span class="line">os.chdir(<span class="string">r"G:\project\vue-project"</span>)</span><br><span class="line"><span class="comment"># 执行打包命令</span></span><br><span class="line">os.system(<span class="string">'git pull'</span>)</span><br><span class="line">os.system(<span class="string">'npm run lib'</span>)</span><br><span class="line">print(<span class="string">"打包完成！"</span>)</span><br><span class="line"><span class="comment"># 再切换回python工作目录</span></span><br><span class="line">os.chdir(<span class="string">r"H:\python-tools\script"</span>)</span><br><span class="line"><span class="comment"># 下面可以写执行复制和备份程序</span></span><br></pre></td></tr></table></figure>
+
+<p>如果是使用svn工具,在windows上将不能使用命令来提交和更新代码，可以下载windows svn命令行工具 <a href="https://sliksvn.com/download/" target="_blank" rel="noopener">sliksvn</a>,下载下来点击安装即可，在CMD下输入<figure class="highlight plain"><figcaption><span>--version```,如果有信息返回说明安装成功，就可以在命令行下使用svn命令了。</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">使用os.system()还可以执行.exe可执行文件。  </span><br><span class="line"></span><br><span class="line">上班启动内网通和电脑微信。</span><br><span class="line">```py</span><br><span class="line">import os</span><br><span class="line">nwt = r&quot;H:\Nwt\ShiYeLine.exe&quot;</span><br><span class="line">wechat = r&quot;H:\WeChat\Wechat.exe&quot;</span><br><span class="line">os.system(nwt)</span><br><span class="line">os.system(wechat)</span><br></pre></td></tr></table></figure></p>
+<h3 id="文件读写"><a href="#文件读写" class="headerlink" title="文件读写"></a>文件读写</h3><h3 id="修改注册表"><a href="#修改注册表" class="headerlink" title="修改注册表"></a>修改注册表</h3><h4 id="自动设置代理上网"><a href="#自动设置代理上网" class="headerlink" title="自动设置代理上网"></a>自动设置代理上网</h4><h4 id="自动设置IP上网"><a href="#自动设置IP上网" class="headerlink" title="自动设置IP上网"></a>自动设置IP上网</h4><h4 id="鼠标右键拓展"><a href="#鼠标右键拓展" class="headerlink" title="鼠标右键拓展"></a>鼠标右键拓展</h4><h3 id="连接远程服务器"><a href="#连接远程服务器" class="headerlink" title="连接远程服务器"></a>连接远程服务器</h3><p>我们经常需要远程服务器上拷贝程序包或者上传我们开发好的程序包，我们可以借助类似fileZilla这样的文件传输工具来完成。其实通过python也可以完成，使用代码来进行文件传输文件，可以免去下载工具的麻烦，更加方便的是可以实现一次编写，全自动上传和下载。</p>
+<p>这里我推荐使用python第三方模块paramiko来进行文件的传输。paramiko是用python写的一个模块，遵循SSH2协议，支持以加密和认证的方式，进行远程服务器的连接。利用该模块，可以方便地进行ssh连接和sftp协议进行sftp文件传输以及远程命令执行。由于paramiko是第三方模块，所以我们需要手动使用pip安装一下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install paramiko</span><br></pre></td></tr></table></figure>
+
+<p>下面我以一个本地为windows系统,远程为一台linux服务器为例子说明使用paramiko来进行文件传输。<br>linux上目录/home/web/blog里面有个文件package.json,我们需要将这个文件下载到本地windows系统的E:\web\blog下。即单个文件和单个文件之间传输：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> paramiko</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连接配置</span></span><br><span class="line">config=&#123;</span><br><span class="line">	<span class="string">"host"</span>:<span class="string">"1.2.3.4"</span>, <span class="comment"># 服务器地址</span></span><br><span class="line">	<span class="string">"username"</span>:<span class="string">"root"</span>,  <span class="comment"># 登入用户名</span></span><br><span class="line">	<span class="string">"password"</span>:<span class="string">"123456"</span> <span class="comment"># 登入密码</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment"># 下载文件</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">downloadFile</span><span class="params">(linux_path,windows_path)</span>:</span></span><br><span class="line">	<span class="keyword">try</span>:</span><br><span class="line">		terminal = paramiko.Transport(config[<span class="string">'host'</span>], <span class="number">22</span>) <span class="comment"># 端口为22</span></span><br><span class="line">		terminal.connect(username=config[<span class="string">'username'</span>],password=config[<span class="string">'password'</span>])</span><br><span class="line">		print(<span class="string">"服务器连接成功！"</span>)</span><br><span class="line">		sftp = paramiko.SFTPClient.from_transport(terminal)</span><br><span class="line">		sftp.get(linux_path,windows_path) <span class="comment"># 下载文件操作，只对文件有效，目录无效</span></span><br><span class="line">		print(<span class="string">"下载完成！"</span>)</span><br><span class="line">		terminal.close()</span><br><span class="line">	<span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">		<span class="keyword">print</span> (e)</span><br><span class="line">		<span class="keyword">raise</span></span><br><span class="line">	<span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">downloadFile(<span class="string">"/home/website/node-love/api.js"</span>,<span class="string">r"E:\project\api.js"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>上述的get方法只能由于文件的获取，如果只是单个文件下载使用起来很方便。如果是要下载一个文件夹呢。</p>
+<p>fabric是一个python第三方库,它提供了丰富的同 SSH 交互的接口，可以用来在本地通过代码来执行远程服务器上的shell命令。使用 fabric 提供的命令行工具，可以很方便地执行应用部署和系统管理等操作。因此它非常适合用来做应用的远程部署及系统维护。 <a href="https://www.fabfile.org/" target="_blank" rel="noopener">fabric官网</a>,fabric最初只支持python2.x版本，而fabric2可以同时支持2.x和3.x版本了,我们使用pip安装fabric2版本:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install fabric2</span><br></pre></td></tr></table></figure>
+
+<p>实现一个在windows上执行远程linux上node -v的命令来获取node.js版本代码：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python</span></span><br><span class="line"><span class="keyword">from</span> fabric2 <span class="keyword">import</span> Connection</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">	c = Connection(<span class="string">"root@1.2.3.4"</span>, connect_kwargs=&#123;<span class="string">"password"</span>: <span class="string">"123456"</span>&#125;)</span><br><span class="line">	c.run(<span class="string">"node -v"</span>)</span><br><span class="line"></span><br><span class="line">main() <span class="comment"># v10.16.3</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="读写excel"><a href="#读写excel" class="headerlink" title="读写excel"></a>读写excel</h3><h3 id="pdf转换"><a href="#pdf转换" class="headerlink" title="pdf转换"></a>pdf转换</h3><h3 id="自动发送邮件"><a href="#自动发送邮件" class="headerlink" title="自动发送邮件"></a>自动发送邮件</h3><h3 id="微信自动回复"><a href="#微信自动回复" class="headerlink" title="微信自动回复"></a>微信自动回复</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/10/22/使用Python脚本解放双手/" data-id="ck21w7m0q000afsvcw52n6j5d" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/10/21/我的Vue指令库开源实践/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">我的Vue指令库开源实践</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/22/使用Python脚本解放双手/">使用Python脚本解放双手</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/21/我的Vue指令库开源实践/">我的Vue指令库开源实践</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/15/Node.js搭建Cli工具教程/">Node.js搭建Cli工具教程。</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/14/JS正则表达式学习与整理/">JS正则表达式学习与整理</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/13/hexo站点搭建指南/">hexo 搭建指南</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Saojun<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
