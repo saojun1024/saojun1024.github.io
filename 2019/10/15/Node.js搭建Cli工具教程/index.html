@@ -7,20 +7,18 @@
   
   <title>Node.js搭建Cli工具教程。 | 骚俊的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="当前很多著名开源库像vue-cli,hexo-cli等都提供cli工具来快速搭建项目结构。下面我将教你如何使用Node.js来开发一款你自己的cli工具。 Cli 通俗一点我们称为“脚手架”">
+  <meta name="description" content="当前很多著名开源库像都提供cli工具来快速搭建项目结构。下面我将讲解如何打造一款自己的Cli。">
 <meta name="keywords" content="骚俊,前端,个人博客,技术">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Node.js搭建Cli工具教程。">
 <meta property="og:url" content="http://yoursite.com/2019/10/15/Node.js搭建Cli工具教程/index.html">
 <meta property="og:site_name" content="骚俊的个人博客">
-<meta property="og:description" content="当前很多著名开源库像vue-cli,hexo-cli等都提供cli工具来快速搭建项目结构。下面我将教你如何使用Node.js来开发一款你自己的cli工具。 Cli 通俗一点我们称为“脚手架”">
+<meta property="og:description" content="当前很多著名开源库像都提供cli工具来快速搭建项目结构。下面我将讲解如何打造一款自己的Cli。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://img2.imgtn.bdimg.com/it/u=2525685094,206115928&fm=26&gp=0.jpg">
-<meta property="og:updated_time" content="2019-10-16T15:53:03.529Z">
+<meta property="og:updated_time" content="2019-10-21T12:21:28.820Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Node.js搭建Cli工具教程。">
-<meta name="twitter:description" content="当前很多著名开源库像vue-cli,hexo-cli等都提供cli工具来快速搭建项目结构。下面我将教你如何使用Node.js来开发一款你自己的cli工具。 Cli 通俗一点我们称为“脚手架”">
-<meta name="twitter:image" content="http://img2.imgtn.bdimg.com/it/u=2525685094,206115928&fm=26&gp=0.jpg">
+<meta name="twitter:description" content="当前很多著名开源库像都提供cli工具来快速搭建项目结构。下面我将讲解如何打造一款自己的Cli。">
   
     <link rel="alternate" href="/atom.xml" title="骚俊的个人博客" type="application/atom+xml">
   
@@ -93,13 +91,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>当前很多著名开源库像vue-cli,hexo-cli等都提供cli工具来快速搭建项目结构。下面我将教你如何使用Node.js来开发一款你自己的cli工具。</p>
-<p>Cli 通俗一点我们称为“脚手架”<br><img src="http://img2.imgtn.bdimg.com/it/u=2525685094,206115928&fm=26&gp=0.jpg" alt="脚手架"></p>
+        <p>当前很多著名开源库像都提供cli工具来快速搭建项目结构。下面我将讲解如何打造一款自己的Cli。</p>
+<a id="more"></a>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/10/15/Node.js搭建Cli工具教程/" data-id="ck1tghepp0000n0vcjfoeq0a2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/10/15/Node.js搭建Cli工具教程/" data-id="ck21s94110000v0vcaxs3yw1t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -107,6 +106,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2019/10/21/我的Vue指令库开源实践/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          我的Vue指令库开源实践
+        
+      </div>
+    </a>
   
   
     <a href="/2019/10/14/JS正则表达式学习与整理/" id="article-nav-older" class="article-nav-link-wrap">
@@ -127,9 +135,23 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Vue/" style="font-size: 10px;">Vue</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -148,6 +170,10 @@
       <ul>
         
           <li>
+            <a href="/2019/10/21/我的Vue指令库开源实践/">我的Vue指令库开源实践</a>
+          </li>
+        
+          <li>
             <a href="/2019/10/15/Node.js搭建Cli工具教程/">Node.js搭建Cli工具教程。</a>
           </li>
         
@@ -156,15 +182,11 @@
           </li>
         
           <li>
-            <a href="/2019/10/13/实用的资源整理/">实用的资源整理</a>
-          </li>
-        
-          <li>
             <a href="/2019/10/13/hexo站点搭建指南/">hexo 搭建指南</a>
           </li>
         
           <li>
-            <a href="/2019/10/13/前端面试指南/">前端面试指南</a>
+            <a href="/2019/10/13/实用的资源整理/">实用的资源整理</a>
           </li>
         
       </ul>
