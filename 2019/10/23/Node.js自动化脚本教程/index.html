@@ -5,20 +5,20 @@
   
 
   
-  <title>Node.js搭建Cli工具教程。 | 骚俊的个人博客</title>
+  <title>Node.js自动化脚本教程 | 骚俊的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="当前很多著名开源库像都提供cli工具来快速搭建项目结构。下面我将讲解如何打造一款自己的Cli。">
+  <meta name="description" content="作为程序员，在工作之中经常需要处理各种单调而重复的工作，例如复制粘贴,代码备份，文件下载与上传，打包部署等。如果作为前端工程师，我强烈建议你学会使用Node.js来写一些自动化脚本来提高工作效率。">
 <meta name="keywords" content="Node.js">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Node.js搭建Cli工具教程。">
-<meta property="og:url" content="http://yoursite.com/2019/10/15/Node.js搭建Cli工具教程/index.html">
+<meta property="og:title" content="Node.js自动化脚本教程">
+<meta property="og:url" content="http://yoursite.com/2019/10/23/Node.js自动化脚本教程/index.html">
 <meta property="og:site_name" content="骚俊的个人博客">
-<meta property="og:description" content="当前很多著名开源库像都提供cli工具来快速搭建项目结构。下面我将讲解如何打造一款自己的Cli。">
+<meta property="og:description" content="作为程序员，在工作之中经常需要处理各种单调而重复的工作，例如复制粘贴,代码备份，文件下载与上传，打包部署等。如果作为前端工程师，我强烈建议你学会使用Node.js来写一些自动化脚本来提高工作效率。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:updated_time" content="2019-10-23T13:51:00.256Z">
+<meta property="og:updated_time" content="2019-10-23T14:44:12.747Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Node.js搭建Cli工具教程。">
-<meta name="twitter:description" content="当前很多著名开源库像都提供cli工具来快速搭建项目结构。下面我将讲解如何打造一款自己的Cli。">
+<meta name="twitter:title" content="Node.js自动化脚本教程">
+<meta name="twitter:description" content="作为程序员，在工作之中经常需要处理各种单调而重复的工作，例如复制粘贴,代码备份，文件下载与上传，打包部署等。如果作为前端工程师，我强烈建议你学会使用Node.js来写一些自动化脚本来提高工作效率。">
   
     <link rel="alternate" href="/atom.xml" title="骚俊的个人博客" type="application/atom+xml">
   
@@ -69,10 +69,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Node.js搭建Cli工具教程" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-Node.js自动化脚本教程" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/10/15/Node.js搭建Cli工具教程/" class="article-date">
-  <time datetime="2019-10-15T09:40:15.000Z" itemprop="datePublished">2019-10-15</time>
+    <a href="/2019/10/23/Node.js自动化脚本教程/" class="article-date">
+  <time datetime="2019-10-23T09:40:15.000Z" itemprop="datePublished">2019-10-23</time>
 </a>
     
   </div>
@@ -83,7 +83,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Node.js搭建Cli工具教程。
+      Node.js自动化脚本教程
     </h1>
   
 
@@ -91,14 +91,34 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>当前很多著名开源库像都提供cli工具来快速搭建项目结构。下面我将讲解如何打造一款自己的Cli。</p>
+        <p>作为程序员，在工作之中经常需要处理各种单调而重复的工作，例如复制粘贴,代码备份，文件下载与上传，打包部署等。如果作为前端工程师，我强烈建议你学会使用Node.js来写一些自动化脚本来提高工作效率。</p>
 <a id="more"></a>
 
+<h2 id="shelljs使用"><a href="#shelljs使用" class="headerlink" title="shelljs使用"></a>shelljs使用</h2><p>使用shelljs可以很方便执行文件复制和执行命令</p>
+<ul>
+<li><p>hello,world</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i shelljs --save</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第一个程序：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> shell = <span class="built_in">require</span>(<span class="string">'shelljs'</span>)</span><br><span class="line">shell.echo(<span class="string">"hello,world"</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>exec()执行命令</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> shell = <span class="built_in">require</span>(<span class="string">'shelljs'</span>)</span><br><span class="line">shell.exec(<span class="string">"node -v"</span>) <span class="comment">// v10.15.3</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>cat() 查看内容</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> content = shell.cat(<span class="string">"./version.txt"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(content.stdout)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>mkdir()</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shell.mkdir(<span class="string">'./gg'</span>) <span class="comment">// 相对路径</span></span><br><span class="line">shell.mkdir(<span class="string">'./gg/ss/'</span>) <span class="comment">// 连续创建多个</span></span><br><span class="line">shell.mkdir(<span class="string">'E:\\project\\node-script\\bb'</span>) <span class="comment">// 绝对路径</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>rm 删除文件/文件夹</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shell.rm(<span class="string">'-rf'</span>,<span class="string">'./gg'</span>) <span class="comment">// 相对路径</span></span><br><span class="line">shell.rm(<span class="string">"/rf"</span>,<span class="string">'./gg/test.txt'</span>)</span><br></pre></td></tr></table></figure></li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/10/15/Node.js搭建Cli工具教程/" data-id="ck23cuzp20003n8vcir9mhsr0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/10/23/Node.js自动化脚本教程/" data-id="ck23cuzmw0000n8vc0qb9uw7v" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/">Node.js</a></li></ul>
@@ -109,19 +129,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/10/21/我的Vue指令库开源实践/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          我的Vue指令库开源实践
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/10/14/JS正则表达式学习与整理/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/10/23/Vue源码分析/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">JS正则表达式学习与整理</div>
+      <div class="article-nav-title">Vue.js源码分析。</div>
     </a>
   
 </nav>
