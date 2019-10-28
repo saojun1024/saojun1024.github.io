@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="骚俊的个人博客">
 <meta property="og:description" content="作为程序员，在工作之中经常需要处理各种单调而重复的工作，例如复制粘贴,代码备份，文件下载与上传，打包部署等。如果作为前端工程师，我强烈建议你学会使用Node.js来写一些自动化脚本来提高工作效率。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:updated_time" content="2019-10-26T10:22:00.001Z">
+<meta property="og:updated_time" content="2019-10-28T13:32:23.789Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Node.js自动化脚本教程">
 <meta name="twitter:description" content="作为程序员，在工作之中经常需要处理各种单调而重复的工作，例如复制粘贴,代码备份，文件下载与上传，打包部署等。如果作为前端工程师，我强烈建议你学会使用Node.js来写一些自动化脚本来提高工作效率。">
@@ -94,9 +94,9 @@
         <p>作为程序员，在工作之中经常需要处理各种单调而重复的工作，例如复制粘贴,代码备份，文件下载与上传，打包部署等。如果作为前端工程师，我强烈建议你学会使用Node.js来写一些自动化脚本来提高工作效率。</p>
 <a id="more"></a>
 
-<h2 id="shelljs使用"><a href="#shelljs使用" class="headerlink" title="shelljs使用"></a>shelljs使用</h2><p>使用shelljs可以很方便执行文件复制和执行命令</p>
+<h2 id="使用shelljs"><a href="#使用shelljs" class="headerlink" title="使用shelljs"></a>使用shelljs</h2><p>shelljs基于 Node.js api封装了执行系统文件操作的命令,<a href="https://github.com/shelljs/shelljs" target="_blank" rel="noopener">Github地址</a></p>
 <ul>
-<li><p>hello,world</p>
+<li><p>安装好shelljs</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i shelljs --save</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>第一个程序：</p>
@@ -105,22 +105,64 @@
 <li><p>exec()执行命令</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> shell = <span class="built_in">require</span>(<span class="string">'shelljs'</span>)</span><br><span class="line">shell.exec(<span class="string">"node -v"</span>) <span class="comment">// v10.15.3</span></span><br></pre></td></tr></table></figure>
 </li>
-<li><p>cat() 查看内容</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> content = shell.cat(<span class="string">"./version.txt"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(content.stdout)</span><br></pre></td></tr></table></figure>
+<li><p>cat() 查看文件下的内容</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> content = shell.cat(<span class="string">"./version.txt"</span>)</span><br><span class="line"><span class="built_in">console</span>.log(content.stdout) <span class="comment">// v-1.1.1</span></span><br></pre></td></tr></table></figure>
 </li>
-<li><p>mkdir()</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shell.mkdir(<span class="string">'./gg'</span>) <span class="comment">// 相对路径</span></span><br><span class="line">shell.mkdir(<span class="string">'./gg/ss/'</span>) <span class="comment">// 连续创建多个</span></span><br><span class="line">shell.mkdir(<span class="string">'E:\\project\\node-script\\bb'</span>) <span class="comment">// 绝对路径</span></span><br></pre></td></tr></table></figure>
+<li><p>mkdir() 创建文件夹</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shell.mkdir(<span class="string">'./gg'</span>) <span class="comment">// 相对路径</span></span><br><span class="line">shell.mkdir(<span class="string">'./gg/ss/'</span>) <span class="comment">// 连续创建多个</span></span><br><span class="line">shell.mkdir(<span class="string">'E:\\project\\node-script\\bb'</span>) <span class="comment">// 绝对路径,需要转义，windows下使用\\</span></span><br></pre></td></tr></table></figure>
 </li>
-<li><p>rm 删除文件/文件夹</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shell.rm(<span class="string">'-rf'</span>,<span class="string">'./gg'</span>) <span class="comment">// 相对路径</span></span><br><span class="line">shell.rm(<span class="string">"/rf"</span>,<span class="string">'./gg/test.txt'</span>)</span><br></pre></td></tr></table></figure>
+<li><p>rm() 删除文件/文件夹</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shell.rm(<span class="string">'-rf'</span>,<span class="string">'./gg'</span>) <span class="comment">// 相对路径</span></span><br><span class="line">shell.rm(<span class="string">"/rf"</span>,<span class="string">'./gg/test.txt'</span>) <span class="comment">// 删除文件</span></span><br></pre></td></tr></table></figure>
 </li>
-<li><p>which() 检测是否可用某个命令</p>
+<li><p>test(modify,path) 测试文件类型</p>
 </li>
 </ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!shell.which(<span class="string">'git'</span>))&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"sorry,git command not found"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<table>
+<thead>
+<tr>
+<th align="left">修饰符</th>
+<th align="left">作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">-b</td>
+<td align="left">true if path is a block device</td>
+</tr>
+<tr>
+<td align="left">-c</td>
+<td align="left">true if path is a character device</td>
+</tr>
+<tr>
+<td align="left">-d</td>
+<td align="left">true if path is a directory</td>
+</tr>
+<tr>
+<td align="left">-e</td>
+<td align="left">true if path exists</td>
+</tr>
+<tr>
+<td align="left">-f</td>
+<td align="left">true if path is a regular file</td>
+</tr>
+<tr>
+<td align="left">-L</td>
+<td align="left">true if path is a symbolic link</td>
+</tr>
+<tr>
+<td align="left">-p</td>
+<td align="left">true if path is a pipe (FIFO)</td>
+</tr>
+<tr>
+<td align="left">-S</td>
+<td align="left">true if path is a socket</td>
+</tr>
+</tbody></table>
 <ul>
-<li>exit() 退出</li>
+<li><p>which() 检测是否可用某个命令</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!shell.which(<span class="string">'git'</span>))&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"sorry,git command not found"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>exit() 退出</p>
+</li>
 </ul>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell.exit(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
 
@@ -148,14 +190,11 @@
 <p>1.将文件内第一个a替换成b:</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell.sed(<span class="string">'-i'</span>,<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'./version.txt'</span>)</span><br></pre></td></tr></table></figure>
 
-<p>2.将所有的a替换成b</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell.sed(<span class="string">'-i'</span>,/a/g,<span class="string">'b'</span>,<span class="string">'./version.txt'</span>)</span><br></pre></td></tr></table></figure>
-
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/10/23/Node.js自动化脚本教程/" data-id="ck296dtvu000husvco3ollpc1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/10/23/Node.js自动化脚本教程/" data-id="ck2ah92h2000dkovckj04htxd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/">Node.js</a></li></ul>
@@ -166,19 +205,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/10/23/Vue源码分析/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/10/27/《写给大家看的设计书》读后感/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Vue.js源码分析。
+          写给大家看的设计书读后感
         
       </div>
     </a>
   
   
-    <a href="/2019/10/22/使用Python脚本解放双手/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/10/23/Vue源码分析/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">使用Python脚本解放双手</div>
+      <div class="article-nav-title">Vue.js源码分析。</div>
     </a>
   
 </nav>
@@ -197,7 +236,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js/">Vue.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书/">读书</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js/">Vue.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/美食/">美食</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书/">读书</a></li></ul>
     </div>
   </div>
 
@@ -207,7 +246,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Node-js/" style="font-size: 20px;">Node.js</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a>
+      <a href="/tags/Node-js/" style="font-size: 20px;">Node.js</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/美食/" style="font-size: 10px;">美食</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a>
     </div>
   </div>
 
@@ -229,11 +268,11 @@
       <ul>
         
           <li>
-            <a href="/2019/10/27/《写给大家看的设计书》读后感/">写给大家看的设计书读后感</a>
+            <a href="/2019/10/28/日常烹饪-第一期-西洋菜和洋葱炒蛋/">日常烹饪(第一期)-西洋菜和洋葱炒蛋</a>
           </li>
         
           <li>
-            <a href="/2019/10/23/Vue源码分析/">Vue.js源码分析。</a>
+            <a href="/2019/10/27/《写给大家看的设计书》读后感/">写给大家看的设计书读后感</a>
           </li>
         
           <li>
@@ -241,11 +280,11 @@
           </li>
         
           <li>
-            <a href="/2019/10/22/使用Python脚本解放双手/">使用Python脚本解放双手</a>
+            <a href="/2019/10/23/Vue源码分析/">Vue.js源码分析。</a>
           </li>
         
           <li>
-            <a href="/2019/10/21/我的Vue指令库开源实践/">我的Vue指令库开源实践</a>
+            <a href="/2019/10/22/使用Python脚本解放双手/">使用Python脚本解放双手</a>
           </li>
         
       </ul>

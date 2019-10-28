@@ -16,7 +16,7 @@
 <meta property="og:description" content="本文整理了当前前端岗位经常遇到的面试题。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/2019/10/13/images/proto.png">
-<meta property="og:updated_time" content="2019-10-16T15:59:59.454Z">
+<meta property="og:updated_time" content="2019-10-28T13:32:23.821Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端面试指南">
 <meta name="twitter:description" content="本文整理了当前前端岗位经常遇到的面试题。">
@@ -97,51 +97,28 @@
 <a id="more"></a>
 
 <h2 id="JS的数据类型有哪些？"><a href="#JS的数据类型有哪些？" class="headerlink" title="JS的数据类型有哪些？"></a>JS的数据类型有哪些？</h2><p>JS数据类型一般分为两类，<code>基本类型</code>和<code>引用类型</code>。</p>
-<h3 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h3><ul>
+<h6 id="基本类型"><a href="#基本类型" class="headerlink" title="基本类型"></a>基本类型</h6><ul>
 <li>string</li>
 <li>boolean</li>
 <li>number</li>
 <li>null</li>
 <li>undefined</li>
 </ul>
-<h3 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h3><ul>
+<h6 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h6><ul>
 <li>Object (衍生出 Function,Array,reg等类型))</li>
 </ul>
-<h2 id="typeof-与-instanceof-区别与使用"><a href="#typeof-与-instanceof-区别与使用" class="headerlink" title="typeof 与 instanceof 区别与使用"></a>typeof 与 instanceof 区别与使用</h2><p>typeof用于检验基本类型还是引用类型。例如：</p>
+<h2 id="typeof-与-instanceof-区别与使用"><a href="#typeof-与-instanceof-区别与使用" class="headerlink" title="typeof 与 instanceof 区别与使用"></a>typeof 与 instanceof 区别与使用</h2><p><code>typeof</code> 用于检验基本类型还是引用类型。例如：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="number">1</span> === <span class="string">'number'</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="string">'123'</span> === <span class="string">'string'</span></span><br></pre></td></tr></table></figure>
 
 <p>但是有个奇葩例外，这个是js设计的一个bug.  </p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="literal">null</span> === object</span><br></pre></td></tr></table></figure>
 
-<h2 id="真假值判断"><a href="#真假值判断" class="headerlink" title="真假值判断"></a>真假值判断</h2><p>== 会进行类型转化再比较<br>=== 不会转换，需要值和类型都相等才为true<br>!=会转换类型 而!==不会转换<br>判断NaN 只能使用isNaN() </p>
+<h2 id="真假值判断"><a href="#真假值判断" class="headerlink" title="真假值判断"></a>真假值判断</h2><p>== 会进行类型转化再比较<br>=== 不会转换，需要值和类型都相等才为true<br>!=会转换类型 而!==不会转换<br>判断NaN 只能使用<code>isNaN()</code></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span> <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
 
-<p>加法运算  </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>+<span class="string">'1'</span> <span class="comment">// '11',一方为字符串时会将另一方也转化为字符串</span></span><br><span class="line"><span class="number">1</span>+[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>] <span class="comment">//'1123'</span></span><br></pre></td></tr></table></figure>
+<h2 id="对象拷贝方式"><a href="#对象拷贝方式" class="headerlink" title="对象拷贝方式"></a>对象拷贝方式</h2><p>对象拷贝有浅拷贝和深拷贝方式。</p>
+<h6 id="for-in-浅拷贝对象"><a href="#for-in-浅拷贝对象" class="headerlink" title="for in 浅拷贝对象"></a>for in 浅拷贝对象</h6><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj= &#123;</span><br><span class="line">  name:<span class="string">'zhansan'</span>,</span><br><span class="line">  score:&#123;</span><br><span class="line">    math:<span class="number">90</span>,</span><br><span class="line">    history:<span class="number">89</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> obj2 =&#123;&#125;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">const</span> key <span class="keyword">in</span> obj) &#123; <span class="comment">// 只是浅拷贝，score属性是个对象，obj2的score属性依然共享</span></span><br><span class="line">  obj2[key]=obj[key]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="字符串，对象，数组方法"><a href="#字符串，对象，数组方法" class="headerlink" title="字符串，对象，数组方法"></a>字符串，对象，数组方法</h2><h4 id="split-分割字符串"><a href="#split-分割字符串" class="headerlink" title="split() 分割字符串"></a>split() 分割字符串</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"1234"</span>.split(<span class="string">''</span>) <span class="comment">// ['1','2','3','4']</span></span><br><span class="line"><span class="string">"1234"</span>.split(<span class="string">'^'</span>) <span class="comment">// ['1234']</span></span><br><span class="line"><span class="string">""</span>.split() <span class="comment">// ['']</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="slice-与substring"><a href="#slice-与substring" class="headerlink" title="slice()与substring()"></a>slice()与substring()</h4><p>slice()常用于表格分页，例如从长度为100的数组中每页只展示10条数据,而且并不会改变原数组长度。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>].slice() <span class="comment">// [1,2,3,4]，类似于拷贝一份</span></span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>].slice(<span class="number">0</span>,<span class="number">2</span>) <span class="comment">// [1,2] 从第0位开始，到2为前面一位，类似于数学中[a,b)</span></span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>].slice(<span class="number">2</span>) <span class="comment">// [3,4] 从第二位开始取所有</span></span><br></pre></td></tr></table></figure>
-
-<p>substring(start,end)是处理字符串版本的slice,用于提取指定位数内的字符串  </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str =<span class="string">"hello,world"</span></span><br><span class="line"><span class="built_in">console</span>.log(str.substring(<span class="number">0</span>,<span class="number">2</span>)) <span class="comment">// he</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="concat"><a href="#concat" class="headerlink" title="concat()"></a>concat()</h4><p>concat用于连接数组元素。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].concat([<span class="number">4</span>]) <span class="comment">// [1,2,3,4]</span></span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].concat([<span class="number">4</span>],[<span class="number">5</span>]) <span class="comment">// [1,2,3,4,5]</span></span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].concat([]) <span class="comment">// [1,2,3]</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="map-与filter"><a href="#map-与filter" class="headerlink" title="map()与filter()"></a>map()与filter()</h4><p>map用于数组类型数据映射成新的数组  </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>].map(<span class="function">(<span class="params">val</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> val*val</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">// [1,4,9,16]</span></span><br></pre></td></tr></table></figure>
-
-<p>filter()用于过滤数据  </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a =[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>].filter(<span class="function">(<span class="params">val</span>)=&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> val &gt; <span class="number">2</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">// [3,4]</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="对象拷贝方式"><a href="#对象拷贝方式" class="headerlink" title="对象拷贝方式"></a>对象拷贝方式</h2><p>对象拷贝也是面试题之中的一大考点, 主要考察队JS数据结构的掌握和使用递归的技巧。</p>
-<ul>
-<li>对象使用<code>for in</code> 进行拷贝<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj= &#123;</span><br><span class="line">  name:<span class="string">'zhansan'</span>,</span><br><span class="line">  score:&#123;</span><br><span class="line">    math:<span class="number">90</span>,</span><br><span class="line">    history:<span class="number">89</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
 <p>深拷贝可以拷贝里层对象</p>
 <ul>
 <li>简单数组可以使用slice()<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a =[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line"><span class="keyword">let</span> b =a.slice()</span><br><span class="line">b[<span class="number">0</span>]=<span class="number">3</span></span><br><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">// [1,2,3,4]</span></span><br></pre></td></tr></table></figure>
@@ -254,7 +231,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/10/13/前端面试指南/" data-id="ck296dtvx000iusvcd8zvvv76" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/10/13/前端面试指南/" data-id="ck2ah92hi000ikovc2iv40sxt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -263,19 +240,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/10/13/实用的资源整理/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/10/13/hexo站点搭建指南/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          实用的资源整理
+          hexo 搭建指南
         
       </div>
     </a>
   
   
-    <a href="/2019/10/13/hexo站点搭建指南/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/10/13/实用的资源整理/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">hexo 搭建指南</div>
+      <div class="article-nav-title">实用的资源整理</div>
     </a>
   
 </nav>
@@ -294,7 +271,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js/">Vue.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书/">读书</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js/">Vue.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/美食/">美食</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/读书/">读书</a></li></ul>
     </div>
   </div>
 
@@ -304,7 +281,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Node-js/" style="font-size: 20px;">Node.js</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a>
+      <a href="/tags/Node-js/" style="font-size: 20px;">Node.js</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/美食/" style="font-size: 10px;">美食</a> <a href="/tags/读书/" style="font-size: 10px;">读书</a>
     </div>
   </div>
 
@@ -326,11 +303,11 @@
       <ul>
         
           <li>
-            <a href="/2019/10/27/《写给大家看的设计书》读后感/">写给大家看的设计书读后感</a>
+            <a href="/2019/10/28/日常烹饪-第一期-西洋菜和洋葱炒蛋/">日常烹饪(第一期)-西洋菜和洋葱炒蛋</a>
           </li>
         
           <li>
-            <a href="/2019/10/23/Vue源码分析/">Vue.js源码分析。</a>
+            <a href="/2019/10/27/《写给大家看的设计书》读后感/">写给大家看的设计书读后感</a>
           </li>
         
           <li>
@@ -338,11 +315,11 @@
           </li>
         
           <li>
-            <a href="/2019/10/22/使用Python脚本解放双手/">使用Python脚本解放双手</a>
+            <a href="/2019/10/23/Vue源码分析/">Vue.js源码分析。</a>
           </li>
         
           <li>
-            <a href="/2019/10/21/我的Vue指令库开源实践/">我的Vue指令库开源实践</a>
+            <a href="/2019/10/22/使用Python脚本解放双手/">使用Python脚本解放双手</a>
           </li>
         
       </ul>
