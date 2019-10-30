@@ -7,18 +7,18 @@
   
   <title>Node.js自动化脚本教程 | 骚俊的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="作为程序员，在工作之中经常需要处理各种单调而重复的工作，例如复制粘贴,代码备份，文件下载与上传，打包部署等。如果作为前端工程师，我强烈建议你学会使用Node.js来写一些自动化脚本来提高工作效率。">
+  <meta name="description" content="真正的大牛和极客们，都不太乐于使用鼠标的操作。早些年写脚本多属于 Linux,PHP,Python 等工程师们的日常操作。随着 Node.js 的出现和发展, Node.js 具有了读写文件和操作底层系统的能力。前端工程师也可以写一些脚本来辅助日常工作。下面我会分享一些常见的 Node.js 脚本。">
 <meta name="keywords" content="Node.js">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Node.js自动化脚本教程">
 <meta property="og:url" content="http://yoursite.com/2019/10/23/Node.js自动化脚本教程/index.html">
 <meta property="og:site_name" content="骚俊的个人博客">
-<meta property="og:description" content="作为程序员，在工作之中经常需要处理各种单调而重复的工作，例如复制粘贴,代码备份，文件下载与上传，打包部署等。如果作为前端工程师，我强烈建议你学会使用Node.js来写一些自动化脚本来提高工作效率。">
+<meta property="og:description" content="真正的大牛和极客们，都不太乐于使用鼠标的操作。早些年写脚本多属于 Linux,PHP,Python 等工程师们的日常操作。随着 Node.js 的出现和发展, Node.js 具有了读写文件和操作底层系统的能力。前端工程师也可以写一些脚本来辅助日常工作。下面我会分享一些常见的 Node.js 脚本。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:updated_time" content="2019-10-28T13:32:23.789Z">
+<meta property="og:updated_time" content="2019-10-30T12:56:29.533Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Node.js自动化脚本教程">
-<meta name="twitter:description" content="作为程序员，在工作之中经常需要处理各种单调而重复的工作，例如复制粘贴,代码备份，文件下载与上传，打包部署等。如果作为前端工程师，我强烈建议你学会使用Node.js来写一些自动化脚本来提高工作效率。">
+<meta name="twitter:description" content="真正的大牛和极客们，都不太乐于使用鼠标的操作。早些年写脚本多属于 Linux,PHP,Python 等工程师们的日常操作。随着 Node.js 的出现和发展, Node.js 具有了读写文件和操作底层系统的能力。前端工程师也可以写一些脚本来辅助日常工作。下面我会分享一些常见的 Node.js 脚本。">
   
     <link rel="alternate" href="/atom.xml" title="骚俊的个人博客" type="application/atom+xml">
   
@@ -91,9 +91,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>作为程序员，在工作之中经常需要处理各种单调而重复的工作，例如复制粘贴,代码备份，文件下载与上传，打包部署等。如果作为前端工程师，我强烈建议你学会使用Node.js来写一些自动化脚本来提高工作效率。</p>
+        <p>真正的大牛和极客们，都不太乐于使用鼠标的操作。早些年写脚本多属于 Linux,PHP,Python 等工程师们的日常操作。随着 Node.js 的出现和发展, Node.js 具有了读写文件和操作底层系统的能力。前端工程师也可以写一些脚本来辅助日常工作。下面我会分享一些常见的 Node.js 脚本。</p>
 <a id="more"></a>
 
+<h2 id="环境的搭建"><a href="#环境的搭建" class="headerlink" title="环境的搭建"></a>环境的搭建</h2><p>前往 Node.js 官网下载并一路安装即可。再下载一个编辑器。这里推荐 vscode。当然你就是喜欢sublime,nodepad, 那我也没办法。。</p>
+<p>在 windows 命令提示符下输入命令检验是否安装成功。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+
+<p>新建文件夹 node-script 并在cmd下进入该文件夹执行<code>npm init -y</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init -y</span><br></pre></td></tr></table></figure>
+
+<p>再该文件夹下新建一个文件index.js.开始我的第一个脚本</p>
 <h2 id="使用shelljs"><a href="#使用shelljs" class="headerlink" title="使用shelljs"></a>使用shelljs</h2><p>shelljs基于 Node.js api封装了执行系统文件操作的命令,<a href="https://github.com/shelljs/shelljs" target="_blank" rel="noopener">Github地址</a></p>
 <ul>
 <li><p>安装好shelljs</p>
@@ -194,7 +202,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/10/23/Node.js自动化脚本教程/" data-id="ck2btsjyh0004lgvcqjzl89uu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/10/23/Node.js自动化脚本教程/" data-id="ck2d8yw7b000464vc8ii9h7j1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Node-js/">Node.js</a></li></ul>
