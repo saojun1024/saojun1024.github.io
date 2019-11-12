@@ -16,7 +16,7 @@
 <meta property="og:description" content="本文整理了当前前端岗位经常遇到的面试题。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/2019/10/13/images/proto.png">
-<meta property="og:updated_time" content="2019-10-29T14:59:56.140Z">
+<meta property="og:updated_time" content="2019-11-09T02:10:54.402Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端面试指南">
 <meta name="twitter:description" content="本文整理了当前前端岗位经常遇到的面试题。">
@@ -108,12 +108,12 @@
 <li>Object (衍生出 Function,Array,reg等类型))</li>
 </ul>
 <h2 id="typeof-与-instanceof-区别与使用"><a href="#typeof-与-instanceof-区别与使用" class="headerlink" title="typeof 与 instanceof 区别与使用"></a>typeof 与 instanceof 区别与使用</h2><p><code>typeof</code> 用于检验基本类型还是引用类型。例如：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="number">1</span> === <span class="string">'number'</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="string">'123'</span> === <span class="string">'string'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="number">1</span> === <span class="string">'number'</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="string">'123'</span> === <span class="string">'string'</span></span><br><span class="line"><span class="keyword">typeof</span> <span class="literal">null</span> === object <span class="comment">// 但是有个奇葩例外，这个是js设计的一个bug</span></span><br></pre></td></tr></table></figure>
 
-<p>但是有个奇葩例外，这个是js设计的一个bug.  </p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typeof</span> <span class="literal">null</span> === object</span><br></pre></td></tr></table></figure>
+<h2 id="true-or-false"><a href="#true-or-false" class="headerlink" title="true or false ?"></a>true or false ?</h2><p>在面试中也会遇到一些最基本判断真假题目</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> == <span class="string">"1"</span> <span class="comment">// true</span></span><br><span class="line"><span class="number">0</span> == <span class="literal">false</span> <span class="comment">// true  数字的0也是假值</span></span><br><span class="line"><span class="literal">NaN</span> == <span class="literal">NaN</span> <span class="comment">// false NaN不和任何值相等</span></span><br><span class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span> <span class="comment">// false 也不会相等 判断NaN需要使用方法isNaN</span></span><br><span class="line"><span class="number">1</span>+<span class="string">"1"</span> ==<span class="string">"11"</span> <span class="comment">// true 字符串+数字 将数字转换成字符串</span></span><br><span class="line"><span class="number">0</span>?<span class="string">"a"</span>:<span class="string">"b"</span> <span class="comment">// "b"</span></span><br><span class="line"><span class="string">"0"</span>?<span class="string">"a"</span>:<span class="string">"b"</span> <span class="comment">// "a"</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="真假值判断"><a href="#真假值判断" class="headerlink" title="真假值判断"></a>真假值判断</h2><p>== 会进行类型转化再比较<br>=== 不会转换，需要值和类型都相等才为true<br>!=会转换类型 而!==不会转换<br>判断NaN 只能使用<code>isNaN()</code></p>
+<p>== 会进行类型转化再比较 ,=== 不会转换，需要值和类型都相等才为true<br>!=会转换类型 而!==不会转换<br>判断NaN 只能使用<code>isNaN()</code></p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">NaN</span> === <span class="literal">NaN</span> <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="对象拷贝方式"><a href="#对象拷贝方式" class="headerlink" title="对象拷贝方式"></a>对象拷贝方式</h2><p>对象拷贝有浅拷贝和深拷贝方式。</p>
@@ -219,7 +219,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/10/13/前端面试指南/" data-id="ck2eu4wcj000nd0vcq1t8fnbw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/10/13/前端面试指南/" data-id="ck2qwteex000jdcvc1d8ixjib" class="article-share-link">Share</a>
       
       
     </footer>
@@ -228,19 +228,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/10/13/hexo站点搭建指南/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/10/14/JS正则表达式学习与整理/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          hexo 搭建指南
+          JS正则表达式学习与整理
         
       </div>
     </a>
   
   
-    <a href="/2019/10/13/实用的资源整理/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/10/13/hexo站点搭建指南/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">实用的资源整理</div>
+      <div class="article-nav-title">hexo 搭建指南</div>
     </a>
   
 </nav>
@@ -303,11 +303,11 @@
           </li>
         
           <li>
-            <a href="/2019/10/23/Node.js自动化脚本教程/">Node.js自动化脚本教程</a>
+            <a href="/2019/10/23/Vue源码分析/">Vue.js源码分析。</a>
           </li>
         
           <li>
-            <a href="/2019/10/23/Vue源码分析/">Vue.js源码分析。</a>
+            <a href="/2019/10/23/Node.js自动化脚本教程/">Node.js自动化脚本教程</a>
           </li>
         
       </ul>
@@ -319,14 +319,18 @@
         
       </div>
       <footer id="footer">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
   
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2019 Saojun<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      本站总访问量<span id="busuanzi_value_site_pv"></span>
+      本站访客数<span id="busuanzi_value_site_uv"></span>人
     </div>
   </div>
 </footer>
+
     </div>
     <nav id="mobile-nav">
   
@@ -345,6 +349,9 @@
 
 
 <script src="/js/script.js"></script>
+
+
+
 
 
 
