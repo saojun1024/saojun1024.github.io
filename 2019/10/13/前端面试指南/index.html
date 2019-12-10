@@ -16,7 +16,7 @@
 <meta property="og:description" content="本文整理了当前前端岗位经常遇到的面试题。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yoursite.com/2019/10/13/images/proto.png">
-<meta property="og:updated_time" content="2019-11-16T03:11:11.591Z">
+<meta property="og:updated_time" content="2019-11-25T12:38:59.946Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="前端面试指南">
 <meta name="twitter:description" content="本文整理了当前前端岗位经常遇到的面试题。">
@@ -28,9 +28,9 @@
     <link rel="icon" href="/favicon.png">
   
   
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
   <link rel="stylesheet" href="/css/style.css">
+  
+
 </head>
 </html>
 <body>
@@ -169,10 +169,10 @@
 </li>
 </ul>
 <p>执行say()函数，会申明一个全局变量b来引用say里的a,按理来说say执行完毕a在内存中应该消失，但是b是在全局了，假如a被销毁了则全局b也会被销毁，这样做并不合理。所以可以这样理解：<br>如果函数内的的变量赋值给其他作用域变量（通常来讲是一个更大的作用域）时，那么函数里面变量会被保留在内存之中，直到这个更大的作用域（执行环境）被销毁。<br>两次输出1000</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">　<span class="keyword">var</span> n=<span class="number">999</span>;</span><br><span class="line">　<span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	n++;</span><br><span class="line">　　alert(n);</span><br><span class="line">　&#125;</span><br><span class="line">&#125;</span><br><span class="line">f1()() <span class="comment">//1000</span></span><br><span class="line">f1()() <span class="comment">//1000</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">　<span class="keyword">var</span> n=<span class="number">999</span>;</span><br><span class="line">　<span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	  n++;</span><br><span class="line">　　alert(n);</span><br><span class="line">　&#125;</span><br><span class="line">&#125;</span><br><span class="line">f1()() <span class="comment">//1000</span></span><br><span class="line">f1()() <span class="comment">//1000</span></span><br></pre></td></tr></table></figure>
 
 <p>实现了n的保存</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">　　<span class="keyword">var</span> n=<span class="number">999</span>;</span><br><span class="line">　　<span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">				n++</span><br><span class="line">　　　　alert(n);</span><br><span class="line">　　&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">var</span> a =f1()</span><br><span class="line">	a() <span class="comment">//1000</span></span><br><span class="line">	a() <span class="comment">//1001</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">　<span class="keyword">var</span> n=<span class="number">999</span>;</span><br><span class="line">　<span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    n++</span><br><span class="line">　　alert(n);</span><br><span class="line">　&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a =f1()</span><br><span class="line">a() <span class="comment">//1000</span></span><br><span class="line">a() <span class="comment">//1001</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="闭包应用"><a href="#闭包应用" class="headerlink" title="闭包应用"></a>闭包应用</h4><ul>
 <li><p>匿名函数理解执行</p>
@@ -203,7 +203,7 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">'list'</span>).addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 兼容性处理</span></span><br><span class="line">  <span class="keyword">var</span> event = e || <span class="built_in">window</span>.event;</span><br><span class="line">  <span class="keyword">var</span> target = event.target || event.srcElement;</span><br><span class="line">  <span class="comment">// 判断是否匹配目标元素</span></span><br><span class="line">  <span class="keyword">if</span> (target.nodeName.toLocaleLowerCase === <span class="string">'li'</span>) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'the content is: '</span>, target.innerHTML);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
 <h2 id="异步与Event-loop"><a href="#异步与Event-loop" class="headerlink" title="异步与Event loop"></a>异步与Event loop</h2><p>js为单线程，执行栈内一个时间只能完成一项任务，遇到异步任务(setTimeout,ajax click,promise等)会先挂起,等有结果将回调函数假如队列之中，一旦执行栈内为空时，将依次执行这个队列中的函数。队列一般先进先出，先加入的异步事件一般先执行，但是有微任务时会优先执行所有的微任务(promise,mutationObserver)，再执行宏任务。<br>判断下列输出顺序</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">3</span>)</span><br><span class="line">    resolve()</span><br><span class="line">&#125;).then(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">4</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">5</span>)</span><br><span class="line"><span class="comment">// 1 3 5 4 2</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">3</span>)</span><br><span class="line">  resolve()</span><br><span class="line">&#125;).then(<span class="function"><span class="params">()</span>=&gt;</span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="number">4</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">5</span>)</span><br><span class="line"><span class="comment">// 1 3 5 4 2</span></span><br></pre></td></tr></table></figure>
 
 <p>分析：<br>整体执行脚本（script)也是一个宏任务，所以执行console.log(1),setTimeout()被挂起，new关键字的构造函数在new时会立即执行一次。而resolve()和then()是一种将来会发生的事件，被推入微任务队列，它会优先于setTimeout这个宏任务执行。</p>
 <h2 id="ES6-let与const"><a href="#ES6-let与const" class="headerlink" title="ES6 let与const"></a>ES6 let与const</h2><ul>
@@ -218,11 +218,11 @@
 <p>面试题： 输出结果  </p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [];</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">  a[i] = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(i);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">a[<span class="number">6</span>](); <span class="comment">// 6</span></span><br></pre></td></tr></table></figure>
 
-
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/10/13/前端面试指南/" data-id="ck37es4xq000k9svc0gd0ztfe" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/10/13/前端面试指南/" data-id="ck3yjeapk000kkgvcizitjbv0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -231,20 +231,15 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/10/13/hexo站点搭建指南/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/10/13/实用的资源整理/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          hexo 搭建指南
+          实用的资源整理
         
       </div>
     </a>
   
-  
-    <a href="/2019/10/13/实用的资源整理/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">实用的资源整理</div>
-    </a>
   
 </nav>
 
@@ -272,7 +267,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Node-js/" style="font-size: 20px;">Node.js</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Vue-js/" style="font-size: 10px;">Vue.js</a> <a href="/tags/工具/" style="font-size: 20px;">工具</a> <a href="/tags/美食/" style="font-size: 10px;">美食</a>
+      <a href="/tags/Node-js/" style="font-size: 20px;">Node.js</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Vue-js/" style="font-size: 20px;">Vue.js</a> <a href="/tags/工具/" style="font-size: 20px;">工具</a> <a href="/tags/美食/" style="font-size: 10px;">美食</a>
     </div>
   </div>
 
@@ -294,6 +289,10 @@
       <ul>
         
           <li>
+            <a href="/2019/11/27/Vue-router源码分析/">Vue-router源码分析</a>
+          </li>
+        
+          <li>
             <a href="/2019/11/16/使用云服务器搭建个人站点/">使用云服务器搭建个人站点</a>
           </li>
         
@@ -307,10 +306,6 @@
         
           <li>
             <a href="/2019/10/28/日常烹饪-第一期-西洋菜和洋葱炒蛋/">日常烹饪(第一期)-西洋菜和洋葱炒蛋</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/23/Vue源码分析/">Vue.js源码分析。</a>
           </li>
         
       </ul>
@@ -347,6 +342,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 
+  <link rel="stylesheet" href="/fancybox/color-brewer.css">
   <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
   <script src="/fancybox/jquery.fancybox.pack.js"></script>
 

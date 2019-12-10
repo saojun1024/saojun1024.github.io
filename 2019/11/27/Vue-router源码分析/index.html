@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Vue-router源码分析 | 骚俊的个人博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Vue-router 是 Vue 框架里一个重要的插件，基本上所有基于 Vue 开发的项目都离不开 Vue-router的使用。使用 Vue-router 可以开发页面权限控制,菜单设计,缓存页面,路由守卫等功能。但也导致几乎前端难一点业务和Bug也容易出在这块。所以单单会用还是不行，下面我将介绍一下 Vue-router 的核心源码。">
+<meta name="keywords" content="Vue.js">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue-router源码分析">
+<meta property="og:url" content="http://yoursite.com/2019/11/27/Vue-router源码分析/index.html">
+<meta property="og:site_name" content="骚俊的个人博客">
+<meta property="og:description" content="Vue-router 是 Vue 框架里一个重要的插件，基本上所有基于 Vue 开发的项目都离不开 Vue-router的使用。使用 Vue-router 可以开发页面权限控制,菜单设计,缓存页面,路由守卫等功能。但也导致几乎前端难一点业务和Bug也容易出在这块。所以单单会用还是不行，下面我将介绍一下 Vue-router 的核心源码。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:updated_time" content="2019-12-10T15:18:34.602Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue-router源码分析">
+<meta name="twitter:description" content="Vue-router 是 Vue 框架里一个重要的插件，基本上所有基于 Vue 开发的项目都离不开 Vue-router的使用。使用 Vue-router 可以开发页面权限控制,菜单设计,缓存页面,路由守卫等功能。但也导致几乎前端难一点业务和Bug也容易出在这块。所以单单会用还是不行，下面我将介绍一下 Vue-router 的核心源码。">
+  
+    <link rel="alternate" href="/atom.xml" title="骚俊的个人博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">骚俊的个人博客</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">博客,贵于精，不在多。</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Vue-router源码分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/11/27/Vue-router源码分析/" class="article-date">
+  <time datetime="2019-11-27T13:20:54.000Z" itemprop="datePublished">2019-11-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Vue-router源码分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Vue-router 是 Vue 框架里一个重要的插件，基本上所有基于 Vue 开发的项目都离不开 Vue-router的使用。使用 Vue-router 可以开发页面权限控制,菜单设计,缓存页面,路由守卫等功能。但也导致几乎前端难一点业务和Bug也容易出在这块。所以单单会用还是不行，下面我将介绍一下 Vue-router 的核心源码。</p>
+<a id="more"></a>
+
+<h2 id="Vue-use-注册插件"><a href="#Vue-use-注册插件" class="headerlink" title="Vue.use() 注册插件"></a>Vue.use() 注册插件</h2><p>在Vue.js中，插件定义比较广泛，例如 Vue 的原型方法,组件,mixin混合,filters管道都可以算的上插件,Vue提供一个全局注册这些组件的API,即 Vue.use()</p>
+<pre><code class="js">import Vue from &#39;vue&#39;
+const obj = {
+  install:function(Vue,options){
+    // 拿到了Vue对象和可选项目，就可以在这里面实现插件逻辑了
+    Vue.prototype.$greeting= function(){
+      console.log(&quot;hello&quot;)
+    }
+  }
+}
+const opt ={}
+Vue.use(obj,opt)</code></pre>
+<p><code>Vue.use()</code> 一般接收两个参数,第一个一般为一个对象，并且规定这个对象中必须有一个名字为<code>install</code>的方法。而 Vue 也约定了，只要有这个 install 的这个方法,则 install 会给你提供两个参数，一个即 <code>Vue 对象</code>，一个为在 Vue.use() 的第一个参数。接下来拿到这两个参数，就可以来做各种事情了。本质上，写 Vue 插件就是在写 install 方法里面的逻辑。<br>上述代码拿到Vue对象之后，我们在其原型上增加了一个方法<code>$greeting</code>,这样每个页面就都可以这样调用这个方法了：</p>
+<pre><code class="js">this.$greeting()</code></pre>
+<p>所以要写一个开源的Vue插件最基本的方法是：<br>××.js源码文件</p>
+<pre><code class="js">export default {
+  install:function(Vue,options){
+    // ...
+  }
+}</code></pre>
+<p>别人使用：</p>
+<pre><code class="js">import Vue from &#39;vue&#39;
+import YourPlugins from &#39;××.js&#39;
+Vue.use(YourPlugins)
+</code></pre>
+<h2 id="单页应用路由原理"><a href="#单页应用路由原理" class="headerlink" title="单页应用路由原理"></a>单页应用路由原理</h2><p>在浏览器地址栏中输入地址<code>http://1.2.3.4:8080/</code>这样的地址时，浏览器会去访问服务器的这个地址并根据服务器设置的返回类型而返回相应的内容。如果地址栏这个时候改变为<code>http://1.2.3.4:8080/a</code>时，浏览器认识到了地址发生改变，就会重新刷新页面获取新的内容。</p>
+<p>但是地址由<code>http://1.2.3.4:8080/</code>变为<code>http://1.2.3.4:8080/#a</code>时浏览器却不会重新刷新页面。我们把地址栏中带“#”后面部分称为 <code>hash</code>。如果只是 hash 改变了，浏览器不会刷新页面。</p>
+<p>我们可以使用原生的 JavaScript 获取到当前浏览器地址的 hash:</p>
+<pre><code class="js">// 地址栏1 http://1.2.3.4:8080/#a
+console.log(window.location.hash) // #a
+// 地址栏2 http://localhost:8084/#quickStart/a
+console.log(window.location.hash) // #quickStart/a
+// 地址栏3 http://localhost:8084/#quickStart/#a
+console.log(window.location.hash) // /#quickStart/#a</code></pre>
+<p>我们还可以使用 JavaScript 监听到 hash 的改变,从而做一些事情</p>
+<pre><code class="js">window.addEventListener(&#39;hashchange&#39;,()=&gt;{
+  // 实现一些逻辑
+})</code></pre>
+<p>Vue-router 最基本的思路之一就是利用了 hashchange 事件。首先 Vue-router 内置了一个组件RouterView,这个组件可以理解为一个“壳”,或者一个“舞台”,例如当我们输入地址<code>http://1.2.3.4:8080/#a</code>时,我们得知hash名为“a”, Vue-router 会将a对应的组件渲染到RouterView中来展示。当我们输入地址<code>http://1.2.3.4:8080/#b</code>时这时触发hashchange事件,这个时候 RouterView 则渲染 b 对应的组件。<br>App.vue</p>
+<pre><code class="html">&lt;template&gt;
+  &lt;div&gt;
+    &lt;router-view/&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/11/27/Vue-router源码分析/" data-id="ck3yjeaod0001kgvc4uflcgcj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue-js/">Vue.js</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/11/16/使用云服务器搭建个人站点/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">使用云服务器搭建个人站点</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue-js/">Vue.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/美食/">美食</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Node-js/" style="font-size: 20px;">Node.js</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/Vue-js/" style="font-size: 20px;">Vue.js</a> <a href="/tags/工具/" style="font-size: 20px;">工具</a> <a href="/tags/美食/" style="font-size: 10px;">美食</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">十一月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/11/27/Vue-router源码分析/">Vue-router源码分析</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/16/使用云服务器搭建个人站点/">使用云服务器搭建个人站点</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/16/git学习笔记整理/">git学习笔记整理</a>
+          </li>
+        
+          <li>
+            <a href="/2019/11/16/使用scoop进行windows软件管理/">使用scoop进行windows软件管理</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/28/日常烹饪-第一期-西洋菜和洋葱炒蛋/">日常烹饪(第一期)-西洋菜和洋葱炒蛋</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Saojun<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      本站总访问量<span id="busuanzi_value_site_pv"></span>
+      本站访客数<span id="busuanzi_value_site_uv"></span>人
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/color-brewer.css">
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  </div>
+</body>
+</html>
