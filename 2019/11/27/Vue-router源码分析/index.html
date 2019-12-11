@@ -7,24 +7,26 @@
   
   <title>Vue-router源码分析 | 骚俊的个人博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Vue-router 是 Vue 框架里一个重要的插件，基本上所有基于 Vue 开发的项目都离不开 Vue-router的使用。使用 Vue-router 可以开发页面权限控制,菜单设计,缓存页面,路由守卫等功能。但也导致几乎前端难一点业务和Bug也容易出在这块。所以单单会用还是不行，下面我将介绍一下 Vue-router 的核心源码。">
+  <meta name="description" content="Vue-router 是 Vue 框架里一个重要的插件，基本上所有基于 Vue 开发的项目都离不开 Vue-router 的使用。使用 Vue-router 可以开发页面权限控制,菜单设计,缓存页面,路由守卫等功能。下面我将介绍 Vue-router 的核心源码。">
 <meta name="keywords" content="Vue.js">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue-router源码分析">
 <meta property="og:url" content="http://yoursite.com/2019/11/27/Vue-router源码分析/index.html">
 <meta property="og:site_name" content="骚俊的个人博客">
-<meta property="og:description" content="Vue-router 是 Vue 框架里一个重要的插件，基本上所有基于 Vue 开发的项目都离不开 Vue-router的使用。使用 Vue-router 可以开发页面权限控制,菜单设计,缓存页面,路由守卫等功能。但也导致几乎前端难一点业务和Bug也容易出在这块。所以单单会用还是不行，下面我将介绍一下 Vue-router 的核心源码。">
+<meta property="og:description" content="Vue-router 是 Vue 框架里一个重要的插件，基本上所有基于 Vue 开发的项目都离不开 Vue-router 的使用。使用 Vue-router 可以开发页面权限控制,菜单设计,缓存页面,路由守卫等功能。下面我将介绍 Vue-router 的核心源码。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:updated_time" content="2019-12-10T15:18:34.602Z">
+<meta property="og:updated_time" content="2019-12-11T15:20:00.045Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue-router源码分析">
-<meta name="twitter:description" content="Vue-router 是 Vue 框架里一个重要的插件，基本上所有基于 Vue 开发的项目都离不开 Vue-router的使用。使用 Vue-router 可以开发页面权限控制,菜单设计,缓存页面,路由守卫等功能。但也导致几乎前端难一点业务和Bug也容易出在这块。所以单单会用还是不行，下面我将介绍一下 Vue-router 的核心源码。">
+<meta name="twitter:description" content="Vue-router 是 Vue 框架里一个重要的插件，基本上所有基于 Vue 开发的项目都离不开 Vue-router 的使用。使用 Vue-router 可以开发页面权限控制,菜单设计,缓存页面,路由守卫等功能。下面我将介绍 Vue-router 的核心源码。">
   
     <link rel="alternate" href="/atom.xml" title="骚俊的个人博客" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
   
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   
   <link rel="stylesheet" href="/css/style.css">
   
@@ -91,58 +93,51 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Vue-router 是 Vue 框架里一个重要的插件，基本上所有基于 Vue 开发的项目都离不开 Vue-router的使用。使用 Vue-router 可以开发页面权限控制,菜单设计,缓存页面,路由守卫等功能。但也导致几乎前端难一点业务和Bug也容易出在这块。所以单单会用还是不行，下面我将介绍一下 Vue-router 的核心源码。</p>
+        <p><code>Vue-router</code> 是 Vue 框架里一个重要的插件，基本上所有基于 Vue 开发的项目都离不开 Vue-router 的使用。使用 Vue-router 可以开发页面权限控制,菜单设计,缓存页面,路由守卫等功能。下面我将介绍 Vue-router 的核心源码。</p>
 <a id="more"></a>
 
-<h2 id="Vue-use-注册插件"><a href="#Vue-use-注册插件" class="headerlink" title="Vue.use() 注册插件"></a>Vue.use() 注册插件</h2><p>在Vue.js中，插件定义比较广泛，例如 Vue 的原型方法,组件,mixin混合,filters管道都可以算的上插件,Vue提供一个全局注册这些组件的API,即 Vue.use()</p>
-<pre><code class="js">import Vue from &#39;vue&#39;
-const obj = {
-  install:function(Vue,options){
-    // 拿到了Vue对象和可选项目，就可以在这里面实现插件逻辑了
-    Vue.prototype.$greeting= function(){
-      console.log(&quot;hello&quot;)
-    }
-  }
-}
-const opt ={}
-Vue.use(obj,opt)</code></pre>
-<p><code>Vue.use()</code> 一般接收两个参数,第一个一般为一个对象，并且规定这个对象中必须有一个名字为<code>install</code>的方法。而 Vue 也约定了，只要有这个 install 的这个方法,则 install 会给你提供两个参数，一个即 <code>Vue 对象</code>，一个为在 Vue.use() 的第一个参数。接下来拿到这两个参数，就可以来做各种事情了。本质上，写 Vue 插件就是在写 install 方法里面的逻辑。<br>上述代码拿到Vue对象之后，我们在其原型上增加了一个方法<code>$greeting</code>,这样每个页面就都可以这样调用这个方法了：</p>
-<pre><code class="js">this.$greeting()</code></pre>
-<p>所以要写一个开源的Vue插件最基本的方法是：<br>××.js源码文件</p>
-<pre><code class="js">export default {
-  install:function(Vue,options){
-    // ...
-  }
-}</code></pre>
-<p>别人使用：</p>
-<pre><code class="js">import Vue from &#39;vue&#39;
-import YourPlugins from &#39;××.js&#39;
-Vue.use(YourPlugins)
-</code></pre>
-<h2 id="单页应用路由原理"><a href="#单页应用路由原理" class="headerlink" title="单页应用路由原理"></a>单页应用路由原理</h2><p>在浏览器地址栏中输入地址<code>http://1.2.3.4:8080/</code>这样的地址时，浏览器会去访问服务器的这个地址并根据服务器设置的返回类型而返回相应的内容。如果地址栏这个时候改变为<code>http://1.2.3.4:8080/a</code>时，浏览器认识到了地址发生改变，就会重新刷新页面获取新的内容。</p>
-<p>但是地址由<code>http://1.2.3.4:8080/</code>变为<code>http://1.2.3.4:8080/#a</code>时浏览器却不会重新刷新页面。我们把地址栏中带“#”后面部分称为 <code>hash</code>。如果只是 hash 改变了，浏览器不会刷新页面。</p>
-<p>我们可以使用原生的 JavaScript 获取到当前浏览器地址的 hash:</p>
-<pre><code class="js">// 地址栏1 http://1.2.3.4:8080/#a
-console.log(window.location.hash) // #a
-// 地址栏2 http://localhost:8084/#quickStart/a
-console.log(window.location.hash) // #quickStart/a
-// 地址栏3 http://localhost:8084/#quickStart/#a
-console.log(window.location.hash) // /#quickStart/#a</code></pre>
+<h2 id="Vue-use-注册插件"><a href="#Vue-use-注册插件" class="headerlink" title="Vue.use() 注册插件"></a>Vue.use() 注册插件</h2><p>在 Vue.js 中，插件定义比较广泛，例如 Vue 的原型方法、组件、mixin 混合、filters 管道都可以算的上插件, Vue 提供一个全局注册这些插件的API, 即 <code>Vue.use()</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">  install:<span class="function"><span class="keyword">function</span>(<span class="params">Vue,options</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// 拿到了Vue对象和可选项目，就可以在这里面实现插件逻辑了</span></span><br><span class="line">    Vue.prototype.$greeting= <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(<span class="string">"hello"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> opt =&#123;&#125;</span><br><span class="line">Vue.use(obj,opt)</span><br></pre></td></tr></table></figure>
+
+<p><code>Vue.use()</code> 接收两个对象参数，第一个参数对象中必须要有名字为<code>install</code>方法，第二个参数为可选项，一般为一些额外配置, 上述例子在 obj 对象中提供了 install 方法，并且 Vue 规定了在 install 方法中我们可以获取到两个参数，一个即 Vue 的构造函数，一个为 Vue.use 传入的第二个参数。上述代码我们在install方法中拿到 Vue 对象之后在 Vue 的原型上绑定了一个$greeting() 方法,这样每个 Vue 页面实例都将可以使用这个方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.$greeting()</span><br></pre></td></tr></table></figure>
+
+<p>所以要写一个开源的 Vue 插件最基本的方法是源码文件内导出一个含 install 方法的对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  install:<span class="function"><span class="keyword">function</span>(<span class="params">Vue,options</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>别人使用时使用在 new Vue() 之前使用 Vue.use() 传入这个对象即可:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> YourPlugins <span class="keyword">from</span> <span class="string">'××.js'</span></span><br><span class="line">Vue.use(YourPlugins)</span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="单页应用路由原理"><a href="#单页应用路由原理" class="headerlink" title="单页应用路由原理"></a>单页应用路由原理</h2><p>在浏览器地址栏中输入地址 <a href="http://1.2.3.4:8080/" target="_blank" rel="noopener">http://1.2.3.4:8080/</a> 这样的地址时，浏览器会根据这个地址去访问web服务器并返回相应内容。如果地址栏这个时候改变为 <a href="http://1.2.3.4:8080/a" target="_blank" rel="noopener">http://1.2.3.4:8080/a</a> 时，浏览器认识到了地址发生改变，就会重新刷新页面获取新的内容,这个大家都知道。</p>
+<p>但是地址由 <a href="http://1.2.3.4:8080/" target="_blank" rel="noopener">http://1.2.3.4:8080/</a> 变为 <a href="http://1.2.3.4:8080/#a" target="_blank" rel="noopener">http://1.2.3.4:8080/#a</a> 时浏览器却不会重新刷新页面。我们把地址栏中带“#”后面部分称为 <code>hash</code>。如果只是 hash 改变了，浏览器不会刷新页面。我们可以使用原生的 JavaScript 获取到当前浏览器地址的 hash 部分:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 地址栏1 http://1.2.3.4:8080/#a</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.location.hash) <span class="comment">// 返回 #a</span></span><br><span class="line"><span class="comment">// 地址栏2 http://localhost:8084/#quickStart/a</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.location.hash) <span class="comment">// 返回 #quickStart/a</span></span><br><span class="line"><span class="comment">// 地址栏3 http://localhost:8084/#quickStart/#a</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.location.hash) <span class="comment">// 返回 /#quickStart/#a</span></span><br></pre></td></tr></table></figure>
+
 <p>我们还可以使用 JavaScript 监听到 hash 的改变,从而做一些事情</p>
-<pre><code class="js">window.addEventListener(&#39;hashchange&#39;,()=&gt;{
-  // 实现一些逻辑
-})</code></pre>
-<p>Vue-router 最基本的思路之一就是利用了 hashchange 事件。首先 Vue-router 内置了一个组件RouterView,这个组件可以理解为一个“壳”,或者一个“舞台”,例如当我们输入地址<code>http://1.2.3.4:8080/#a</code>时,我们得知hash名为“a”, Vue-router 会将a对应的组件渲染到RouterView中来展示。当我们输入地址<code>http://1.2.3.4:8080/#b</code>时这时触发hashchange事件,这个时候 RouterView 则渲染 b 对应的组件。<br>App.vue</p>
-<pre><code class="html">&lt;template&gt;
-  &lt;div&gt;
-    &lt;router-view/&gt;
-  &lt;/div&gt;
-&lt;/template&gt;</code></pre>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">'hashchange'</span>,()=&gt;&#123;</span><br><span class="line">  <span class="comment">// 实现一些逻辑</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>Vue-router 最基本的思路之一就是利用了 <code>hashchange</code> 事件。首先 Vue-router插件在use()时会全局注册一个组件<code>RouterView</code>,这个组件可以理解为一个“壳”,或者一个“舞台”,例如当我们输入地址 <a href="http://1.2.3.4:8080/#a" target="_blank" rel="noopener">http://1.2.3.4:8080/#a</a> 时, 这时 hash 名为 “#a”, Vue-router 会将 #a 对应的组件渲染到 RouterView 中来展示。当我们输入地址<a href="http://1.2.3.4:8080/#b" target="_blank" rel="noopener">http://1.2.3.4:8080/#b</a> 时这时触发 hashchange 事件,这个时候 RouterView 则渲染 #b 对应的组件。</p>
+<p>App.vue  </p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-view</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- 根据浏览器 hash 动态展示 hash 对应的组件 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="实现最基本的-install-方法"><a href="#实现最基本的-install-方法" class="headerlink" title="实现最基本的 install 方法"></a>实现最基本的 install 方法</h2><p>下面我们首先不考虑各种复杂的路由嵌套,和 Vue-router 中通过调用<code>this.$router.push()</code>来切换路由以及 <code>histroy</code> 模式的功能，我们首先实现一个这样的简单功能：当浏览器地址输入带hash的地址时，例如 localhost:8080/#home 在页面中组件 router-view 会渲染 #home 对应的组件，输入 localhost:8080/#about 时渲染 #about 对应的组件。所以需要有一个对照关系：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Home <span class="keyword">from</span> <span class="string">'./home.vue'</span></span><br><span class="line"><span class="keyword">import</span> About <span class="keyword">from</span> <span class="string">'./about.vue'</span></span><br><span class="line"><span class="keyword">const</span> routes = [</span><br><span class="line">  &#123;</span><br><span class="line">    name:<span class="string">'home'</span>,</span><br><span class="line">    component:Home</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    name:<span class="string">'about'</span>,</span><br><span class="line">    component:About</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>使用插件的方法只需要在 vue-cli 的 main.js 中引入 VueRouter 构造函数对象，并new出一个实例来注入到根组件new Vue() 实例之中。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Vue <span class="keyword">from</span> <span class="string">'vue'</span></span><br><span class="line"><span class="keyword">import</span> VueRouter <span class="keyword">from</span> <span class="string">'./vue-router'</span></span><br><span class="line"><span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App.vue'</span></span><br><span class="line"><span class="keyword">import</span> Home <span class="keyword">from</span> <span class="string">'./home.vue'</span></span><br><span class="line"><span class="keyword">import</span> About <span class="keyword">from</span> <span class="string">'./about.vue'</span></span><br><span class="line"></span><br><span class="line">Vue.use(VueRouter) <span class="comment">// 会执行里面的install方法</span></span><br><span class="line"><span class="keyword">const</span> routes = [</span><br><span class="line">  &#123;</span><br><span class="line">    name:<span class="string">'home'</span>,</span><br><span class="line">    component:Home</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    name:<span class="string">'about'</span>,</span><br><span class="line">    component:About</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = <span class="keyword">new</span> VueRouter(&#123; <span class="comment">// 构造实例</span></span><br><span class="line">  routes:routes <span class="comment">// 传入配置</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">  router, <span class="comment">// 将实例注入到根组件中</span></span><br><span class="line">  render: <span class="function"><span class="params">h</span> =&gt;</span> h(App)</span><br><span class="line">&#125;).$mount(<span class="string">'#app'</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现-VueRouter-构造函数"><a href="#实现-VueRouter-构造函数" class="headerlink" title="实现 VueRouter 构造函数"></a>实现 VueRouter 构造函数</h3><p>VueRouter 构造函数将会传入上述的 routes 配置并计算出一份hash 与组件的映射对象<code>routerMap</code>,方便后面渲染。并有一个重要的 <code>current</code> 属性来标注当前处在哪一个 hash,初始状态下我们可以认为是 null</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="class"><span class="keyword">class</span> <span class="title">VueRouter</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(options) &#123;</span><br><span class="line">    <span class="keyword">this</span>.current = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">this</span>.options = options</span><br><span class="line">    <span class="keyword">this</span>.routerMap = <span class="keyword">this</span>.createMap(<span class="keyword">this</span>.options.routes) </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  init() &#123;</span><br><span class="line">    <span class="keyword">const</span> hash = <span class="built_in">window</span>.location.hash</span><br><span class="line">    <span class="keyword">if</span>(hash)&#123;</span><br><span class="line">      <span class="keyword">this</span>.current = <span class="built_in">window</span>.location.hash</span><br><span class="line">    &#125;  </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  createMap(routes)&#123;</span><br><span class="line">    <span class="keyword">return</span> routes.reduce(<span class="function">(<span class="params">obj,current</span>)=&gt;</span>&#123;</span><br><span class="line">      obj[current.name] = current.component</span><br><span class="line">      <span class="keyword">return</span> obj</span><br><span class="line">    &#125;,&#123;&#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现-install-方法"><a href="#实现-install-方法" class="headerlink" title="实现 install 方法"></a>实现 install 方法</h3><p>在 Javascript 中一切皆对象,上述的构造函数 VueRouter 也不例外，所以我们可以给其加一个静态的 install 方法,有了install方法就可以称 VueRouter 是一个插件了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">VueRouter.install = <span class="function"><span class="keyword">function</span>(<span class="params">Vue</span>)</span>&#123;</span><br><span class="line">  <span class="comment">// 全局混入router对象</span></span><br><span class="line">  Vue.mixin(&#123;</span><br><span class="line">    beforeCreate()&#123;</span><br><span class="line">      <span class="keyword">if</span>(<span class="keyword">this</span>.$options.router)&#123; <span class="comment">// 存在这个肯定是main.js中new Vue的那个根组件</span></span><br><span class="line">        <span class="keyword">this</span>._routerRoot = <span class="keyword">this</span> <span class="comment">// 在根组件上存一份根实例地址_routerRoot</span></span><br><span class="line">      &#125; <span class="keyword">else</span> &#123; <span class="comment">// 子组件被beforeCreate时肯定没router属性，所以就从父级取得</span></span><br><span class="line">        <span class="keyword">this</span>._routerRoot = (<span class="keyword">this</span>.$parent &amp;&amp; <span class="keyword">this</span>.$parent._routerRoot) || <span class="keyword">this</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">  <span class="comment">// 注册 RouterView 组件</span></span><br><span class="line">  Vue.component(<span class="string">'RouterView'</span>,View)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当 Vue.use(VueRouter) 时会执行里面的 install 方法，首先会在 Vue 对象注册一个 <code>mixin</code>,这样 Vue 每个组件<code>被加载时</code>都会执行 <code>beforeCreate</code>,这里注意一定是组件被加载时，并不是install 方法执行时就会执行 beforeCreate, install 只会执行Vue.mixin()这个函数，而里面的 beforeCreate 只有组件加载时才会执行。</p>
+<p>现在我们开始关注 beforeCreate 方法里面的逻辑，beforeCreate 第一次执行肯定是在根组件(main.js中的 new Vue)内执行的，因为根组件最先被加载.在根组件加载时我们需要在这个组件上声明一个属性<code>_routerRoot</code>用来存放当前实例信息，在接下来每个子组件加载时也声明一个属性<code>_routerRoot</code>去引用父一级的实例，这样最后每个组件内_routerRoot都共享的是一个对象，即根组件的 this ,至于为什么需要这样，我们后续再解释。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/11/27/Vue-router源码分析/" data-id="ck3yjeaod0001kgvc4uflcgcj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/11/27/Vue-router源码分析/" data-id="ck401lmzi0002ncvc8gjle6hp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vue-js/">Vue.js</a></li></ul>
@@ -154,9 +149,9 @@ console.log(window.location.hash) // /#quickStart/#a</code></pre>
 <nav id="article-nav">
   
   
-    <a href="/2019/11/16/使用云服务器搭建个人站点/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/11/25/前端岗位算法知识汇总/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">使用云服务器搭建个人站点</div>
+      <div class="article-nav-title">前端岗位算法知识汇总</div>
     </a>
   
 </nav>
@@ -211,6 +206,10 @@ console.log(window.location.hash) // /#quickStart/#a</code></pre>
           </li>
         
           <li>
+            <a href="/2019/11/25/前端岗位算法知识汇总/">前端岗位算法知识汇总</a>
+          </li>
+        
+          <li>
             <a href="/2019/11/16/使用云服务器搭建个人站点/">使用云服务器搭建个人站点</a>
           </li>
         
@@ -220,10 +219,6 @@ console.log(window.location.hash) // /#quickStart/#a</code></pre>
         
           <li>
             <a href="/2019/11/16/使用scoop进行windows软件管理/">使用scoop进行windows软件管理</a>
-          </li>
-        
-          <li>
-            <a href="/2019/10/28/日常烹饪-第一期-西洋菜和洋葱炒蛋/">日常烹饪(第一期)-西洋菜和洋葱炒蛋</a>
           </li>
         
       </ul>
@@ -257,10 +252,10 @@ console.log(window.location.hash) // /#quickStart/#a</code></pre>
 </nav>
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="//lib.sinaapp.com/js/jquery/2.0.2/jquery-2.0.2.min.js""></script>
 
 
-  <link rel="stylesheet" href="/fancybox/color-brewer.css">
+  
   <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
   <script src="/fancybox/jquery.fancybox.pack.js"></script>
 
