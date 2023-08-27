@@ -1,4 +1,4 @@
-shader也称`着色器`.着色器分为`顶点着色器`和`片元着色器`.
+shader也称`着色器`.着色器分为`顶点着色器`和`片元着色器`.顶点着色器负责位置的计算，片元着色器负责颜色的计算。
 
 
 ## 第一个程序
@@ -80,10 +80,24 @@ gl.drawArrays(gl.TRIANGLES,0,3)
 ## 常用函数
 
 ## length
+`length` 函数通常用于计算向量的长度（也称为模）
+```js
+vec3 v = vec3(3.0, 4.0, 0.0); // 一个三维向量
+float len = length(v); // 计算向量长度
+```
 
 ## distance
+distance 函数用于计算两个点之间的距离。
+```
+vec2 point1 = vec2(1.0, 2.0);
+vec2 point2 = vec2(4.0, 6.0);
+float dist = distance(point1, point2);
+```
+distance 函数的计算开销相对较高，因为它涉及平方根的计算。如果只需要比较距离大小而不需要实际的距离值，可以考虑使用距离的平方，以避免开销
+
 
 ## step
+step(x, y)是阶梯函数，当y小于x时值为0，y大于等于x时值为1
 
 ## smoothstep
 
