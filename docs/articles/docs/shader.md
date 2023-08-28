@@ -66,12 +66,13 @@ gl.enableVertexAttribArray(a_position_pointer)
 // 绘制三角形
 gl.drawArrays(gl.TRIANGLES,0,3)
 ```
+效果如图所示：
 ![](../../assets/img/test01.png)
 
 
 
 ## 基础语法
-
+程序开始执行的入口
 
 ## 变量
 
@@ -83,10 +84,36 @@ gl.drawArrays(gl.TRIANGLES,0,3)
 
 ## distance
 
-## step
+
+
+## dot
+
+
+## step 
+step 函数传入两个参数，step(x,y),当 y>=x 时，返回1.0，否则返回 0.0，注意返回值类型为浮点数。  
+下面使用step函数画一个半径为 50 的圆。
+```c
+vec2 p = (gl_FragCoord.xy - vec2(500.0,350.0)) / 50.0;
+float distanceSquared = dot(p, p);
+if(step(distanceSquared,1.0) == 1.0){
+    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); // 红色
+}else{
+    discard;
+}
+```
+![](../../assets/img/demo02.png)
+
+如果没有step函数，也可以使用`比较`来实现
+```c
+if(distanceSquared<1.0){
+    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0); // 红色
+}else{
+    discard;
+}
+```
 
 ## smoothstep
 
-## dot
+
 
 
