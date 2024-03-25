@@ -1,6 +1,22 @@
 <script setup lang="ts">
 import { ref,onMounted } from 'vue'
 import * as THREE from 'three'
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
+const ALL_IMGS = [
+    {
+        url:'./assets/img/earth.jpg',
+        data:null,
+        width:0,
+        height:0
+    },
+    {
+        url:'./assets/img/glow.png',
+        data:null,
+        width:0,
+        height:0
+    }
+]
 let imageData = {
     width:0,
     height:0,
@@ -14,29 +30,59 @@ function getPosColor(x,y){
 
 
 function isLandByUV(c:number, f:number) {
-  let n:number = parseInt(imageData.width * c) // 根据横纵百分比计算图象坐标系中的坐标
-  let o = parseInt(imageData.height * f) // 根据横纵百分比计算图象坐标系中的坐标
-  return 1 >= imageData.data[4 * (o * imageData.width + n)] // 查找底图中对应像素点的rgba值并判断
+    debugger
+  let n:any = parseInt(`${ALL_IMGS[0].width * c}`) // 根据横纵百分比计算图象坐标系中的坐标
+  let o = parseInt(`${ALL_IMGS[0].height * f}`) // 根据横纵百分比计算图象坐标系中的坐标
+  return 1 >= ALL_IMGS[0].data.data[4 * (o * ALL_IMGS[0].width + n)] // 查找底图中对应像素点的rgba值并判断
 }
 
 
-onMounted(()=>{
-    const img = new Image()
-    img.src = './earth.jpg'
-    img.onload = function(e){
-    console.log(img.width,img.height)
-    const canvas = document.createElement("canvas")
-    canvas.width = img.width
-    canvas.height = img.height
-    const ctx = canvas.getContext('2d')
-    ctx.drawImage(img,0,0,img.width,img.height)
-    imageData = ctx.getImageData(0,0,img.width,img.height)
+const loadAllImage = ()=> {
+    const promises = ALL_IMGS.map((item)=>{
+        return new Promise((resolve)=>{
+            const img = new Image()
+            img.src = item.url
+            img.onload = function(e){
+                const canvas = document.createElement("canvas")
+                canvas.width = img.width
+                canvas.height = img.height
+                const ctx = canvas.getContext('2d')
+                ctx.drawImage(img,0,0,img.width,img.height)
+                imageData = ctx.getImageData(0,0,img.width,img.height)
+                resolve({
+                    img,
+                    imageData
+                })
+            }
+        })
+    })
+    return Promise.all(promises).then((res:any)=>{
+        res.forEach((v,i)=>{
+            ALL_IMGS[i].width = v.img.width
+            ALL_IMGS[i].height = v.img.height
+            ALL_IMGS[i].data = v.imageData
+        })
+        return
+    })
+}
+
+
+onMounted(async ()=>{
+    await loadAllImage()
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / 600, 0.1, 1000);
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, 600);
     const el = document.querySelector('#homePage-banner')
     el.appendChild(renderer.domElement);
+
+    // 设置控制器
+    const control = new OrbitControls(camera, renderer.domElement);
+
+
+
+
+
     var geometry = new THREE.BufferGeometry();
     var positions = [];
     var colors = [];
@@ -85,7 +131,7 @@ onMounted(()=>{
     }
     
     animate();
-    }
+    
 })
 
 </script>
