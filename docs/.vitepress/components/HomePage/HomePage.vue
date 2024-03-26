@@ -73,11 +73,11 @@ const loadAllImage = ()=> {
 onMounted(async ()=>{
     await loadAllImage()
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / 600, 0.1, 1000);
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / 800, 0.1, 1000);
     //var cameraHelper = new THREE.CameraHelper(camera);
     //scene.add(cameraHelper);
     var renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, 600);
+    renderer.setSize(window.innerWidth, 800);
     const el = document.querySelector('#homePage-banner')
     el.appendChild(renderer.domElement);
 
@@ -110,6 +110,50 @@ onMounted(async ()=>{
             }
         }
     }
+
+
+    // 构建点缀的1000 个 stars
+    const starCount = 5000;
+    const starPos = []
+    const starColor = []
+    const starGeometry = new THREE.BufferGeometry();
+    for(let i = 0; i < starCount; i++){
+        const vec3 = new THREE.Vector3()
+        var color = new THREE.Color();
+        vec3.x = Math.random() * 2 - 1;
+        vec3.y = Math.random() * 2 - 1;
+        vec3.z = Math.random() * 2 - 1;
+        starPos.push(vec3.x,vec3.y,vec3.z)
+        color.setHSL(Math.random() * 0.2 + 0.5, 0.55, Math.random() * 0.25 + 0.55);
+        starColor.push(color.r, color.g, color.b);
+    }
+    starGeometry.setAttribute('position', new THREE.Float32BufferAttribute( starPos, 3));
+    starGeometry.setAttribute('color', new THREE.Float32BufferAttribute(starColor, 3));
+
+
+    const texture = new THREE.TextureLoader().load('./assets/img/star.png');
+    // var starsMaterial = new THREE.ParticleBasicMaterial({
+    //     map: texture,
+    //     size: 2,
+    //     transparent: true,
+    //     opacity: 1,
+    //     //true：且该几何体的colors属性有值，则该粒子会舍弃第一个属性--color，而应用该几何体的colors属性的颜色
+    //     vertexColors: true, 
+    //     blending: THREE.AdditiveBlending,
+    //     sizeAttenuation: true
+    // });
+
+    var particleMaterial = new THREE.PointsMaterial({
+        size: 3,
+        map: texture,
+    });
+
+    let stars = new THREE.Points(starGeometry,particleMaterial)
+    stars.scale.set(500, 500, 500);
+    scene.add(stars)
+
+
+
 
 
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
@@ -171,7 +215,7 @@ onMounted(async ()=>{
     left:0;
     right:0;
     top:60px;
-    height:600px;
+    height:800px;
     z-index:1;
 }
 </style>
