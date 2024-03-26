@@ -87,6 +87,7 @@ gl.drawArrays(gl.TRIANGLES,0,3)
 
 
 ## dot
+dot 函数返回向量的点积。
 
 
 ## step 
@@ -113,7 +114,35 @@ if(distanceSquared<1.0){
 ```
 
 ## smoothstep
+平滑过渡函数，smoothstep(a,b,x)
 
+
+
+## mix 混合函数
+mix(x,y,a) 用于在两个值之间进行线性混合，将会返回结果为 `x*(1-a) + y*a`。在函数的参数中，x 和 y 是要进行混合的两个值，a 是混合因子，表示在 x 和 y 之间混合的程度。a 通常应该在 0 到 1 之间。也可以传入向量进行混合，例如实现红色和绿色
+
+
+## sin(x)
+正弦函数，x为弧度制，例如180度，则需要传入 sin(3.1415),注意shader语言中并没有内置一个像js中 `PI`常量,需要开发者自己定义。
+```c
+	precision mediump float;
+    void main(){
+        const float PI = 3.1415;
+        float t = (2.0*PI)/100.0;
+        float x = gl_FragCoord.x;
+        float y = 100.0*sin(t*(x-500.0))+350.0;
+        float PosY = float(gl_FragCoord.y);	
+        if(abs(PosY - y)<=1.0){
+            gl_FragColor = vec4(0.0, 1.0, 1.0, 1.0);
+        }else{
+            discard;
+        }
+    }
+```
+![](../../assets/img/demo03.png)
+
+## cos(x)
+余弦函数，使用方法同sin(x)
 
 
 
