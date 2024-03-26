@@ -17,6 +17,10 @@ const ALL_IMGS = [
         height:0
     }
 ]
+
+
+
+
 let imageData = {
     width:0,
     height:0,
@@ -30,13 +34,12 @@ function getPosColor(x,y){
 
 
 function isLandByUV(c:number, f:number) {
-    debugger
   let n:any = parseInt(`${ALL_IMGS[0].width * c}`) // 根据横纵百分比计算图象坐标系中的坐标
   let o = parseInt(`${ALL_IMGS[0].height * f}`) // 根据横纵百分比计算图象坐标系中的坐标
   return 1 >= ALL_IMGS[0].data.data[4 * (o * ALL_IMGS[0].width + n)] // 查找底图中对应像素点的rgba值并判断
 }
 
-
+// 加载图片
 const loadAllImage = ()=> {
     const promises = ALL_IMGS.map((item)=>{
         return new Promise((resolve)=>{
@@ -71,6 +74,8 @@ onMounted(async ()=>{
     await loadAllImage()
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / 600, 0.1, 1000);
+    //var cameraHelper = new THREE.CameraHelper(camera);
+    //scene.add(cameraHelper);
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, 600);
     const el = document.querySelector('#homePage-banner')
@@ -113,14 +118,26 @@ onMounted(async ()=>{
         vertexColors:true,  // 颜色通过buffer传递进去
         size: 0.01,
         blending:THREE.AdditiveBlending,
-        // depthWrite:false,
         transparent:true,
-        // _min:.2 * Math.random() + .5,
-        // delta_:.1 * Math.random() + .1,
-        // opacity_coef_:1
     });
     var points = new THREE.Points(geometry, material);
     scene.add(points);
+
+    const map = new THREE.TextureLoader().load( './assets/img/glow.png' );
+    const material2 = new THREE.SpriteMaterial( {
+        map,
+        color: 0xffffff,
+        transparent: true, //开启透明
+        opacity: 0.7, // 可以通过透明度整体调节光圈
+        depthWrite: false, //禁止写入深度缓冲区数据
+    });
+
+    const sprite = new THREE.Sprite( material2 );
+    sprite.position.set(0,0,0);
+    sprite.scale.set(5.3,5.3,1)
+    scene.add( sprite );
+
+
     
     camera.position.z = 3;
     
