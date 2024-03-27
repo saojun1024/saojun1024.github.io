@@ -7,6 +7,7 @@ let camera:any = null
 let renderer:any = null
 let control:any = null
 let earthPoints:any = null
+let moon = null
 const ALL_IMGS = [
     {
         url:'./assets/img/earth.jpg',
@@ -77,6 +78,7 @@ const initBasic = ()=>{
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / 800, 0.1, 1000);
     camera.position.z = 3;
+    camera.position.y = 3;
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, 800);
     const el = document.querySelector('#homePage-banner')
@@ -116,6 +118,7 @@ const initEarth = ()=>{
         size: 0.01,
         blending:THREE.AdditiveBlending,
         transparent:true,
+        depthWrite: true
     });
     earthPoints = new THREE.Points(geometry, material);
     scene.add(earthPoints);
@@ -128,50 +131,46 @@ const initEarthGlow = ()=>{
         map,
         color: 0xffffff,
         transparent: true, //开启透明
-        opacity: 0.7, // 可以通过透明度整体调节光圈
+        opacity: 0.8, // 可以通过透明度整体调节光圈
         depthWrite: false, //禁止写入深度缓冲区数据
     });
 
     const sprite = new THREE.Sprite( material2 );
     sprite.position.set(0,0,0);
-    sprite.scale.set(5.3,5.3,1)
+    sprite.scale.set(5,5,1)
     scene.add( sprite );
 
 }
 
 const initSun = ()=>{
- // 添加太阳
- const sunGeometry = new THREE.SphereGeometry(1, 32, 32);
-    //sunGeometry.setAttribute('position', new THREE.Float32BufferAttribute([0.5,0.0,0.1], 3));
-    //sunGeometry.setAttribute('color', new THREE.Float32BufferAttribute([0.5,0.5,0.5], 3));
-    const sunMaterial = new THREE.MeshBasicMaterial({ 
-        color: 0xFFFFFF,
-        depthWrite: false,
+    //const map = new THREE.TextureLoader().load( './assets/img/earth.jpg' );
+    const geometry = new THREE.SphereGeometry( 1.5,64,64);
+	const material = new THREE.MeshBasicMaterial( { 
+        color: 0x0000CD,
         transparent: true, //开启透明
+        opacity: 0, // 可以通过透明度整体调节光圈
+        depthWrite: false, //禁止写入深度缓冲区数据
     });
-    const sun = new THREE.Mesh(sunGeometry,sunMaterial);
-    sun.position.x = -2
-    scene.add(sun);
+	const sphere = new THREE.Mesh( geometry, material );
+	scene.add( sphere );
 }
 
-onMounted(async ()=>{
-    await loadAllImage()
-    initBasic()
-    initControl()
-    initSun()
-    initEarth()
-    // 初始地球光晕
-    //initEarthGlow()
-    // 初始太阳
-    
-    
+const initMoon = ()=>{
+    const map = new THREE.TextureLoader().load( './assets/img/moon.png' );
+    const geometry = new THREE.SphereGeometry(0.5,64,64);
+	const material = new THREE.MeshBasicMaterial({
+        map,
+        opacity: 0.5, // 可以通过透明度整体调节光圈
+        depthWrite: true, //禁止写入深度缓冲区数据
+    });
+	moon = new THREE.Mesh( geometry, material );
+    moon.position.x = 0
+    moon.position.y = 0
+    moon.position.z = -4
+	scene.add( moon );
+}
 
-
-
-
-
-
-
+const initStars = ()=>{
     // 构建点缀的1000 个 stars
     const starCount = 5000;
     const starPos = []
@@ -190,8 +189,6 @@ onMounted(async ()=>{
     console.log('starPos',starPos)
     starGeometry.setAttribute('position', new THREE.Float32BufferAttribute( starPos, 3));
     starGeometry.setAttribute('color', new THREE.Float32BufferAttribute(starColor, 3));
-
-
     const texture = new THREE.TextureLoader().load('./assets/img/star.png');
     var particleMaterial = new THREE.PointsMaterial({
         size: 3,
@@ -200,22 +197,32 @@ onMounted(async ()=>{
 
     let stars = new THREE.Points(starGeometry,particleMaterial)
     stars.scale.set(500, 500, 500);
-    //scene.add(stars)
+    scene.add(stars)
+}
 
-   
+onMounted(async ()=>{
+    await loadAllImage()
+    initBasic()
+    initControl()
+    // 初始太阳
+    initSun()
+    initEarth()
+    // 初始地球光晕
+    initEarthGlow()
 
-    
-
-   
-
-
-    
-    
-    
+    // 初始化月球
+    initMoon()
+    // 初始化星星
+    initStars()
+    let angle = 0
     function animate() {
         requestAnimationFrame(animate);
         earthPoints.rotation.y += 0.006;
+        moon.rotation.y += 0.02;
+        moon.position.x = -4.0*Math.sin((3.1415/180)*angle)
+        moon.position.z = -4.0*Math.cos((3.1415/180)*angle)
         renderer.render(scene, camera);
+        angle+=1
     }
     
     animate();
