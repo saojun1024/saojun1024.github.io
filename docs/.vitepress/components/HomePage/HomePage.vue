@@ -2,7 +2,11 @@
 import { ref,onMounted } from 'vue'
 import * as THREE from 'three'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-
+let scene:any = null
+let camera:any = null
+let renderer:any = null
+let control:any = null
+let earthPoints:any = null
 const ALL_IMGS = [
     {
         url:'./assets/img/earth.jpg',
@@ -69,30 +73,25 @@ const loadAllImage = ()=> {
     })
 }
 
-
-onMounted(async ()=>{
-    await loadAllImage()
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / 800, 0.1, 1000);
-    //var cameraHelper = new THREE.CameraHelper(camera);
-    //scene.add(cameraHelper);
-    var renderer = new THREE.WebGLRenderer();
+const initBasic = ()=>{
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / 800, 0.1, 1000);
+    camera.position.z = 3;
+    renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, 800);
     const el = document.querySelector('#homePage-banner')
     el.appendChild(renderer.domElement);
+}
 
-    // 设置控制器
-    const control = new OrbitControls(camera, renderer.domElement);
-
-
-
-
-
-    var geometry = new THREE.BufferGeometry();
-    var positions = [];
-    var colors = [];
+const initControl = ()=>{
+    control = new OrbitControls(camera, renderer.domElement);
+}
 
 
+const initEarth = ()=>{
+    const geometry = new THREE.BufferGeometry();
+    const positions = [];
+    const colors = [];
     const step = 250
     for (let i = 0; i < step; i++) {
         let vec = new THREE.Vector3()
@@ -110,6 +109,67 @@ onMounted(async ()=>{
             }
         }
     }
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    var material = new THREE.PointsMaterial({
+        vertexColors:true,  // 颜色通过buffer传递进去
+        size: 0.01,
+        blending:THREE.AdditiveBlending,
+        transparent:true,
+    });
+    earthPoints = new THREE.Points(geometry, material);
+    scene.add(earthPoints);
+}
+
+
+const initEarthGlow = ()=>{
+    const map = new THREE.TextureLoader().load( './assets/img/glow.png' );
+    const material2 = new THREE.SpriteMaterial( {
+        map,
+        color: 0xffffff,
+        transparent: true, //开启透明
+        opacity: 0.7, // 可以通过透明度整体调节光圈
+        depthWrite: false, //禁止写入深度缓冲区数据
+    });
+
+    const sprite = new THREE.Sprite( material2 );
+    sprite.position.set(0,0,0);
+    sprite.scale.set(5.3,5.3,1)
+    scene.add( sprite );
+
+}
+
+const initSun = ()=>{
+ // 添加太阳
+ const sunGeometry = new THREE.SphereGeometry(1, 32, 32);
+    //sunGeometry.setAttribute('position', new THREE.Float32BufferAttribute([0.5,0.0,0.1], 3));
+    //sunGeometry.setAttribute('color', new THREE.Float32BufferAttribute([0.5,0.5,0.5], 3));
+    const sunMaterial = new THREE.MeshBasicMaterial({ 
+        color: 0xFFFFFF,
+        depthWrite: false,
+        transparent: true, //开启透明
+    });
+    const sun = new THREE.Mesh(sunGeometry,sunMaterial);
+    sun.position.x = -2
+    scene.add(sun);
+}
+
+onMounted(async ()=>{
+    await loadAllImage()
+    initBasic()
+    initControl()
+    initSun()
+    initEarth()
+    // 初始地球光晕
+    //initEarthGlow()
+    // 初始太阳
+    
+    
+
+
+
+
+
 
 
     // 构建点缀的1000 个 stars
@@ -127,22 +187,12 @@ onMounted(async ()=>{
         color.setHSL(Math.random() * 0.2 + 0.5, 0.55, Math.random() * 0.25 + 0.55);
         starColor.push(color.r, color.g, color.b);
     }
+    console.log('starPos',starPos)
     starGeometry.setAttribute('position', new THREE.Float32BufferAttribute( starPos, 3));
     starGeometry.setAttribute('color', new THREE.Float32BufferAttribute(starColor, 3));
 
 
     const texture = new THREE.TextureLoader().load('./assets/img/star.png');
-    // var starsMaterial = new THREE.ParticleBasicMaterial({
-    //     map: texture,
-    //     size: 2,
-    //     transparent: true,
-    //     opacity: 1,
-    //     //true：且该几何体的colors属性有值，则该粒子会舍弃第一个属性--color，而应用该几何体的colors属性的颜色
-    //     vertexColors: true, 
-    //     blending: THREE.AdditiveBlending,
-    //     sizeAttenuation: true
-    // });
-
     var particleMaterial = new THREE.PointsMaterial({
         size: 3,
         map: texture,
@@ -150,44 +200,21 @@ onMounted(async ()=>{
 
     let stars = new THREE.Points(starGeometry,particleMaterial)
     stars.scale.set(500, 500, 500);
-    scene.add(stars)
+    //scene.add(stars)
 
+   
 
+    
 
-
-
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-    var material = new THREE.PointsMaterial({
-        vertexColors:true,  // 颜色通过buffer传递进去
-        size: 0.01,
-        blending:THREE.AdditiveBlending,
-        transparent:true,
-    });
-    var points = new THREE.Points(geometry, material);
-    scene.add(points);
-
-    const map = new THREE.TextureLoader().load( './assets/img/glow.png' );
-    const material2 = new THREE.SpriteMaterial( {
-        map,
-        color: 0xffffff,
-        transparent: true, //开启透明
-        opacity: 0.7, // 可以通过透明度整体调节光圈
-        depthWrite: false, //禁止写入深度缓冲区数据
-    });
-
-    const sprite = new THREE.Sprite( material2 );
-    sprite.position.set(0,0,0);
-    sprite.scale.set(5.3,5.3,1)
-    scene.add( sprite );
+   
 
 
     
-    camera.position.z = 3;
+    
     
     function animate() {
         requestAnimationFrame(animate);
-        points.rotation.y += 0.006;
+        earthPoints.rotation.y += 0.006;
         renderer.render(scene, camera);
     }
     
