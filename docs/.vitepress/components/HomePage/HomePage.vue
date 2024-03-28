@@ -2,6 +2,8 @@
 import { ref,onMounted } from 'vue'
 import * as THREE from 'three'
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
+import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
 let scene:any = null
 let camera:any = null
 let renderer:any = null
@@ -76,11 +78,16 @@ const loadAllImage = ()=> {
 const initBasic = ()=>{
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / 800, 0.1, 1000);
-    camera.position.z = 3;
+    camera.position.z = 10;
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, 800);
     const el = document.querySelector('#homePage-banner')
     el.appendChild(renderer.domElement);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1); // 颜色和强度
+    scene.add(ambientLight);
+    const pointLight = new THREE.PointLight(0xffffff,1,0,1); // 颜色、强度和距离
+    pointLight.position.set(0, 3, 0); // 设置光源位置
+    scene.add(pointLight);
 }
 
 const initControl = ()=>{
@@ -154,64 +161,54 @@ const initSun = ()=>{
     scene.add(sun);
 }
 
+
+const initUFO = ()=>{
+    const loader = new OBJLoader()
+    const mtlLoader = new MTLLoader();
+    return new Promise((resolve,reject)=>{
+        mtlLoader.load('./assets/obj/UFO_Empty.mtl', function (materials) {
+            materials.preload();
+            loader.load('./assets/obj/UFO_Empty.obj',function(object){
+                resolve({object,materials,loader})
+            },()=>{},(err)=>{
+                reject(err)
+            })
+        })
+    })
+}
+
 onMounted(async ()=>{
     await loadAllImage()
     initBasic()
     initControl()
-    initSun()
+    //initSun()
     initEarth()
     // 初始地球光晕
     //initEarthGlow()
     // 初始太阳
+
+    const { object, materials, loader} = await initUFO()
+    const map2 = new THREE.TextureLoader().load( './assets/img/ufo/UFO_nmap.jpg' );
+    object.traverse((child)=>{
+        if (child instanceof THREE.Mesh) {
+            const reflectiveMaterial = new THREE.MeshPhongMaterial({
+              color: 0xffffff, // 设置材质颜色
+              specular: 0xffffff, // 设置高光颜色
+              shininess: 800, // 设置高光亮度
+              map:map2
+            });
+            reflectiveMaterial.map = map2;
+            // 为每个网格创建一个新的材质，将纹理作为map属性传入
+            child.material = reflectiveMaterial;
+        }
+    })
+    loader.setMaterials(materials);
+    object.scale.set(0.2, 0.2, 0.2);
+    object.position.set(-3.0,0.0,0);
+    scene.add(object)
     
     
 
-
-
-
-
-
-
-    // 构建点缀的1000 个 stars
-    const starCount = 5000;
-    const starPos = []
-    const starColor = []
-    const starGeometry = new THREE.BufferGeometry();
-    for(let i = 0; i < starCount; i++){
-        const vec3 = new THREE.Vector3()
-        var color = new THREE.Color();
-        vec3.x = Math.random() * 2 - 1;
-        vec3.y = Math.random() * 2 - 1;
-        vec3.z = Math.random() * 2 - 1;
-        starPos.push(vec3.x,vec3.y,vec3.z)
-        color.setHSL(Math.random() * 0.2 + 0.5, 0.55, Math.random() * 0.25 + 0.55);
-        starColor.push(color.r, color.g, color.b);
-    }
-    console.log('starPos',starPos)
-    starGeometry.setAttribute('position', new THREE.Float32BufferAttribute( starPos, 3));
-    starGeometry.setAttribute('color', new THREE.Float32BufferAttribute(starColor, 3));
-
-
-    const texture = new THREE.TextureLoader().load('./assets/img/star.png');
-    var particleMaterial = new THREE.PointsMaterial({
-        size: 3,
-        map: texture,
-    });
-
-    let stars = new THREE.Points(starGeometry,particleMaterial)
-    stars.scale.set(500, 500, 500);
-    //scene.add(stars)
-
-   
-
-    
-
-   
-
-
-    
-    
-    
     function animate() {
         requestAnimationFrame(animate);
         earthPoints.rotation.y += 0.006;
