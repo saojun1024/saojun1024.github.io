@@ -1,35 +1,62 @@
 {
-  "hash": "6641653a",
-  "browserHash": "812c7689",
+  "hash": "7f105507",
+  "browserHash": "cb4e537d",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "f0ceca85",
+      "fileHash": "7b68c873",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
       "src": "../../../../node_modules/@vue/devtools-api/lib/esm/index.js",
       "file": "vitepress___@vue_devtools-api.js",
-      "fileHash": "d69a1dab",
+      "fileHash": "524d560a",
       "needsInterop": false
     },
     "three": {
       "src": "../../../../node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "880d9c5f",
+      "fileHash": "c27788bb",
       "needsInterop": false
     },
     "three/examples/jsm/controls/OrbitControls": {
       "src": "../../../../node_modules/three/examples/jsm/controls/OrbitControls.js",
       "file": "three_examples_jsm_controls_OrbitControls.js",
-      "fileHash": "3f22924c",
+      "fileHash": "7589feca",
       "needsInterop": false
+    },
+    "three/addons/loaders/OBJLoader.js": {
+      "src": "../../../../node_modules/three/examples/jsm/loaders/OBJLoader.js",
+      "file": "three_addons_loaders_OBJLoader__js.js",
+      "fileHash": "f3b63709",
+      "needsInterop": false
+    },
+    "three/addons/loaders/MTLLoader.js": {
+      "src": "../../../../node_modules/three/examples/jsm/loaders/MTLLoader.js",
+      "file": "three_addons_loaders_MTLLoader__js.js",
+      "fileHash": "563ee72c",
+      "needsInterop": false
+    },
+    "@tweenjs/tween.js": {
+      "src": "../../../../node_modules/@tweenjs/tween.js/dist/tween.esm.js",
+      "file": "@tweenjs_tween__js.js",
+      "fileHash": "a9e8311d",
+      "needsInterop": false
+    },
+    "fabric": {
+      "src": "../../../../node_modules/fabric/dist/fabric.js",
+      "file": "fabric.js",
+      "fileHash": "c82150ed",
+      "needsInterop": true
     }
   },
   "chunks": {
     "chunk-URHCFEOH": {
       "file": "chunk-URHCFEOH.js"
+    },
+    "chunk-76J2PTFD": {
+      "file": "chunk-76J2PTFD.js"
     }
   }
 }

@@ -23,6 +23,8 @@
     "vitepress": "^1.0.0-rc.4"
   },
   "dependencies": {
+    "@tweenjs/tween.js": "^23.1.1",
+    "fabric": "^5.3.0",
     "three": "^0.155.0"
   }
 }
