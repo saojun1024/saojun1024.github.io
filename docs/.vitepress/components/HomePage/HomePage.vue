@@ -78,16 +78,16 @@ const loadAllImage = ()=> {
 const initBasic = ()=>{
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / 800, 0.1, 1000);
-    camera.position.z = 10;
+    camera.position.z = 3;
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, 800);
     const el = document.querySelector('#homePage-banner')
     el.appendChild(renderer.domElement);
     const ambientLight = new THREE.AmbientLight(0xffffff, 1); // 颜色和强度
-    scene.add(ambientLight);
+    //scene.add(ambientLight);
     const pointLight = new THREE.PointLight(0xffffff,1,0,1); // 颜色、强度和距离
     pointLight.position.set(0, 3, 0); // 设置光源位置
-    scene.add(pointLight);
+    //scene.add(pointLight);
 }
 
 const initControl = ()=>{
@@ -177,35 +177,77 @@ const initUFO = ()=>{
     })
 }
 
+const initBox = ()=>{
+    var vertexShader = `
+    varying vec2 vUv;
+
+    void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+`;
+// 片元着色器代码
+var fragmentShader = `
+    uniform vec3 color;
+    varying vec2 vUv;
+
+    void main() {
+        gl_FragColor = vec4(vUv.x,vUv.y,1.0,1.0);
+    }
+`;
+
+var shaderMaterial = new THREE.ShaderMaterial({
+    vertexShader: vertexShader,
+    fragmentShader: fragmentShader,
+    uniforms: {
+        color: { value: new THREE.Color(0xff0000) } // 红色
+    }
+});
+
+
+    //scene.add(cube)
+
+
+
+
+    const geometry3 = new THREE.RingGeometry( 1, 2, 32 );
+    console.log('uv',geometry3.attributes);
+
+}
+
 onMounted(async ()=>{
     await loadAllImage()
+   
     initBasic()
     initControl()
+    initBox()
     //initSun()
     initEarth()
     // 初始地球光晕
     //initEarthGlow()
     // 初始太阳
 
-    const { object, materials, loader} = await initUFO()
-    const map2 = new THREE.TextureLoader().load( './assets/img/ufo/UFO_nmap.jpg' );
-    object.traverse((child)=>{
-        if (child instanceof THREE.Mesh) {
-            const reflectiveMaterial = new THREE.MeshPhongMaterial({
-              color: 0xffffff, // 设置材质颜色
-              specular: 0xffffff, // 设置高光颜色
-              shininess: 800, // 设置高光亮度
-              map:map2
-            });
-            reflectiveMaterial.map = map2;
-            // 为每个网格创建一个新的材质，将纹理作为map属性传入
-            child.material = reflectiveMaterial;
-        }
-    })
-    loader.setMaterials(materials);
-    object.scale.set(0.2, 0.2, 0.2);
-    object.position.set(-3.0,0.0,0);
-    scene.add(object)
+    //const { object, materials, loader} = await initUFO()
+    //const map2 = new THREE.TextureLoader().load( './assets/img/ufo/UFO_nmap.jpg' );
+    // object.traverse((child)=>{
+    //     if (child instanceof THREE.Mesh) {
+    //         const reflectiveMaterial = new THREE.MeshPhongMaterial({
+    //           color: 0xffffff, // 设置材质颜色
+    //           specular: 0xffffff, // 设置高光颜色
+    //           shininess: 800, // 设置高光亮度
+    //           map:map2
+    //         });
+    //         reflectiveMaterial.map = map2;
+    //         // 为每个网格创建一个新的材质，将纹理作为map属性传入
+    //         child.material = reflectiveMaterial;
+    //     }
+    // })
+    //loader.setMaterials(materials);
+    //object.scale.set(0.2, 0.2, 0.2);
+    //object.position.set(-3.0,0.0,0);
+    //scene.add(object)
+
+
     
     
 
