@@ -1,56 +1,62 @@
 {
-  "hash": "c8236875",
-  "browserHash": "0715ee72",
+  "hash": "7f105507",
+  "browserHash": "cb4e537d",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "3bf22fd6",
+      "fileHash": "7b68c873",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
       "src": "../../../../node_modules/@vue/devtools-api/lib/esm/index.js",
       "file": "vitepress___@vue_devtools-api.js",
-      "fileHash": "50d7be5a",
+      "fileHash": "524d560a",
       "needsInterop": false
     },
     "three": {
       "src": "../../../../node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "545a3ff9",
+      "fileHash": "c27788bb",
       "needsInterop": false
     },
     "three/examples/jsm/controls/OrbitControls": {
       "src": "../../../../node_modules/three/examples/jsm/controls/OrbitControls.js",
       "file": "three_examples_jsm_controls_OrbitControls.js",
-      "fileHash": "b0d10d7a",
+      "fileHash": "7589feca",
       "needsInterop": false
     },
     "three/addons/loaders/OBJLoader.js": {
       "src": "../../../../node_modules/three/examples/jsm/loaders/OBJLoader.js",
       "file": "three_addons_loaders_OBJLoader__js.js",
-      "fileHash": "7952fcae",
-      "needsInterop": false
-    },
-    "three/examples/jsm/loaders/MTLLoader.js": {
-      "src": "../../../../node_modules/three/examples/jsm/loaders/MTLLoader.js",
-      "file": "three_examples_jsm_loaders_MTLLoader__js.js",
-      "fileHash": "e060203f",
+      "fileHash": "f3b63709",
       "needsInterop": false
     },
     "three/addons/loaders/MTLLoader.js": {
       "src": "../../../../node_modules/three/examples/jsm/loaders/MTLLoader.js",
       "file": "three_addons_loaders_MTLLoader__js.js",
-      "fileHash": "9b56ed51",
+      "fileHash": "563ee72c",
       "needsInterop": false
+    },
+    "@tweenjs/tween.js": {
+      "src": "../../../../node_modules/@tweenjs/tween.js/dist/tween.esm.js",
+      "file": "@tweenjs_tween__js.js",
+      "fileHash": "a9e8311d",
+      "needsInterop": false
+    },
+    "fabric": {
+      "src": "../../../../node_modules/fabric/dist/fabric.js",
+      "file": "fabric.js",
+      "fileHash": "c82150ed",
+      "needsInterop": true
     }
   },
   "chunks": {
-    "chunk-NZS6U2JM": {
-      "file": "chunk-NZS6U2JM.js"
-    },
     "chunk-URHCFEOH": {
       "file": "chunk-URHCFEOH.js"
+    },
+    "chunk-76J2PTFD": {
+      "file": "chunk-76J2PTFD.js"
     }
   }
 }

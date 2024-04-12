@@ -402,6 +402,7 @@ import {
   _SRGBAFormat,
   sRGBEncoding
 } from "./chunk-URHCFEOH.js";
+import "./chunk-76J2PTFD.js";
 export {
   ACESFilmicToneMapping,
   AddEquation,
