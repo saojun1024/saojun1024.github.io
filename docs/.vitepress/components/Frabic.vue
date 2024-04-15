@@ -163,7 +163,7 @@ const lines = {
 
 
 
-const robits = [
+const robots = [
     {
         id:'01',
         current:'v1',
@@ -172,7 +172,7 @@ const robits = [
         height:20,
         pathIndex:0,
         angle:0,
-        path:['v1','v2','v3','v4','v5']
+        path:['v1','v2','v3','v4','v5','v4','v7','v9','v10']
     },
     {
         id:'02',
@@ -182,7 +182,7 @@ const robits = [
         height:20,
         pathIndex:0,
         angle:0,
-        path:['v1','v2','v3','v4','v5']
+        path:['v12','v15','v1','v15','v1','v2','v3']
     }
 ]
 
@@ -257,7 +257,7 @@ const initLines = ()=>{
         // // 计算两点向量
         const v = [p2.x - p1.x,p2.y-p1.y]
         const size = 16
-        var square = new fabric.Rect({
+        const square = new fabric.Rect({
             left: center[0]-size, // 左上角横坐标
             top: center[1]-size, // 左上角纵坐标
             width: size*2, // 正方形宽度
@@ -301,14 +301,38 @@ const initPointAndText = ()=>{
     })
 }
 
-let circle
-let circle2
+
 
 const initRobots = ()=>{
 
         // 定义机器人
-       robits.forEach(item=>{
-            
+       robots.forEach(item=>{
+            let circle
+            let circle2
+
+            circle = new fabric.Circle({
+                left: points[item.current].x-30,
+                top: points[item.current].y-30,
+                x:points[item.current].x,
+                y:points[item.current].y,
+                n:30,
+                radius: 30,
+                fill: '', // 设置为空字符串，表示不填充
+                stroke: '#409eff', // 边框颜色
+                strokeWidth: 2 // 边框宽度
+            });
+
+            circle2 = new fabric.Circle({
+                left: points[item.current].x-60,
+                top: points[item.current].y-60,
+                x:points[item.current].x,
+                y:points[item.current].y,
+                radius: 60,
+                n:60,
+                fill: '', // 设置为空字符串，表示不填充
+                stroke: 'orange', // 边框颜色
+                strokeWidth: 2 // 边框宽度
+            });
 
             let rect1 = new fabric.Rect({
                 left: points[item.current].x-item.width/2,
@@ -335,7 +359,7 @@ const initRobots = ()=>{
                 fill:'red',
             })
 
-            const group = new fabric.Group([rect1, rect2,headerTriangle], {
+            const group = new fabric.Group([rect1, rect2,headerTriangle,circle,circle2], {
                 groupName:item.id,
                 originX:'center',
                 originY:'center',
@@ -344,29 +368,7 @@ const initRobots = ()=>{
 
             canvas.add(group)
 
-            // circle = new fabric.Circle({
-            //     left: points[item.current].x-30,
-            //     top: points[item.current].y-30,
-            //     x:points[item.current].x,
-            //     y:points[item.current].y,
-            //     n:30,
-            //     radius: 30,
-            //     fill: '', // 设置为空字符串，表示不填充
-            //     stroke: '#409eff', // 边框颜色
-            //     strokeWidth: 2 // 边框宽度
-            // });
-
-            // circle2 = new fabric.Circle({
-            //     left: points[item.current].x-60,
-            //     top: points[item.current].y-60,
-            //     x:points[item.current].x,
-            //     y:points[item.current].y,
-            //     radius: 60,
-            //     n:60,
-            //     fill: '', // 设置为空字符串，表示不填充
-            //     stroke: 'orange', // 边框颜色
-            //     strokeWidth: 2 // 边框宽度
-            // });
+            
 
             // rect.set('fill', gradient);
             // canvas.add(circle)
@@ -377,8 +379,7 @@ const initRobots = ()=>{
 
 // 通过组名获取组
 function getGroupByName(groupName) {
-    debugger
-  var objects = canvas.getObjects();
+  const objects = canvas.getObjects();
   for (var i = 0; i < objects.length; i++) {
     if (objects[i].type === 'group' && objects[i].groupName === groupName) {
       return objects[i];
@@ -450,39 +451,46 @@ const init = ()=>{
         // },4000)
 
     setTimeout(()=>{
-        const g = getGroupByName('01')
-
-        startMove(
-            g,
-            0,
-            [points['v1'].x,points['v1'].y],
-            [points['v2'].x,points['v2'].y],
-            1000
-        )
+        robots.forEach(item=>{
+            const g = getGroupByName(item.id)
+            startMove(item,g,1000)
+        })
     },3000)
 }
 
 
 
 
-const startMove = (group,currentAngle,currentPosition,nextPosition,duration)=>{
+const startMove = (item,group,duration)=>{
     // 计算旋转角度
-    const p1 = currentPosition
-    const p2 = nextPosition
+    const start = points[item.path[item.pathIndex]]
+    const next = item.path[item.pathIndex+1]
+    const end = next ? points[next] : null
+    if(end === null){
+        return false
+    }
+    const p1 = [start.x,start.y]
+    const p2 = [end.x,end.y]
     // 计算两点向量
     const v = [p2[0] - p1[0],p2[1]-p1[1]]
     const angle = Math.atan2(v[1], v[0]) * (180 / Math.PI)
+    
     group.set('angle', angle)
-    canvas.renderAll()
     group.animate({
         top:p2[1],
         left:p2[0],
     },{
         duration:2000,
-        onChange(){
+        onChange(){canvas.renderAll()},
+        onComplete(){
+            item.pathIndex += 1
+            item.current = item.path[item.pathIndex]
+            startMove(item,group,1000)
             canvas.renderAll()
         }
     })
+    
+ 
 }
 
 
@@ -490,7 +498,7 @@ function zoomIn() {
   var zoom = canvas.getZoom();
   zoom = zoom + 0.1; // 增加 10% 的缩放比例
   if (zoom > 5) zoom = 5; // 设置最大缩放比例为 5
-  canvas.setZoom(zoom);
+  setZoom(zoom)
 }
 
 // 缩小画布
@@ -498,9 +506,16 @@ function zoomOut() {
   var zoom = canvas.getZoom();
   zoom = zoom - 0.1; // 减少 10% 的缩放比例
   if (zoom < 0.1) zoom = 0.1; // 设置最小缩放比例为 0.1
-  canvas.setZoom(zoom);
+  setZoom(zoom)
 }
 
+
+
+function setZoom(zoom){
+    var center = canvas.getCenter();
+    canvas.viewportTransform = [zoom, 0, 0, zoom, center.left * (1 - zoom), center.top * (1 - zoom)];
+    canvas.requestRenderAll(); // 刷新画布
+}
 
 onMounted(() => {
   init()
@@ -510,7 +525,21 @@ onMounted(() => {
 <template>
     <div>
         <canvas width="1000" height="800" id="canvas" style="border: 1px solid #ccc;"></canvas>
-        <button @click="zoomIn">放大</button>
-        <button @click="zoomOut">缩小</button>
+        <button class="btn btn-zoom-in" @click="zoomIn">+</button>
+        <button class="btn btn-zoom-out" @click="zoomOut">-</button>
     </div>
 </template>
+
+<style>
+.btn{
+    background: #409eff;
+    width:30px;
+    height:30px;
+    font-size: 18px;
+    color:white;
+    margin-top:8px;
+}
+.btn-zoom-in{
+    margin-right:16px;
+}
+</style>
