@@ -8,9 +8,27 @@ const lockBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAA
 const triangleBase64 ="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAATRJREFUOE+N009LhEAUAPD3Rr1YVGxUVBT1daRv4/+bF/8h6l78St0Kii0oKNioaKOoDl7U0RCWMEdXvfnezG9m3sxDaH1BEKwBwKmqqrN2rusf28EkSdbTNJ0h4tkYhAEsy9oQRfEHAOZjEAbwPG+TEPK93NkgwgBxHG/lef7VONpKhAGiKJoURfHZqk0vwgCO42zzPP/RUfFOpAvY4Xn+vecKGYQBgiDYrapq0XnniBcAIKmq+rcAA0yn070sy97aACJelWUp6br+2swxgG3b+4Ig/BsEADf1ZMMwnhi4HfB9/wARXxrxO0qpZJrm46inHEXRYVEUz8vBDxzHSbIs3/f1BXOEMAyPKKX1VueEEElRlNtVTdX1lI8JIeeIWFf7eqgjGcB13ROO4yaapl0OTa7zv5xVeBG36HZ2AAAAAElFTkSuQmCC"
 // 定义好一些基础配置
 const options = {
-    lineColor:'',
-    dotRadius:10,
-
+    lines:{
+        color:'',
+        width:'',
+        shadow:''
+    },
+    arrows:{
+        color:'',
+        height: ''
+    },
+    points:{
+        radius:8,
+        background:''
+    },
+    robots:{
+        width:'',
+        height:'',
+        arrow:{
+            color:'',
+            height: ''
+        }
+    }
 }
 
 
@@ -174,7 +192,7 @@ const robots = [
         current:'v1',
         status:1,
         width:40,
-        height:20,
+        height:32,
         pathIndex:0,
         angle:0,
         path:['v1','v2','v3','v4','v5','v4','v7','v9','v10']
@@ -184,7 +202,7 @@ const robots = [
         current:'v12',
         status:1,
         width:40,
-        height:20,
+        height:32,
         pathIndex:0,
         angle:0,
         path:['v12','v15','v1','v15','v1','v2','v3']
@@ -236,12 +254,12 @@ const initLines = ()=>{
         const line = new fabric.Line([p[0].x,p[0].y,p[1].x,p[1].y],{
             stroke: '#409eff',
             strokeWidth:4,
-            shadow: new fabric.Shadow({
-                color: 'rgb(100,100,100)', // 阴影的颜色
-                blur: 8, // 阴影的模糊度
-                offsetX: 3, // 阴影的水平偏移量
-                offsetY: 3 // 阴影的垂直偏移量
-            })
+            // shadow: new fabric.Shadow({
+            //     color: 'rgb(100,100,100)', // 阴影的颜色
+            //     blur: 8, // 阴影的模糊度
+            //     offsetX: 3, // 阴影的水平偏移量
+            //     offsetY: 3 // 阴影的垂直偏移量
+            // })
         })
         canvas.add(line)
         // 绘制箭头
@@ -288,18 +306,27 @@ const initLines = ()=>{
 const initPointAndText = ()=>{
      Object.keys(points).forEach(item=>{
         let circle = new fabric.Circle({
-            radius: 8, // 设置圆的半径
+            radius: 8,
             fill: 'rgb(215, 229, 243,1)',
             left: points[item].x-8,
             top: points[item].y-8
         });
+
+        const PlusIcon = new fabric.Path('M7 0 L9 0 L9 16 L7 16 Z M0 7 L16 7 L16 9 L0 9 Z', {
+            fill: 'blue',
+            left: points[item].x-8,
+            top: points[item].y-8,
+        });
+
+        
         canvas.add(circle)
+        canvas.add(PlusIcon)
         if(points[item].text){
             var text = new fabric.Text(points[item].text, {
-                left: points[item].x-10, // 文字的左边距（相对于画布）
-                top: points[item].y+10, // 文字的顶边距（相对于画布）
-                fontSize: 12, // 文字的字号
-                fill: 'black' // 文字的颜色
+                left: points[item].x-10,
+                top: points[item].y+10, 
+                fontSize: 12,
+                fill: 'black'
             });
             canvas.add(text);
         }
@@ -308,14 +335,13 @@ const initPointAndText = ()=>{
 
 
 
-const initRobots = ()=>{
 
+const initRobots = ()=>{
+   
         // 定义机器人
        robots.forEach(item=>{
-            let circle
-            let circle2
-
-            circle = new fabric.Circle({
+            let circle = new fabric.Circle({
+                name: 'robot' + item.id,
                 left: points[item.current].x-30,
                 top: points[item.current].y-30,
                 x:points[item.current].x,
@@ -324,51 +350,77 @@ const initRobots = ()=>{
                 radius: 30,
                 fill: '', // 设置为空字符串，表示不填充
                 stroke: '#409eff', // 边框颜色
-                strokeWidth: 2, // 边框宽度
+                strokeWidth: 1, // 边框宽度
             });
+           
 
-            const action = new TWEEN.Tween({x:30,y:0,z:0})
-            .to({x:40,y:0,z:0},3000) 
-            .onUpdate(function(obj){
-                console.log(circle.get('x'))
-                circle.set('radius',obj.x)
-                canvas.renderAll()
-            })
-            .repeat(5)
-            .start()
+            // const action = new TWEEN.Tween({x:30,y:0,z:0})
+            // .to({x:40,y:0,z:0},3000) 
+            // .onUpdate(function(obj){
+            //     console.log(circle.get('x'))
+            //     circle.set('radius',obj.x)
+            //     circle.set('left', circle.get('x')-obj.x);
+            //     circle.set('top', circle.get('y')-obj.x);
+            //     canvas.renderAll()
+            // })
+            // .repeat(Infinity)
+            // .start()
             
 
            
             
 
 
-            circle2 = new fabric.Circle({
-                left: points[item.current].x-60,
-                top: points[item.current].y-60,
-                x:points[item.current].x,
-                y:points[item.current].y,
-                radius: 60,
-                n:60,
-                fill: '', // 设置为空字符串，表示不填充
-                stroke: 'orange', // 边框颜色
-                strokeWidth: 2 // 边框宽度
-            });
-
+      
             let rect1 = new fabric.Rect({
                 left: points[item.current].x-item.width/2,
                 top: points[item.current].y-item.height/2,
-                width: item.width/2,
+                width: item.width,
                 height: item.height,
-                fill: 'purple'
+                fill: 'black',
+                rx:4,
+                ry:4
             })
 
             let rect2 = new fabric.Rect({
-                left: points[item.current].x,
-                top: points[item.current].y-item.height/2,
-                width: item.width/2,
-                height: item.height,
-                fill: 'green'
+                left: points[item.current].x-10,
+                top: points[item.current].y-10,
+                width: 20,
+                height: 6,
+                fill: new fabric.Gradient({
+                    type:'linear',
+                    coords: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 20,
+                        y2: 0
+                    },
+                    colorStops: [
+                        { offset: 0, color: 'red' }, // 渐变开始颜色
+                        { offset: 0.1, color: 'red' },
+                        { offset: 0.1, color: 'rgba(255,255,255,1)' },
+                        { offset: 1, color: 'rgba(255,255,255,1)' } // 渐变结束颜色
+                    ]
+
+                }),
+                stroke:'white',
+                strokeWidth:2,
+                rx:2,
+                ry:2,
+
             })
+
+            // 绘制电池
+
+
+
+            // let rect2 = new fabric.Rect({
+            //     left: points[item.current].x,
+            //     top: points[item.current].y-item.height/2,
+            //     width: item.width/2,
+            //     height: item.height,
+            //     fill: 'green'
+            // })
 
             // 机器人箭头指向
             let headerTriangle = new fabric.Polygon([
@@ -378,8 +430,7 @@ const initRobots = ()=>{
             ],{
                 fill:'red',
             })
-
-            const group = new fabric.Group([rect1, rect2,headerTriangle,circle], {
+            const group = new fabric.Group([rect1,rect2,circle,headerTriangle], {
                 groupName:item.id,
                 originX:'center',
                 originY:'center',
@@ -387,7 +438,30 @@ const initRobots = ()=>{
             });
 
             canvas.add(group)
-            animate()
+            //animate()
+
+            const aa = ()=>{
+                circle.set('radius',30)
+                circle.animate({
+                    radius:60,
+                },{
+                    duration:2000,
+                    onChange(v){
+                        circle.set('left',group.x -v)
+                        circle.set('top',group.y -v)
+                        canvas.renderAll()
+                    },
+                    onComplete(){
+                        canvas.renderAll()
+                        aa()
+                    }
+                })
+            }
+            aa()
+
+           
+
+            canvas.add(circle)
             canvas.renderAll()
 
 
@@ -432,10 +506,11 @@ const init = ()=>{
 
    // 动画函数
     function animateRadius() {
+        
       // 定义动画参数
       var startRadius = 1;
       var endRadius = 10;
-      var duration = 2000; // 动画持续时间，单位毫秒
+      var duration = 5000; // 动画持续时间，单位毫秒
 
       // 创建动画
       fabric.util.animate({
@@ -445,11 +520,16 @@ const init = ()=>{
         easing: fabric.util.ease.easeInOut,
         onChange: function(value) {
           // 在动画过程中更新圆的半径
+          
+          let circle =  canvas.getObjects().find((item)=>{
+            return item.name === 'robot01'
+          })
           const r1 = value+circle.get('n')
           //const r2 = value+circle2.get('n')
           circle.set('radius', r1);
-          circle.set('left', circle.get('x')-r1);
-          circle.set('top', circle.get('y')-r1);
+        //   circle.set('left', circle.get('x')-r1);
+        //   circle.set('top', circle.get('y')-r1);
+          //g.setCoords();
 
         //   circle2.set('radius', r2);
         //   circle2.set('left', circle2.get('x')-r2);
@@ -468,7 +548,10 @@ const init = ()=>{
     }
 
     // 启动动画
-    //animateRadius();
+    setTimeout(()=>{
+        //animateRadius();
+    },2000)
+    
 
 
         // setTimeout(()=>{
@@ -480,10 +563,7 @@ const init = ()=>{
     setTimeout(()=>{
         robots.forEach(item=>{
             const g = getGroupByName(item.id)
-            startMove(item,g,1000)
-
-            
-           
+            startMove(item,g,1000)      
         })
     },2000)
 }
