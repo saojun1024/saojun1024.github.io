@@ -304,7 +304,7 @@ scene.add(ellipse)
     // object.position.set(-3.0,0.0,0);
     // scene.add(object)
     let angle = 0
-    
+    debugger
     const action = new TWEEN.Tween({x:0,y:0,z:0})
     .to({x:4,y:4,z:4},3000) 
     .onUpdate(function(obj){ 

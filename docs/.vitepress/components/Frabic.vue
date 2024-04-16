@@ -2,6 +2,7 @@
 import { onMounted } from 'vue'
 import { fabric } from 'fabric'
 import { RGBADepthPacking } from 'three';
+import * as TWEEN from '@tweenjs/tween.js'
 let canvas = null
 const lockBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAMtJREFUOE/tk0EOgjAQRWeKEg+hTVkJt8CbwEmIJ9GbwC2AlQ3xEIaYjhkiWAuabtzZ1WT652X684uwcGq1UcKYggDS4ZpIUxDkib5pV45ug4fRmMsSmISIXMgM0MrwRAAZEFVEdGQQIhaAmCLAed/1uQ2fARoZ0rC1MYfkeq+4rrerFIUouY67/m3mI8AVjuDfA5bM+9abntDs1iUb5QOwzXwBnub5AGwz/wAA2wPOv/I0UcddHw0xHwdaGfLvy3wgdsxnUfbcYJI9AGY0ZBFSKe+rAAAAAElFTkSuQmCC"
 const triangleBase64 ="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAATRJREFUOE+N009LhEAUAPD3Rr1YVGxUVBT1daRv4/+bF/8h6l78St0Kii0oKNioaKOoDl7U0RCWMEdXvfnezG9m3sxDaH1BEKwBwKmqqrN2rusf28EkSdbTNJ0h4tkYhAEsy9oQRfEHAOZjEAbwPG+TEPK93NkgwgBxHG/lef7VONpKhAGiKJoURfHZqk0vwgCO42zzPP/RUfFOpAvY4Xn+vecKGYQBgiDYrapq0XnniBcAIKmq+rcAA0yn070sy97aACJelWUp6br+2swxgG3b+4Ig/BsEADf1ZMMwnhi4HfB9/wARXxrxO0qpZJrm46inHEXRYVEUz8vBDxzHSbIs3/f1BXOEMAyPKKX1VueEEElRlNtVTdX1lI8JIeeIWFf7eqgjGcB13ROO4yaapl0OTa7zv5xVeBG36HZ2AAAAAElFTkSuQmCC"
@@ -162,6 +163,10 @@ const lines = {
 }
 
 
+function animate() {
+	requestAnimationFrame(animate)
+	TWEEN.update()    //<----------
+}
 
 const robots = [
     {
@@ -319,8 +324,23 @@ const initRobots = ()=>{
                 radius: 30,
                 fill: '', // 设置为空字符串，表示不填充
                 stroke: '#409eff', // 边框颜色
-                strokeWidth: 2 // 边框宽度
+                strokeWidth: 2, // 边框宽度
             });
+
+            const action = new TWEEN.Tween({x:30,y:0,z:0})
+            .to({x:40,y:0,z:0},3000) 
+            .onUpdate(function(obj){
+                console.log(circle.get('x'))
+                circle.set('radius',obj.x)
+                canvas.renderAll()
+            })
+            .repeat(5)
+            .start()
+            
+
+           
+            
+
 
             circle2 = new fabric.Circle({
                 left: points[item.current].x-60,
@@ -359,7 +379,7 @@ const initRobots = ()=>{
                 fill:'red',
             })
 
-            const group = new fabric.Group([rect1, rect2,headerTriangle,circle,circle2], {
+            const group = new fabric.Group([rect1, rect2,headerTriangle,circle], {
                 groupName:item.id,
                 originX:'center',
                 originY:'center',
@@ -367,6 +387,11 @@ const initRobots = ()=>{
             });
 
             canvas.add(group)
+            animate()
+            canvas.renderAll()
+
+
+           
 
             
 
@@ -375,6 +400,8 @@ const initRobots = ()=>{
             // canvas.add(circle2)
 
         })
+
+        
 }
 
 // 通过组名获取组
@@ -419,14 +446,14 @@ const init = ()=>{
         onChange: function(value) {
           // 在动画过程中更新圆的半径
           const r1 = value+circle.get('n')
-          const r2 = value+circle2.get('n')
+          //const r2 = value+circle2.get('n')
           circle.set('radius', r1);
           circle.set('left', circle.get('x')-r1);
           circle.set('top', circle.get('y')-r1);
 
-          circle2.set('radius', r2);
-          circle2.set('left', circle2.get('x')-r2);
-          circle2.set('top', circle2.get('y')-r2);
+        //   circle2.set('radius', r2);
+        //   circle2.set('left', circle2.get('x')-r2);
+        //   circle2.set('top', circle2.get('y')-r2);
           // 重新绘制画布
           canvas.renderAll();
         },
@@ -441,7 +468,7 @@ const init = ()=>{
     }
 
     // 启动动画
-    animateRadius();
+    //animateRadius();
 
 
         // setTimeout(()=>{
@@ -454,8 +481,11 @@ const init = ()=>{
         robots.forEach(item=>{
             const g = getGroupByName(item.id)
             startMove(item,g,1000)
+
+            
+           
         })
-    },3000)
+    },2000)
 }
 
 
