@@ -4,14 +4,42 @@ import { fabric } from 'fabric'
 import { RGBADepthPacking } from 'three';
 import * as TWEEN from '@tweenjs/tween.js'
 let canvas = null
-const lockBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAMtJREFUOE/tk0EOgjAQRWeKEg+hTVkJt8CbwEmIJ9GbwC2AlQ3xEIaYjhkiWAuabtzZ1WT652X684uwcGq1UcKYggDS4ZpIUxDkib5pV45ug4fRmMsSmISIXMgM0MrwRAAZEFVEdGQQIhaAmCLAed/1uQ2fARoZ0rC1MYfkeq+4rrerFIUouY67/m3mI8AVjuDfA5bM+9abntDs1iUb5QOwzXwBnub5AGwz/wAA2wPOv/I0UcddHw0xHwdaGfLvy3wgdsxnUfbcYJI9AGY0ZBFSKe+rAAAAAElFTkSuQmCC"
-const triangleBase64 ="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAATRJREFUOE+N009LhEAUAPD3Rr1YVGxUVBT1daRv4/+bF/8h6l78St0Kii0oKNioaKOoDl7U0RCWMEdXvfnezG9m3sxDaH1BEKwBwKmqqrN2rusf28EkSdbTNJ0h4tkYhAEsy9oQRfEHAOZjEAbwPG+TEPK93NkgwgBxHG/lef7VONpKhAGiKJoURfHZqk0vwgCO42zzPP/RUfFOpAvY4Xn+vecKGYQBgiDYrapq0XnniBcAIKmq+rcAA0yn070sy97aACJelWUp6br+2swxgG3b+4Ig/BsEADf1ZMMwnhi4HfB9/wARXxrxO0qpZJrm46inHEXRYVEUz8vBDxzHSbIs3/f1BXOEMAyPKKX1VueEEElRlNtVTdX1lI8JIeeIWFf7eqgjGcB13ROO4yaapl0OTa7zv5xVeBG36HZ2AAAAAElFTkSuQmCC"
+const lockBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAMtJREFUOE/tk0EOgjAQRWeKEg+hTVkJt8CbwEmIJ9GbwC2AlQ3xEIaYjhkiWAuabtzZ1WT652X684uwcGq1UcKYggDS4ZpIUxDkib5pLM35ug4fRmMsSmISIXMgM0MrwRAAZEFVEdGQQIhaAmCLAed/1uQ2fARoZ0rC1MYfkeq+4rrerFIUouY67/m3mI8AVjuDfA5bM+9abntDs1iUb5QOwzXwBnub5AGwz/wAA2wPOv/I0UcddHw0xHwdaGfLvy3wgdsxnUfbcYJI9AGY0ZBFSKe+rAAAAAElFTkSuQmCC"
 // 定义好一些基础配置
 const options = {
+    width:1000,
+    height:800,
     lines:{
-        color:'',
-        width:'',
-        shadow:''
+        stroke: '#409eff',
+        strokeWidth:4,
+        arrows:{
+            show:true,
+            fill: '#8a8a8a', // 填充颜色
+        },
+        data:[
+            {line:['AP7','LM2'],v:0},
+            {line:['LM2','AP8'],v:0},
+            {line:['AP8','LM3'],v:0},
+            {line:['LM3','CP15'],v:0},
+            {line:['LM3','AP9'],v:0},
+            {line:['LM3','LM4'],v:0}, 
+            {line:['AP9','LM4'],v:0},
+            {line:['LM4','PP18'],v:0}, 
+            {line:['LM4','AP10'],v:0},
+            {line:['AP10','LM5'],v:1},
+            {line:['LM4','LM5'],v:0}, 
+            {line:['LM5','AP11'],v:0},
+            {line:['LM5','LM6'],v:0}, 
+            {line:['AP11','LM6'],v:0}, 
+            {line:['LM6','CP16'],v:0},
+            {line:['LM6','AP12'],v:0},
+            {line:['LM6','LM1'],v:0},
+            {line:['AP12','LM1'],v:0},
+            {line:['LM1','PP17'],v:0},
+            {line:['LM1','AP7'],v:0}, 
+            {line:['LM1','LM2'],v:0}, 
+            {line:['LM2','LM3'],v:0},
+        ]
     },
     arrows:{
         color:'',
@@ -19,15 +47,164 @@ const options = {
     },
     points:{
         radius:8,
-        background:''
+        background:'',
+        data:[
+            {
+                x:300,
+                y:100,
+                text:'AP7'
+            },
+            {
+                x:400,
+                y:200,
+                text:'LM2'
+            },
+            {
+                x:500,
+                y:100,
+                text:'AP8'
+            },
+            {
+                x:600,
+                y:200,
+                text:'LM3'
+            },
+            {
+                x:700,
+                y:200,
+                text:'CP15'
+            },
+            {
+                x:700,
+                y:300,
+                text:'AP9'
+            },
+            {
+                x:600,
+                y:400,
+                text:'LM4'
+            },
+            {
+                x:700,
+                y:400,
+                text:'PP18'
+            },
+            {
+                x:500,
+                y:500,
+                text:'AP10'
+            },
+            {
+                x:400,
+                y:400,
+                text:'LM5'
+            },
+            {
+                x:300,
+                y:500,
+                text:'AP11' 
+            },
+            {
+                x:200,
+                y:400,
+                text:'LM6'
+            },
+            {
+                x:100,
+                y:400,
+                text:'CP16'
+            },
+            {
+                x:100,
+                y:300,
+                text:'AP12'
+            },
+            {
+                x:200,
+                y:200,
+                text:'LM1'
+            },
+            {
+                x:100,
+                y:200,
+                text:'PP17' 
+            }
+        ]
+    },
+    inventory:{
+        rx:4,
+        ry:4,
+        width:30,
+        height:30,
+        stroke: 'white', // 边框白色
+        strokeWidth: 2, // 边框宽度
+        data:[
+            {
+                id:'PS 01',
+                position:[300,50],
+                status:0,//锁定
+                lock:true
+            },
+            {
+                id:'PS 02',
+                position:[500,50],
+                status:1,//锁定
+                lock:false
+            },
+            {
+                id:'WS 01',
+                position:[300,550],
+                status:1,//锁定
+                lock:false
+            },
+            {
+                id:'WS 02',
+                position:[500,550],
+                status:1,//锁定
+                lock:true
+            },
+            {
+                id:'BUF 02',
+                position:[50,300],
+                status:1,//锁定
+                lock:false
+            },
+        ]
     },
     robots:{
-        width:'',
-        height:'',
+        width:40,
+        height:32,
+        background:'',
+        rx:2,
+        ry:2,
         arrow:{
             color:'',
             height: ''
-        }
+        },
+        data:[
+            {
+                id:'01',
+                name:'机器人1',
+                current:'AP7',
+                status:1,
+                width:40,
+                height:32,
+                pathIndex:0,
+                angle:0,
+                path:['AP7','LM2','AP8','LM3','CP15','LM3','LM4','AP10','LM5']
+            },
+            {
+                id:'02',
+                name:'机器人2',
+                current:'LM6',
+                status:1,
+                width:40,
+                height:32,
+                pathIndex:0,
+                angle:0,
+                path:['LM6','LM1','AP7','LM1','AP7','LM2','AP8']
+            },
+        ]
     }
 }
 
@@ -71,143 +248,11 @@ const inventoryStatusRect = [
 ]
 
 
-// 定义所有点
-const points = {
-    v1:{
-        x:300,
-        y:100,
-        text:'AP7'
-    },
-    v2:{
-        x:400,
-        y:200,
-        text:'LM2'
-    },
-    v3:{
-        x:500,
-        y:100,
-        text:'AP8'
-    },
-    v4:{
-        x:600,
-        y:200,
-        text:'LM3'
-    },
-    v5:{
-        x:700,
-        y:200,
-        text:'CP15'
-    },
-    v6:{
-        x:700,
-        y:300,
-        text:'AP9'
-    },
-    v7:{
-        x:600,
-        y:400,
-        text:'LM4'
-    },
-    v8:{
-        x:700,
-        y:400,
-        text:'PP18'
-    },
-    v9:{
-        x:500,
-        y:500,
-        text:'AP10'
-    },
-    v10:{
-        x:400,
-        y:400,
-        text:'LM5'
-    },
-    v11:{
-        x:300,
-        y:500,
-        text:'AP11' 
-    },
-    v12:{
-        x:200,
-        y:400,
-        text:'LM6'
-    },
-    v13:{
-        x:100,
-        y:400,
-        text:'CP16'
-    },
-    v14:{
-        x:100,
-        y:300,
-        text:'AP12'
-    },
-    v15:{
-        x:200,
-        y:200,
-        text:'LM1'
-    },
-    v16:{
-        x:100,
-        y:200,
-        text:'PP17' 
-    }
-}
-
-const lines = {
-    a1:{line:['v1','v2'],v:0},
-    a2:{line:['v2','v3'],v:0},
-    a3:{line:['v3','v4'],v:0},
-    a4:{line:['v4','v5'],v:0},
-    a5:{line:['v4','v6'],v:0},
-    a6:{line:['v4','v7'],v:0}, 
-    a7:{line:['v6','v7'],v:0},
-    a8:{line:['v7','v8'],v:0}, 
-    a9:{line:['v7','v9'],v:0},
-    a10:{line:['v9','v10'],v:1},
-    a11:{line:['v7','v10'],v:0}, 
-    a12:{line:['v10','v11'],v:0},
-    a13:{line:['v10','v12'],v:0}, 
-    a14:{line:['v11','v12'],v:0}, 
-    a15:{line:['v12','v13'],v:0},
-    a16:{line:['v12','v14'],v:0},
-    a17:{line:['v12','v15'],v:0},
-    a18:{line:['v14','v15'],v:0},
-    a19:{line:['v15','v16'],v:0},
-    a20:{line:['v15','v1'],v:0}, 
-    a21:{line:['v15','v2'],v:0}, 
-    a22:{line:['v2','v4'],v:0},
-}
-
-
 function animate() {
 	requestAnimationFrame(animate)
 	TWEEN.update()    //<----------
 }
 
-const robots = [
-    {
-        id:'01',
-        current:'v1',
-        status:1,
-        width:40,
-        height:32,
-        pathIndex:0,
-        angle:0,
-        path:['v1','v2','v3','v4','v5','v4','v7','v9','v10']
-    },
-    {
-        id:'02',
-        current:'v12',
-        status:1,
-        width:40,
-        height:32,
-        pathIndex:0,
-        angle:0,
-        path:['v12','v15','v1','v15','v1','v2','v3']
-    }
-]
 
 const initCanvas = ()=>{
     canvas = new fabric.StaticCanvas('canvas')
@@ -215,17 +260,18 @@ const initCanvas = ()=>{
 
 // 初始库存转态正方形点位
 const initInventoryStatusRect = ()=>{
-    inventoryStatusRect.forEach(item=>{
+    const {inventory} = options
+    inventory.data.forEach(item=>{
          const square = new fabric.Rect({
-            left: item.position[0] - item.size/2,
-            top: item.position[1] - item.size/2,
-            width: item.size,
-            height: item.size,
-            fill: item.status === 1 ? '#00c0ff':'#ff8060', // 填充蓝色
-            stroke: 'white', // 边框白色
-            strokeWidth: 2, // 边框宽度
-            rx: 4, // 圆角半径
-            ry: 4 // 圆角半径
+            left: item.position[0] - inventory.width/2,
+            top: item.position[1] - inventory.height/2,
+            width: inventory.width,
+            height: inventory.height,
+            fill: item.status === 1 ? '#00c0ff':'#ff8060',
+            stroke: inventory.stroke,
+            strokeWidth: inventory.strokeWidth,
+            rx: inventory.rx, 
+            ry: inventory.ry 
         })
         if(item.lock === true){
             fabric.Image.fromURL(lockBase64,(img)=>{
@@ -237,10 +283,10 @@ const initInventoryStatusRect = ()=>{
             })
         }
         let text = new fabric.Text(item.id, {
-            left: item.position[0] - item.size/2, // 文字的左边距（相对于画布）
-            top: item.position[1]+20, // 文字的顶边距（相对于画布）
-            fontSize: 12, // 文字的字号
-            fill: 'black' // 文字的颜色
+            left: item.position[0] - inventory.width/2,
+            top: item.position[1]+20, 
+            fontSize: 12,
+            fill: 'black' 
         });
         canvas.add(text);
         canvas.add(square)
@@ -249,82 +295,71 @@ const initInventoryStatusRect = ()=>{
 
 
 const initLines = ()=>{
-    Object.keys(lines).forEach(k=>{
-        const p = lines[k].line.map(j=>points[j])
+    const { lines,points} = options
+    const pointsMap = {}
+    points.data.forEach(v=>{
+        pointsMap[v.text] = v
+    })
+    lines.data.forEach(k=>{
+        const p = k.line.map(j=>pointsMap[j])
+        console.log("ss",p)
         const line = new fabric.Line([p[0].x,p[0].y,p[1].x,p[1].y],{
-            stroke: '#409eff',
-            strokeWidth:4,
-            // shadow: new fabric.Shadow({
-            //     color: 'rgb(100,100,100)', // 阴影的颜色
-            //     blur: 8, // 阴影的模糊度
-            //     offsetX: 3, // 阴影的水平偏移量
-            //     offsetY: 3 // 阴影的垂直偏移量
-            // })
+            stroke:lines.stroke,
+            strokeWidth:lines.strokeWidth,
         })
-        canvas.add(line)
-        // 绘制箭头
-        // 计算两点之间中点
-        const n = lines[k].line
-        const p1 = points[lines[k].line[0]]
-        const p2 = points[lines[k].line[1]]
-        const center = [(p1.x + p2.x)/2,(p1.y + p2.y)/2+2]
-        // const dx = p2[0] - p1[0];
-        // const dy = p2[1] - p1[1];
-        // const normalVector = [-dy, dx]
-        // const length = Math.sqrt(normalVector[0] * normalVector[0] + normalVector[1] * normalVector[1]);
-        // // 将法向量标准化为单位向量
-        // const unitNormalVector = [normalVector[0] / length, normalVector[1] / length];
-        // const v1 = [center[0] - p1[0] +8*unitNormalVector[0] ,center[1] - p1[1] + 8*unitNormalVector[1]]
-
-        // const v2 = [center[0] - p1[0] -8*unitNormalVector[0] ,center[1] - p1[1] - 8*unitNormalVector[1]]
-        // // 计算两点向量
-        const v = [p2.x - p1.x,p2.y-p1.y]
-        const size = 16
-        const square = new fabric.Rect({
-            left: center[0]-size, // 左上角横坐标
-            top: center[1]-size, // 左上角纵坐标
-            width: size*2, // 正方形宽度
-            height: size*2, // 正方形高度
-            fill: 'red' // 填充颜色
-        })
-
-        const path = lines[k].v === 0 ? 'M0 0 L7 7 L0 14Z' : 'M8 0 L14 7 L8 14 Z M6 0 L6 14 L0 7 Z'
-
-        var pathImg = new fabric.Path(path, {
-            fill: '#8a8a8a', // 填充颜色
-            left:center[0],
-            top:center[1],
-            originX:'center',
-            originY:'center',
-            angle:Math.atan2(v[1], v[0]) * (180 / Math.PI)
-        });
-        canvas.add(pathImg)
+        if(lines.arrows.show){
+            // 计算两点之间中点
+            const n = k.line
+            const p1 = pointsMap[k.line[0]]
+            const p2 = pointsMap[k.line[1]]
+            const center = [(p1.x + p2.x)/2,(p1.y + p2.y)/2+2]
+            const v = [p2.x - p1.x,p2.y-p1.y]  // 计算两点向量
+            const size = 16
+            const path = k.v === 0 ? 'M0 0 L7 7 L0 14Z' : 'M8 0 L14 7 L8 14 Z M6 0 L6 14 L0 7 Z'
+            const pathImg = new fabric.Path(path, {
+                fill: lines.arrows.fill,
+                left:center[0],
+                top:center[1],
+                originX:'center',
+                originY:'center',
+                angle:Math.atan2(v[1], v[0]) * (180 / Math.PI)
+            });
+            if(canvas){
+                canvas.add(line)
+                canvas.add(pathImg)
+            }
+        }
     })
 }
 
 
 const initPointAndText = ()=>{
-     Object.keys(points).forEach(item=>{
+    const { lines,points} = options
+    const pointsMap = {}
+    points.data.forEach(v=>{
+        pointsMap[v.text] = v
+    })
+     Object.keys(pointsMap).forEach(item=>{
         let circle = new fabric.Circle({
             radius: 8,
             fill: 'rgb(215, 229, 243,1)',
-            left: points[item].x-8,
-            top: points[item].y-8
+            left: pointsMap[item].x-8,
+            top: pointsMap[item].y-8
         });
 
         const PlusIcon = new fabric.Path('M7 0 L9 0 L9 16 L7 16 Z M0 7 L16 7 L16 9 L0 9 Z', {
             fill: 'blue',
-            left: points[item].x-8,
-            top: points[item].y-8,
+            left: pointsMap[item].x-8,
+            top: pointsMap[item].y-8,
         });
 
         
         canvas.add(circle)
         canvas.add(PlusIcon)
-        if(points[item].text){
-            var text = new fabric.Text(points[item].text, {
-                left: points[item].x-10,
-                top: points[item].y+10, 
+        if(pointsMap[item].text){
+            var text = new fabric.Text(pointsMap[item].text+`(${pointsMap[item].x},${pointsMap[item].y})`, {
+                left: pointsMap[item].x-10,
+                top:pointsMap[item].y+10, 
                 fontSize: 12,
                 fill: 'black'
             });
@@ -337,44 +372,30 @@ const initPointAndText = ()=>{
 
 
 const initRobots = ()=>{
-   
-        // 定义机器人
-       robots.forEach(item=>{
+    const { lines,points,robots} = options
+    const pointsMap = {}
+    points.data.forEach(v=>{
+        pointsMap[v.text] = v
+    })
+    // 定义机器人
+    robots.data.forEach(item=>{
             let circle = new fabric.Circle({
                 name: 'robot' + item.id,
-                left: points[item.current].x-30,
-                top: points[item.current].y-30,
-                x:points[item.current].x,
-                y:points[item.current].y,
+                left: pointsMap[item.current].x-30,
+                top: pointsMap[item.current].y-30,
+                x:pointsMap[item.current].x,
+                y:pointsMap[item.current].y,
                 n:30,
                 radius: 30,
-                fill: '', // 设置为空字符串，表示不填充
-                stroke: '#409eff', // 边框颜色
+                fill: 'rgba(64,158,255,0.2)', // 设置为空字符串，表示不填充
+                stroke: 'rgba(64,158,255,1)', // 边框颜色
                 strokeWidth: 1, // 边框宽度
             });
            
 
-            // const action = new TWEEN.Tween({x:30,y:0,z:0})
-            // .to({x:40,y:0,z:0},3000) 
-            // .onUpdate(function(obj){
-            //     console.log(circle.get('x'))
-            //     circle.set('radius',obj.x)
-            //     circle.set('left', circle.get('x')-obj.x);
-            //     circle.set('top', circle.get('y')-obj.x);
-            //     canvas.renderAll()
-            // })
-            // .repeat(Infinity)
-            // .start()
-            
-
-           
-            
-
-
-      
             let rect1 = new fabric.Rect({
-                left: points[item.current].x-item.width/2,
-                top: points[item.current].y-item.height/2,
+                left: pointsMap[item.current].x-item.width/2,
+                top: pointsMap[item.current].y-item.height/2,
                 width: item.width,
                 height: item.height,
                 fill: 'black',
@@ -383,8 +404,8 @@ const initRobots = ()=>{
             })
 
             let rect2 = new fabric.Rect({
-                left: points[item.current].x-10,
-                top: points[item.current].y-10,
+                left: pointsMap[item.current].x-10,
+                top: pointsMap[item.current].y-10,
                 width: 20,
                 height: 6,
                 fill: new fabric.Gradient({
@@ -424,11 +445,11 @@ const initRobots = ()=>{
 
             // 机器人箭头指向
             let headerTriangle = new fabric.Polygon([
-                {x:points[item.current].x+5,y:points[item.current].y-6},
-                {x:points[item.current].x+5,y:points[item.current].y+6},
-                {x:points[item.current].x+5+6,y:points[item.current].y}
+                {x:pointsMap[item.current].x+5,y:pointsMap[item.current].y-6},
+                {x:pointsMap[item.current].x+5,y:pointsMap[item.current].y+6},
+                {x:pointsMap[item.current].x+5+6,y:pointsMap[item.current].y}
             ],{
-                fill:'red',
+                fill:'green',
             })
             const group = new fabric.Group([rect1,rect2,circle,headerTriangle], {
                 groupName:item.id,
@@ -443,25 +464,27 @@ const initRobots = ()=>{
             const aa = ()=>{
                 circle.set('radius',30)
                 circle.animate({
-                    radius:60,
+                    radius:40,
                 },{
                     duration:2000,
                     onChange(v){
                         circle.set('left',group.x -v)
                         circle.set('top',group.y -v)
+                        circle.set('stroke',`rgba(64,158,255,${(40-v)/30})`)
                         canvas.renderAll()
                     },
                     onComplete(){
-                        canvas.renderAll()
+                        
                         aa()
                     }
                 })
             }
-            aa()
+            
 
            
 
             canvas.add(circle)
+            aa()
             canvas.renderAll()
 
 
@@ -489,6 +512,12 @@ function getGroupByName(groupName) {
   return null; // 如果找不到对应的组，返回 null
 }
 
+//'AP7','LM2','AP8','LM3','CP15','LM3','LM4','AP10','LM5'
+const mock = {
+    '01':[[300,104],[350,150],[360,200],[400,200],[450,156],[500,88]]
+}
+
+
 const init = ()=>{
         // 初始化画布
         initCanvas()
@@ -502,70 +531,14 @@ const init = ()=>{
         initRobots()
 
         // 绘制机器人
-     
-
-   // 动画函数
-    function animateRadius() {
-        
-      // 定义动画参数
-      var startRadius = 1;
-      var endRadius = 10;
-      var duration = 5000; // 动画持续时间，单位毫秒
-
-      // 创建动画
-      fabric.util.animate({
-        startValue: startRadius,
-        endValue: endRadius,
-        duration: duration,
-        easing: fabric.util.ease.easeInOut,
-        onChange: function(value) {
-          // 在动画过程中更新圆的半径
-          
-          let circle =  canvas.getObjects().find((item)=>{
-            return item.name === 'robot01'
-          })
-          const r1 = value+circle.get('n')
-          //const r2 = value+circle2.get('n')
-          circle.set('radius', r1);
-        //   circle.set('left', circle.get('x')-r1);
-        //   circle.set('top', circle.get('y')-r1);
-          //g.setCoords();
-
-        //   circle2.set('radius', r2);
-        //   circle2.set('left', circle2.get('x')-r2);
-        //   circle2.set('top', circle2.get('y')-r2);
-          // 重新绘制画布
-          canvas.renderAll();
-        },
-        onComplete: function() {
-          // 动画完成后，反转动画参数并重新开始动画
-          var temp = startRadius;
-          startRadius = endRadius;
-          endRadius = temp;
-          animateRadius();
-        }
-      });
-    }
-
-    // 启动动画
-    setTimeout(()=>{
-        //animateRadius();
-    },2000)
-    
+        setTimeout(()=>{
+            options.robots.data.forEach(item=>{
+                const g = getGroupByName(item.id)
+                startMove(item,g,1000)      
+            })
+        },2000)
 
 
-        // setTimeout(()=>{
-            
-        // canvas.setZoom(2.0);
-        // canvas.renderAll();
-        // },4000)
-
-    setTimeout(()=>{
-        robots.forEach(item=>{
-            const g = getGroupByName(item.id)
-            startMove(item,g,1000)      
-        })
-    },2000)
 }
 
 
@@ -573,9 +546,14 @@ const init = ()=>{
 
 const startMove = (item,group,duration)=>{
     // 计算旋转角度
-    const start = points[item.path[item.pathIndex]]
+    const { lines,points,robots} = options
+    const pointsMap = {}
+    points.data.forEach(v=>{
+        pointsMap[v.text] = v
+    })
+    const start = pointsMap[item.path[item.pathIndex]]
     const next = item.path[item.pathIndex+1]
-    const end = next ? points[next] : null
+    const end = next ? pointsMap[next] : null
     if(end === null){
         return false
     }
@@ -626,6 +604,9 @@ function setZoom(zoom){
     canvas.viewportTransform = [zoom, 0, 0, zoom, center.left * (1 - zoom), center.top * (1 - zoom)];
     canvas.requestRenderAll(); // 刷新画布
 }
+
+
+// 更新库存信息
 
 onMounted(() => {
   init()
