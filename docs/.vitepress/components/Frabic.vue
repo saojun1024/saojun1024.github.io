@@ -349,22 +349,25 @@ const initRobots = ()=>{
                 n:30,
                 radius: 30,
                 fill: '', // 设置为空字符串，表示不填充
-                stroke: '#409eff', // 边框颜色
+                stroke: 'rgba(64,158,255,1)', // 边框颜色
+                strokeWidth: 1, // 边框宽度
+            });
+
+            let circle2 = new fabric.Circle({
+                name: 'robot' + item.id,
+                left: points[item.current].x-20,
+                top: points[item.current].y-20,
+                x:points[item.current].x,
+                y:points[item.current].y,
+                n:20,
+                radius: 20,
+                fill: '', // 设置为空字符串，表示不填充
+                stroke: 'rgba(64,158,255,1)', // 边框颜色
                 strokeWidth: 1, // 边框宽度
             });
            
 
-            // const action = new TWEEN.Tween({x:30,y:0,z:0})
-            // .to({x:40,y:0,z:0},3000) 
-            // .onUpdate(function(obj){
-            //     console.log(circle.get('x'))
-            //     circle.set('radius',obj.x)
-            //     circle.set('left', circle.get('x')-obj.x);
-            //     circle.set('top', circle.get('y')-obj.x);
-            //     canvas.renderAll()
-            // })
-            // .repeat(Infinity)
-            // .start()
+           
             
 
            
@@ -396,9 +399,9 @@ const initRobots = ()=>{
                         y2: 0
                     },
                     colorStops: [
-                        { offset: 0, color: 'red' }, // 渐变开始颜色
-                        { offset: 0.1, color: 'red' },
-                        { offset: 0.1, color: 'rgba(255,255,255,1)' },
+                        { offset: 0, color: 'green' }, // 渐变开始颜色
+                        { offset: 0.8, color: 'green' },
+                        { offset: 0.8, color: 'rgba(255,255,255,1)' },
                         { offset: 1, color: 'rgba(255,255,255,1)' } // 渐变结束颜色
                     ]
 
@@ -430,7 +433,7 @@ const initRobots = ()=>{
             ],{
                 fill:'red',
             })
-            const group = new fabric.Group([rect1,rect2,circle,headerTriangle], {
+            const group = new fabric.Group([rect1,rect2,circle,circle2,headerTriangle], {
                 groupName:item.id,
                 originX:'center',
                 originY:'center',
@@ -449,6 +452,7 @@ const initRobots = ()=>{
                     onChange(v){
                         circle.set('left',group.x -v)
                         circle.set('top',group.y -v)
+                        circle.set('stroke',`rgba(215, 229, 243,${(60-v)/30})`)
                         canvas.renderAll()
                     },
                     onComplete(){
@@ -457,11 +461,49 @@ const initRobots = ()=>{
                     }
                 })
             }
+
+            const bb = ()=>{
+                circle2.set('radius',20)
+                circle2.animate({
+                    radius:50,
+                },{
+                    duration:2000,
+                    onChange(v){
+                        circle2.set('left',group.x -v)
+                        circle2.set('top',group.y -v)
+                        circle2.set('stroke',`rgba(215, 229, 243,${(50-v)/20})`)
+                        canvas.renderAll()
+                    },
+                    onComplete(){
+                        canvas.renderAll()
+                        bb()
+                    }
+                })
+            }
             aa()
+            // setTimeout(()=>{
+            //     bb()
+            // },500)
+
+            const action = new TWEEN.Tween({x:1,y:20,z:0})
+            .to({x:0,y:50,z:0},3000)
+            .onUpdate(function(obj){
+                circle.set('left',group.x -obj.y)
+                circle.set('top',group.y -obj.y)
+                circle.set('radius',obj.y)
+                circle.set('stroke',`rgba(215, 229, 243,${obj.x})`)
+                canvas.renderAll()
+            })
+            .repeat(Infinity)
+            .start()
+
+           animate()
+            
 
            
 
             canvas.add(circle)
+            canvas.add(circle2)
             canvas.renderAll()
 
 
