@@ -184,28 +184,28 @@ const options = {
             height: ''
         },
         data:[
-            {
-                id:'01',
-                name:'机器人1',
-                currentPosition:[],
-                nextPosition:[],
-                status:1,
-                width:40,
-                height:32,
-                angle:0,
-                path:['AP7','LM2','AP8','LM3','CP15','LM3','LM4','AP10','LM5']
-            },
-            {
-                id:'02',
-                name:'机器人2',
-                currentPosition:[],
-                nextPosition:[],
-                status:1,
-                width:40,
-                height:32,
-                angle:0,
-                path:['LM6','LM1','AP7','LM1','AP7','LM2','AP8']
-            },
+            // {
+            //     id:'01',
+            //     name:'机器人1',
+            //     currentPosition:[],
+            //     nextPosition:[],
+            //     status:1,
+            //     width:40,
+            //     height:32,
+            //     angle:0,
+            //     path:['AP7','LM2','AP8','LM3','CP15','LM3','LM4','AP10','LM5']
+            // },
+            // {
+            //     id:'02',
+            //     name:'机器人2',
+            //     currentPosition:[],
+            //     nextPosition:[],
+            //     status:1,
+            //     width:40,
+            //     height:32,
+            //     angle:0,
+            //     path:['LM6','LM1','AP7','LM1','AP7','LM2','AP8']
+            // },
         ]
     }
 }
@@ -372,6 +372,7 @@ const initPointAndText = ()=>{
 
 
 const addRobot = (id,position)=>{
+    const {robots} = options
     const circle = new fabric.Circle({
         name: 'robot' + id,
         left: position[0]-30,
@@ -386,63 +387,59 @@ const addRobot = (id,position)=>{
     })
 
     const rect1 = new fabric.Rect({
-        left: pointsMap[item.current].x-item.width/2,
-        top: pointsMap[item.current].y-item.height/2,
-        width: item.width,
-        height: item.height,
+        left: position[0]- robots.width/2,
+        top: position[1]- robots.height/2,
+        width:robots.width,
+        height: robots.height,
         fill: 'black',
         rx:4,
         ry:4
     })
 
-            let rect2 = new fabric.Rect({
-                left: pointsMap[item.current].x-10,
-                top: pointsMap[item.current].y-10,
-                width: 20,
-                height: 6,
-                fill: new fabric.Gradient({
-                    type:'linear',
-                    coords: {
-                        x1: 0,
-                        y1: 0,
-                        x2: 20,
-                        y2: 0
-                    },
-                    colorStops: [
-                        { offset: 0, color: 'red' }, // 渐变开始颜色
-                        { offset: 0.1, color: 'red' },
-                        { offset: 0.1, color: 'rgba(255,255,255,1)' },
-                        { offset: 1, color: 'rgba(255,255,255,1)' } // 渐变结束颜色
-                    ]
+    let rect2 = new fabric.Rect({
+        left: position[0]-10,
+        top:position[1]-10,
+        width: 20,
+        height: 6,
+        fill: new fabric.Gradient({
+            type:'linear',
+            coords: {
+                x1: 0,
+                y1: 0,
+                x2: 20,
+                y2: 0
+            },
+            colorStops: [
+                { offset: 0, color: 'red' }, // 渐变开始颜色
+                { offset: 0.1, color: 'red' },
+                { offset: 0.1, color: 'rgba(255,255,255,1)' },
+                { offset: 1, color: 'rgba(255,255,255,1)' } // 渐变结束颜色
+            ]
 
-                }),
-                stroke:'white',
-                strokeWidth:2,
-                rx:2,
-                ry:2,
-            })
+        }),
+        stroke:'white',
+        strokeWidth:2,
+        rx:2,
+        ry:2,
+    })
 
-            // 绘制电池
-
-            // 机器人箭头指向
-            let headerTriangle = new fabric.Polygon([
-                {x:pointsMap[item.current].x+5,y:pointsMap[item.current].y-6},
-                {x:pointsMap[item.current].x+5,y:pointsMap[item.current].y+6},
-                {x:pointsMap[item.current].x+5+6,y:pointsMap[item.current].y}
-            ],{
-                fill:'green',
-            })
-            const group = new fabric.Group([rect1,rect2,circle,headerTriangle], {
-                groupName:item.id,
-                originX:'center',
-                originY:'center',
-                selectable: false // 禁止选中组合对象
-            });
-
-            canvas.add(group)
-
-
+    // 机器人箭头指向
+    let headerTriangle = new fabric.Polygon([
+        {x:position[0]+5,y:position[1]-6},
+        {x:position[0]+5,y:position[1]+6},
+        {x:position[0]+5+6,y:position[1]}
+    ],{ fill:'green'})
+    const group = new fabric.Group([rect1,rect2,circle,headerTriangle], {
+        groupName:id,
+        originX:'center',
+        originY:'center',
+        selectable: false // 禁止选中组合对象
+    });
+    canvas.add(group)
 }
+
+
+
 
 const initRobots = ()=>{
     const { lines,points,robots} = options
@@ -599,31 +596,53 @@ const init = ()=>{
         // 初始化点位以及文字描述
         initPointAndText()
         // 初始化机器人对象
-        initRobots()
+        //initRobots()
 
         // 绘制机器人
-        setTimeout(()=>{
-            options.robots.data.forEach(item=>{
-                const g = getGroupByName(item.id)
-                startMove(item,g,1000)      
-            })
-        },2000)
+        // setTimeout(()=>{
+        //     options.robots.data.forEach(item=>{
+        //         const g = getGroupByName(item.id)
+        //         startMove(item,g,1000)      
+        //     })
+        // },2000)
 
         const mock = {
-            '01':[[300,104],[350,150],[360,200],[400,200],[450,156],[500,88]]
+            '01':[[300,104],[350,150],[360,200],[400,200],[450,156],[500,88]],
+            '02':[[100,300],[200,200],[400,200],[600,200]]
         }
 
         setInterval(()=>{
-            options.robots.data.forEach(item=>{
-                const g = getGroupByName(item.id)
-                const p = mock[item.id].shift()
-                if(item.currentPosition.length === 0){ // 还没有当前位置，就执行初始化机器人
-
-                } else {
-
+            Object.keys(mock).forEach(key=>{
+                const item = options.robots.data.find(item=>{
+                    return item.id === key
+                })
+                if(!item){
+                    const p = mock[key].shift()
+                    options.robots.data.push({
+                        id:key,
+                        name:'机器人'+key,
+                        currentPosition:p,
+                        nextPosition:[],
+                        status:1,
+                        width:40,
+                        height:32,
+                        angle:0,
+                        path:[]
+                    })
+                    addRobot(key,p)
+                }else{
+                    const p = mock[key].shift()
+                    const g = getGroupByName(key)
+                    robotMove(item,g,p) 
                 }
+                // const p = mock[key].shift()
+                // if(item.currentPosition.length === 0){
+                //     addRobot(item.id)
+                // } else {
+                //     const g = getGroupByName(item.id)
+                // }
                 
-                startMove(item,g)      
+                //startMove(item,g)      
             })
         },3000)
 
@@ -674,8 +693,29 @@ const startMove = (item,group,duration)=>{
 
 
 
-const robotMove = (item,group)=>{
-
+const robotMove = (item,group,to)=>{
+    debugger
+    const p1 = item.currentPosition
+    const p2 = to
+    if(p2){
+        // 计算两点向量
+        const v = [p2[0] - p1[0],p2[1]-p1[1]]
+        const angle = Math.atan2(v[1], v[0]) * (180 / Math.PI)
+        group.set('angle', angle)
+        group.animate({
+            top:p2[1],
+            left:p2[0],
+        },{
+            duration:2000,
+            onChange(){
+                canvas.renderAll()
+            },
+            onComplete(){
+                item.currentPosition = p2
+                canvas.renderAll()
+            }
+        })
+    }
 }
 
 
