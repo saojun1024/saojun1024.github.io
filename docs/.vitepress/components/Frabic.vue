@@ -421,6 +421,9 @@ const addRobot = (id,position)=>{
         top:y0,
         width: 4,
         height: 10,
+
+
+        
         fill:'green',
     })
 
