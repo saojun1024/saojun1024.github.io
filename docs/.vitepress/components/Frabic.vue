@@ -443,9 +443,6 @@ const addRobot = (id,position)=>{
     canvas.add(group)
 }
 
-
-
-
 const initRobots = ()=>{
     const { lines,points,robots} = options
     const pointsMap = {}
