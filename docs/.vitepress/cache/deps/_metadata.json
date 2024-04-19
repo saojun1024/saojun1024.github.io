@@ -1,53 +1,53 @@
 {
-  "hash": "5fc584a3",
-  "browserHash": "fc8f2d45",
+  "hash": "7f105507",
+  "browserHash": "de8f902e",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "535ae459",
+      "fileHash": "503cc0ae",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
       "src": "../../../../node_modules/@vue/devtools-api/lib/esm/index.js",
       "file": "vitepress___@vue_devtools-api.js",
-      "fileHash": "44e3c4d2",
+      "fileHash": "77458f99",
       "needsInterop": false
     },
     "fabric": {
       "src": "../../../../node_modules/fabric/dist/fabric.js",
       "file": "fabric.js",
-      "fileHash": "917883d5",
+      "fileHash": "cec35fbe",
       "needsInterop": true
     },
     "@tweenjs/tween.js": {
       "src": "../../../../node_modules/@tweenjs/tween.js/dist/tween.esm.js",
       "file": "@tweenjs_tween__js.js",
-      "fileHash": "10652cbd",
+      "fileHash": "054bd5d3",
       "needsInterop": false
     },
     "three": {
       "src": "../../../../node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "d7f719be",
+      "fileHash": "88938ba3",
       "needsInterop": false
     },
     "three/examples/jsm/controls/OrbitControls": {
       "src": "../../../../node_modules/three/examples/jsm/controls/OrbitControls.js",
       "file": "three_examples_jsm_controls_OrbitControls.js",
-      "fileHash": "9f28533a",
+      "fileHash": "e94680e6",
       "needsInterop": false
     },
     "three/addons/loaders/OBJLoader.js": {
       "src": "../../../../node_modules/three/examples/jsm/loaders/OBJLoader.js",
       "file": "three_addons_loaders_OBJLoader__js.js",
-      "fileHash": "9a8956df",
+      "fileHash": "95f87ad2",
       "needsInterop": false
     },
     "three/addons/loaders/MTLLoader.js": {
       "src": "../../../../node_modules/three/examples/jsm/loaders/MTLLoader.js",
       "file": "three_addons_loaders_MTLLoader__js.js",
-      "fileHash": "6630540b",
+      "fileHash": "838c2d0d",
       "needsInterop": false
     }
   },

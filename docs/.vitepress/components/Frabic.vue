@@ -211,51 +211,6 @@ const options = {
 }
 
 
-const inventoryStatusRect = [
-    {
-        id:'PS 01',
-        size:30,
-        position:[300,50],
-        status:0,//锁定
-        lock:true
-    },
-    {
-        id:'PS 02',
-        position:[500,50],
-        size:30,
-        status:1,//锁定
-        lock:false
-    },
-    {
-        id:'WS 01',
-        position:[300,550],
-        size:30,
-        status:1,//锁定
-        lock:false
-    },
-    {
-        id:'WS 02',
-        position:[500,550],
-        size:30,
-        status:1,//锁定
-        lock:true
-    },
-    {
-        id:'BUF 02',
-        position:[50,300],
-        size:30,
-        status:1,//锁定
-        lock:false
-    },
-]
-
-
-function animate() {
-	requestAnimationFrame(animate)
-	TWEEN.update()    //<----------
-}
-
-
 const initCanvas = ()=>{
     canvas = new fabric.StaticCanvas('canvas')
 }
@@ -372,7 +327,8 @@ const initPointAndText = ()=>{
 
 
 const addRobot = (id,position)=>{
-    const {robots} = options
+    const { robots } = options
+    // 机器人外围圆圈
     const circle = new fabric.Circle({
         name: 'robot' + id,
         left: position[0]-30,
@@ -381,12 +337,33 @@ const addRobot = (id,position)=>{
         y:position[1],
         n:30,
         radius: 30,
-        fill: 'rgba(64,158,255,0.2)', // 设置为空字符串，表示不填充
-        stroke: 'rgba(64,158,255,1)', // 边框颜色
-        strokeWidth: 1, // 边框宽度
+        fill: 'rgba(64,158,255,0.2)',
+        stroke: 'rgba(64,158,255,1)',
+        strokeWidth: 1,
     })
 
-    const rect1 = new fabric.Rect({
+    const aa = ()=>{
+                circle.set('radius',30)
+                circle.animate({
+                    radius:40,
+                },{
+                    duration:2000,
+                    onChange(v){
+                        circle.set('left',group.x -v)
+                        circle.set('top',group.y -v)
+                        circle.set('stroke',`rgba(64,158,255,${(40-v)/30})`)
+                        canvas.renderAll()
+                    },
+                    onComplete(){
+                        
+                        aa()
+                    }
+                })
+            }
+            canvas.add(circle)
+            aa()
+    // 机器人长方形
+    const robotRect = new fabric.Rect({
         left: position[0]- robots.width/2,
         top: position[1]- robots.height/2,
         width:robots.width,
@@ -396,9 +373,10 @@ const addRobot = (id,position)=>{
         ry:4
     })
 
-    let rect2 = new fabric.Rect({
+    // 电池
+    const powerRect = new fabric.Rect({
         left: position[0]-10,
-        top:position[1]-10,
+        top:position[1]-4,
         width: 20,
         height: 6,
         fill: new fabric.Gradient({
@@ -423,13 +401,53 @@ const addRobot = (id,position)=>{
         ry:2,
     })
 
+    const rect2 = new fabric.Path('M0 0 L20 0 L20 4 L24 4 L24 8 L20 8 L20 12 L0 12 Z', {
+        fill: 'white',
+        left: position[0]-10,
+        top: position[1]-6,
+    });
+    const x0 = position[0] - 10
+    const y0 = position[1] - 5
+    const powerRect1 = new fabric.Rect({
+        left: x0,
+        top:y0,
+        width: 4,
+        height: 10,
+        fill:'green',
+    })
+
+    const powerRect2 = new fabric.Rect({
+        left: x0+5,
+        top:y0,
+        width: 4,
+        height: 10,
+        fill:'green',
+    })
+
+    const powerRect3 = new fabric.Rect({
+        left: x0+10,
+        top:y0,
+        width: 4,
+        height: 10,
+        fill:'green',
+    })
+
+    const powerRect4 = new fabric.Rect({
+        left: x0+15,
+        top:y0,
+        width: 4,
+        height: 10,
+        fill:'green',
+    })
+
     // 机器人箭头指向
     let headerTriangle = new fabric.Polygon([
-        {x:position[0]+5,y:position[1]-6},
-        {x:position[0]+5,y:position[1]+6},
-        {x:position[0]+5+6,y:position[1]}
-    ],{ fill:'green'})
-    const group = new fabric.Group([rect1,rect2,circle,headerTriangle], {
+        {x:position[0]+robots.width/2+6,y:position[1]-6},
+        {x:position[0]+robots.width/2+6,y:position[1]+6},
+        {x:position[0]+robots.width/2+6+8,y:position[1]}
+    ],{ fill:'red'})
+
+    const group = new fabric.Group([circle,robotRect,rect2,powerRect1,powerRect2,powerRect3,powerRect4,headerTriangle], {
         groupName:id,
         originX:'center',
         originY:'center',
@@ -586,70 +604,6 @@ const calcNewPosition = (pos)=>{
     // 不在再判断是否在线段内
 }
 
-const init = ()=>{
-        // 初始化画布
-        initCanvas()
-        // 初始化库存信息
-        initInventoryStatusRect()
-        // 初始化线条
-        initLines()
-        // 初始化点位以及文字描述
-        initPointAndText()
-        // 初始化机器人对象
-        //initRobots()
-
-        // 绘制机器人
-        // setTimeout(()=>{
-        //     options.robots.data.forEach(item=>{
-        //         const g = getGroupByName(item.id)
-        //         startMove(item,g,1000)      
-        //     })
-        // },2000)
-
-        const mock = {
-            '01':[[300,104],[350,150],[360,200],[400,200],[450,156],[500,88]],
-            '02':[[100,300],[200,200],[400,200],[600,200]]
-        }
-
-        setInterval(()=>{
-            Object.keys(mock).forEach(key=>{
-                const item = options.robots.data.find(item=>{
-                    return item.id === key
-                })
-                if(!item){
-                    const p = mock[key].shift()
-                    options.robots.data.push({
-                        id:key,
-                        name:'机器人'+key,
-                        currentPosition:p,
-                        nextPosition:[],
-                        status:1,
-                        width:40,
-                        height:32,
-                        angle:0,
-                        path:[]
-                    })
-                    addRobot(key,p)
-                }else{
-                    const p = mock[key].shift()
-                    const g = getGroupByName(key)
-                    robotMove(item,g,p) 
-                }
-                // const p = mock[key].shift()
-                // if(item.currentPosition.length === 0){
-                //     addRobot(item.id)
-                // } else {
-                //     const g = getGroupByName(item.id)
-                // }
-                
-                //startMove(item,g)      
-            })
-        },3000)
-
-
-
-
-}
 
 
 
@@ -692,34 +646,39 @@ const startMove = (item,group,duration)=>{
 }
 
 
-
+// 机器人移动
 const robotMove = (item,group,to)=>{
-    debugger
     const p1 = item.currentPosition
     const p2 = to
     if(p2){
         // 计算两点向量
         const v = [p2[0] - p1[0],p2[1]-p1[1]]
         const angle = Math.atan2(v[1], v[0]) * (180 / Math.PI)
-        group.set('angle', angle)
         group.animate({
-            top:p2[1],
-            left:p2[0],
+            angle
         },{
-            duration:2000,
+            duration:500,
             onChange(){
                 canvas.renderAll()
             },
             onComplete(){
-                item.currentPosition = p2
-                canvas.renderAll()
+                group.animate({
+                    top:p2[1],
+                    left:p2[0],
+                },{
+                    duration:2000,
+                    onChange(){
+                        canvas.renderAll()
+                    },
+                    onComplete(){
+                        item.currentPosition = p2
+                        canvas.renderAll()
+                    }
+                })
             }
-        })
+        })     
     }
 }
-
-
-
 
 
 
@@ -747,8 +706,60 @@ function setZoom(zoom){
 }
 
 
-// 更新库存信息
 
+
+
+
+
+// 模拟数据
+const mock = {
+    '01':[[300,104],[350,150],[360,200],[400,200],[450,156],[500,88]],
+    '02':[[100,300],[200,200],[400,200],[600,200]],
+}
+
+const init = ()=>{
+        // 初始化画布
+        initCanvas()
+        // 初始化库存信息
+        initInventoryStatusRect()
+        // 初始化线条
+        initLines()
+        // 初始化点位以及文字描述
+        initPointAndText()
+        // 初始化机器人对象
+       
+
+        setInterval(()=>{
+            Object.keys(mock).forEach(key=>{
+                // TODO 机器人可能下线
+                const item = options.robots.data.find(item=>{
+                    return item.id === key
+                })
+                // 这个机器人如果不存在的话先执行初始化机器人位置
+                const p = mock[key].shift()
+                if(!item){
+                    options.robots.data.push({
+                        id:key,
+                        name:'机器人'+key,
+                        currentPosition:p,
+                        nextPosition:[],
+                        status:1,
+                        angle:0,
+                        path:[]
+                    })
+                    addRobot(key,p)
+                } else {
+                    const g = getGroupByName(key)
+                    robotMove(item,g,p) 
+                }   
+            })
+        },2000)
+
+}
+
+function handleCanvasClick(e){
+    mock['01'].push([e.offsetX,e.offsetY])
+}
 onMounted(() => {
   init()
 })
@@ -756,7 +767,7 @@ onMounted(() => {
 
 <template>
     <div>
-        <canvas width="1000" height="800" id="canvas" style="border: 1px solid #ccc;"></canvas>
+        <canvas @click.native="handleCanvasClick" width="1000" height="800" id="canvas" style="border: 1px solid #ccc;"></canvas>
         <button class="btn btn-zoom-in" @click="zoomIn">+</button>
         <button class="btn btn-zoom-out" @click="zoomOut">-</button>
     </div>
