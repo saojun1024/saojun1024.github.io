@@ -808,6 +808,83 @@ const mock = {
 }
 
 
+// 计算点到垂直直线的距离
+function distanceToVerticalLine(x, y, a) {
+    return Math.abs(x - a);
+}
+
+// 计算直线方程 Ax + By + C = 0 的系数 a、b、c
+function lineEquationCoefficients(x1, y1, x2, y2) {
+    var a = y2 - y1;
+    var b = x1 - x2;
+    var c = x2 * y1 - x1 * y2;
+    return { a: a, b: b, c: c };
+}
+
+// 计算点到非垂直直线的距离
+function distanceToNonVerticalLine(x, y, v1x, v1y, v2x, v2y) {
+    var coeffs = lineEquationCoefficients(v1x, v1y, v2x, v2y); // 直线方程系数
+
+    var a = coeffs.a;
+    var b = coeffs.b;
+    var c = coeffs.c;
+
+    var distance = Math.abs(a * x + b * y + c) / Math.sqrt(a * a + b * b);
+    return distance;
+}
+
+// 计算点到直线的距离
+function distanceToLine(x, y, v1x, v1y, v2x, v2y) {
+    if (v1x === v2x) { // 如果直线垂直于 x 轴
+        return distanceToVerticalLine(x, y, v1x);
+    } else {
+        return distanceToNonVerticalLine(x, y, v1x, v1y, v2x, v2y);
+    }
+}
+
+// 路径有偏移时纠偏
+const normalPositionOffset = (pos,offsetDistance=10)=>{
+    const {lines,points} = options
+    const pointsMap = {}
+    points.data.forEach(v=>{
+        pointsMap[v.text] = v
+    })
+    let result = []
+    const len = points.data.length
+    for(let i = 0;i<len;i++){
+        const {x,y} = points.data[i]
+        const r = Math.pow((pos[0] - x),2) + Math.pow((pos[0] - y),2)
+        if(r < Math.pow(offsetDistance, 2)){
+            result = [x,y]
+            return result
+        }
+    }
+    const len2 = lines.data.length
+    for(let j = 0;j<len2;j++){
+        const p1 = lines.data[j].line[0]
+        const p2 = lines.data[j].line[1]
+        const v1 = [pointsMap[p1].x,pointsMap[p1].y]
+        const v2 = [pointsMap[p2].x,pointsMap[p2].y]
+        const d = Math.pow((v1[0]-v2[0]),2) + Math.pow((v1[1]-v2[1]),2)
+        const dot = v1[0]*v2[0] + v1[1]*v2[1]
+        if(Math.abs(dot) > d){ // 在线段之外
+            continue
+        }else{
+            const d2 = distanceToLine(pos[0],pos[1],v1[0],v1[1],v2[0],v2[1])
+            if(d2>offsetDistance){
+                continue
+            }else{
+                if(v1[1] === v2[1]){
+                    return [pos[0],v1[1]]
+                }else if(v1[0] === v2[0]){
+                    return [v1[0],pos[1]]
+                }else{
+
+                }
+            }
+        }
+    }
+}
 
 const init = ()=>{
         // 初始化画布
