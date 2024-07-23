@@ -7,6 +7,7 @@ module.exports = {
             { text: '首页', link: '/',activeMatch: '/'  },
             { text: '数学算法', link: '/articles/algmath/index.md',activeMatch: '/articles/algmath/index.md' },
             { text: '我的作品', link: '/articles/works/index.md',activeMatch: '/articles/works/index.md' },
+            { text: '机器人小车', link: '/articles/works/robotCar.md',activeMatch: '/articles/works/robotCar.md' },
             { 
                 text: '文档教程',
                 items:[
