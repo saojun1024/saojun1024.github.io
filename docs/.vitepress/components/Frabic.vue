@@ -4,6 +4,10 @@ import { fabric } from 'fabric'
 import { RGBADepthPacking } from 'three';
 import * as TWEEN from '@tweenjs/tween.js'
 let canvas = null
+// 设置初始变量
+let panning = false;
+let lastPosX = 0;
+let lastPosY = 0;
 const lockBase64 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAMtJREFUOE/tk0EOgjAQRWeKEg+hTVkJt8CbwEmIJ9GbwC2AlQ3xEIaYjhkiWAuabtzZ1WT652X684uwcGq1UcKYggDS4ZpIUxDkib5pLM35ug4fRmMsSmISIXMgM0MrwRAAZEFVEdGQQIhaAmCLAed/1uQ2fARoZ0rC1MYfkeq+4rrerFIUouY67/m3mI8AVjuDfA5bM+9abntDs1iUb5QOwzXwBnub5AGwz/wAA2wPOv/I0UcddHw0xHwdaGfLvy3wgdsxnUfbcYJI9AGY0ZBFSKe+rAAAAAElFTkSuQmCC"
 // 定义好一些基础配置
 const options = {
@@ -212,7 +216,34 @@ const options = {
 
 
 const initCanvas = ()=>{
-    canvas = new fabric.StaticCanvas('canvas')
+    canvas = new fabric.Canvas('canvas')
+
+     // 监听鼠标按下事件
+canvas.on('mouse:down', function(opt) {
+  var evt = opt.e;
+  panning = true;
+  canvas.selection = false; // 禁止画布上的对象选择，以便可以拖动整个画布
+  lastPosX = evt.clientX;
+  lastPosY = evt.clientY;
+});
+
+// 监听鼠标移动事件
+canvas.on('mouse:move', function(opt) {
+  if (panning && opt.e) {
+    var evt = opt.e;
+    var delta = new fabric.Point(evt.clientX - lastPosX, evt.clientY - lastPosY);
+    canvas.relativePan(delta); // 使用relativePan方法来移动画布
+    lastPosX = evt.clientX;
+    lastPosY = evt.clientY;
+  }
+});
+
+// 监听鼠标松开事件
+canvas.on('mouse:up', function(opt) {
+  panning = false;
+  canvas.selection = true; // 重新启用对象选择
+});
+
 }
 
 // 初始库存转态正方形点位
@@ -720,6 +751,11 @@ const mock = {
 const init = ()=>{
         // 初始化画布
         initCanvas()
+
+
+       
+
+
         // 初始化库存信息
         initInventoryStatusRect()
         // 初始化线条

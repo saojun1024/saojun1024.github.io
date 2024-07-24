@@ -1,53 +1,53 @@
 {
-  "hash": "7f105507",
-  "browserHash": "de8f902e",
+  "hash": "5fc584a3",
+  "browserHash": "85489700",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "503cc0ae",
+      "fileHash": "5bec87fb",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
       "src": "../../../../node_modules/@vue/devtools-api/lib/esm/index.js",
       "file": "vitepress___@vue_devtools-api.js",
-      "fileHash": "77458f99",
+      "fileHash": "3e643d5e",
       "needsInterop": false
     },
     "fabric": {
       "src": "../../../../node_modules/fabric/dist/fabric.js",
       "file": "fabric.js",
-      "fileHash": "cec35fbe",
+      "fileHash": "b9106fdf",
       "needsInterop": true
-    },
-    "@tweenjs/tween.js": {
-      "src": "../../../../node_modules/@tweenjs/tween.js/dist/tween.esm.js",
-      "file": "@tweenjs_tween__js.js",
-      "fileHash": "054bd5d3",
-      "needsInterop": false
     },
     "three": {
       "src": "../../../../node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "88938ba3",
+      "fileHash": "419ddf7e",
       "needsInterop": false
     },
     "three/examples/jsm/controls/OrbitControls": {
       "src": "../../../../node_modules/three/examples/jsm/controls/OrbitControls.js",
       "file": "three_examples_jsm_controls_OrbitControls.js",
-      "fileHash": "e94680e6",
+      "fileHash": "ef34e1ec",
       "needsInterop": false
     },
     "three/addons/loaders/OBJLoader.js": {
       "src": "../../../../node_modules/three/examples/jsm/loaders/OBJLoader.js",
       "file": "three_addons_loaders_OBJLoader__js.js",
-      "fileHash": "95f87ad2",
+      "fileHash": "e4913b40",
       "needsInterop": false
     },
     "three/addons/loaders/MTLLoader.js": {
       "src": "../../../../node_modules/three/examples/jsm/loaders/MTLLoader.js",
       "file": "three_addons_loaders_MTLLoader__js.js",
-      "fileHash": "838c2d0d",
+      "fileHash": "b6e69a9a",
+      "needsInterop": false
+    },
+    "@tweenjs/tween.js": {
+      "src": "../../../../node_modules/@tweenjs/tween.js/dist/tween.esm.js",
+      "file": "@tweenjs_tween__js.js",
+      "fileHash": "5604ae3a",
       "needsInterop": false
     }
   },
