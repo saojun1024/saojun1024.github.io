@@ -8,13 +8,19 @@ let camera = null
 let renderer = null
 let control = null
 
-
+// 站点
 const points = [
     {id:1,posX:0,posY:0},
     {id:2,posX:0,posY:-2},
     {id:3,posX:0,posY:-4},
     {id:4,posX:0,posY:-6},
     {id:5,posX:0,posY:-8}
+]
+
+// 雷达区
+const rect = [
+    {id:0,x:1,y:1,w:3,h:2,text:'hello',color:0xffa500},
+    {id:1,x:-1,y:-1,w:3,h:2,text:'雷达区',color: 0x00ff00},
 ]
 
 
@@ -64,12 +70,32 @@ const initStation = () => {
     })
 }
 
+const initRect = ()=>{
+    rect.forEach((item)=>{
+        const rectShape = new THREE.Shape()
+        rectShape.moveTo(0,0)
+        rectShape.lineTo(item.w,0)
+        rectShape.lineTo(item.w,item.h)
+        rectShape.lineTo(0,item.h)
+		
+        const geometry = new THREE.ShapeGeometry(rectShape)
+        const material = new THREE.MeshBasicMaterial({color: item.color })
+        const mesh = new THREE.Mesh( geometry, material )
+        mesh.position.set(item.x,0,0,item.y)
+        scene.add(mesh)
+    })
+}
+
 
 const init = ()=>{
     initBasic()
     initControl()
     initStation()
-    renderer.render(scene, camera);
+    initRect()
+    setTimeout(()=>{
+        renderer.render(scene, camera);
+    },100)
+    
 }
 
 
