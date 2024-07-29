@@ -8,6 +8,16 @@ let camera = null
 let renderer = null
 let control = null
 
+
+
+const ALL_IMGS = [
+    {
+        url:'./assets/img/lock.png',
+        data:null,
+        width:0,
+        height:0
+    },
+]
 // 
 const points = [
     {id:1,posX:0,posY:0},
@@ -28,20 +38,51 @@ const robots = [
     {
         id:0,
         name:'AVG01',
-        posX:-4,
-        posY:4
+        posX:2,
+        posY:-4,
+        path:[[2,-6],[-2,-6],[-2,-5],[-2,0]],
+        object:null,
     },
     {
         id:1,
         name:'AVG02',
-        posX:-3,
-        posY:6,
+        posX:2,
+        posY:-6,
+        object:null,
         path:[[-3,5],[-3,4],[-3,2],[-3,0]]
     }
 ]
 
 
-
+// 加载图片
+const loadAllImage = ()=> {
+    const promises = ALL_IMGS.map((item)=>{
+        return new Promise((resolve)=>{
+            const img = new Image()
+            img.src = item.url
+            img.onload = function(e){
+                const canvas = document.createElement("canvas")
+                canvas.width = img.width
+                canvas.height = img.height
+                const ctx = canvas.getContext('2d')
+                ctx.drawImage(img,0,0,img.width,img.height)
+                imageData = ctx.getImageData(0,0,img.width,img.height)
+                resolve({
+                    img,
+                    imageData
+                })
+            }
+        })
+    })
+    return Promise.all(promises).then((res)=>{
+        res.forEach((v,i)=>{
+            ALL_IMGS[i].width = v.img.width
+            ALL_IMGS[i].height = v.img.height
+            ALL_IMGS[i].data = v.imageData
+        })
+        return
+    })
+}
 
 
 const initBasic = ()=>{
@@ -67,7 +108,7 @@ const initBasic = ()=>{
     const ambientLight = new THREE.AmbientLight(0xffffff, 1); // 颜色和强度
     //scene.add(ambientLight);
     const pointLight = new THREE.PointLight(0xffffff,1,0,1); // 颜色、强度和距离
-    pointLight.position.set(0, 3, 0); // 设置光源位置
+    pointLight.position.set(4,4,4); // 设置光源位置
     //scene.add(pointLight);
 }
 
@@ -113,29 +154,78 @@ const createTextCanvas = (text)=>{
     return canvas
 }
 
-const initRobots = ()=> {
-    robots.forEach((item)=>{
-        const geometry = new THREE.BoxGeometry(0.5,0.3,0.8)
-		const material = new THREE.MeshBasicMaterial({
-            color: 0xffa500,
-            map:new THREE.Texture(createTextCanvas(item.name))
+
+const loadImage = ()=>{
+    return new Promise((resolve,reject)=>{
+        new THREE.TextureLoader().load('/assets/img/lock.png',(texture)=>{
+            resolve(texture)
         })
-		const cube = new THREE.Mesh(geometry,material)
-        cube.position.set(item.posX,0,item.posY)
-		scene.add(cube)
     })
 }
 
 
+
+
+const initRobots = ()=> {
+    robots.forEach(item=>{
+        const geometry = new THREE.BoxGeometry(0.5,0.3,0.8)
+        const material = new THREE.MeshBasicMaterial({
+            color: 0xFF33FF,
+            opacity: 0.5, // 可以通过透明度整体调节光圈
+            depthWrite: true, //禁止写入深度缓冲区数据
+        })
+        const cube = new THREE.Mesh(geometry,material)
+        cube.position.set(item.posX,0,item.posY)
+        item.object = cube
+        scene.add(cube)
+    })
+
+       robots.forEach((item)=>{
+        if(item.path[0]){
+        new TWEEN.Tween({x:item.posX,y:0,z:item.posY})
+        .to({x:item.path[0][0],y:0,z:item.path[0][1]},3000)
+        .onUpdate((obj)=>{
+            item.object.position.x = obj.x
+            item.object.position.z = obj.z
+        })
+        .onComplete(()=>{
+            if(item.path[0]){
+                item.posX = item.path[0][0]
+                item.posY = item.path[0][1]
+                const bb = item.path.shift()
+                item.path.push(bb)
+            }
+        })
+        .repeat(Infinity)
+        .start()
+        }
+  
+    })
+}
+
+
+
+
+
+
+const animate =()=>{
+    renderer.render(scene, camera);
+    window.requestAnimationFrame(animate)
+    TWEEN.update()
+}
+
 const init = ()=>{
+    //await loadAllImage()
     initBasic()
     initControl()
     initStation()
     initRobots()
+
+    animate()
+    //renderer.render(scene, camera)
+
+
     //initRect()
-    setTimeout(()=>{
-        renderer.render(scene, camera);
-    },100)
     
 }
 
