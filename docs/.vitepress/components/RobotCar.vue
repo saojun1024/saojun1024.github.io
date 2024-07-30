@@ -108,7 +108,7 @@ const initBasic = ()=>{
     const ambientLight = new THREE.AmbientLight(0xffffff, 1); // 颜色和强度
     //scene.add(ambientLight);
     const pointLight = new THREE.PointLight(0xffffff,1,0,1); // 颜色、强度和距离
-    pointLight.position.set(4,4,4); // 设置光源位置
+    pointLight.position.set(0,10,0); // 设置光源位置
     //scene.add(pointLight);
 }
 
@@ -203,6 +203,51 @@ const initRobots = ()=> {
     })
 }
 
+const uniforms = {
+    centerColor: { value: new THREE.Color(0xff0000) }, // 红色
+    edgeColor: { value: new THREE.Color(0x0000ff) }   // 蓝色
+}
+
+const initCircle = ()=>{
+    const geometry = new THREE.CircleGeometry( 1, 5 );
+    const uvAttribute = geometry.attributes.uv;
+    console.log("uv",uvAttribute)
+
+    // 顶点着色器
+const vertexShader = `
+    varying vec2 vUv;
+    void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+`;
+
+// 片段着色器
+const fragmentShader = `
+    varying vec2 vUv;
+    uniform vec3 centerColor;
+    uniform vec3 edgeColor;
+    void main() {
+        // 计算距离圆心的距离
+        float dist = length(vUv - vec2(0.5, 0.5));
+        // 线性插值颜色
+        vec3 color = mix(centerColor, edgeColor, dist);
+        gl_FragColor = vec4(color, 1.0);
+    }
+`;
+
+    const material = new THREE.ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+        uniforms
+    })
+    //const material = new THREE.MeshBasicMaterial( { color: 0xffff00,opacity:0.7,depthWrite: true } );
+    const circle = new THREE.Mesh( geometry, material );
+    circle.position.set(0,0,2)
+    circle.rotation.x = THREE.MathUtils.degToRad(-90);
+    scene.add( circle );
+}
+
 
 
 
@@ -210,6 +255,9 @@ const initRobots = ()=> {
 
 const animate =()=>{
     renderer.render(scene, camera);
+    const random = Math.random()
+    //uniforms.centerColor.value.set(random > 0.1 ? 0x00ff00 : 0xff0000); // 绿色
+    uniforms.edgeColor.value.set(0xffff00);  // 黄色
     window.requestAnimationFrame(animate)
     TWEEN.update()
 }
@@ -220,6 +268,8 @@ const init = ()=>{
     initControl()
     initStation()
     initRobots()
+
+    initCircle()
 
     animate()
     //renderer.render(scene, camera)
