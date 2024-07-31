@@ -251,6 +251,62 @@ const fragmentShader = `
 
 
 
+const initBufferRect = ()=>{
+    const geometry = new THREE.BufferGeometry()
+    const vertices = [
+        0,0,0,
+        2,0,0,
+        2,0,2,
+        0,0,0,
+        2,0,2,
+        0,0,2,
+    ]
+    const uvs = [
+        0,1,
+        1,1,
+        1,0,
+        0,1,
+        1,0,
+        0,0,
+    ]
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3))
+    geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2))
+
+
+    // 顶点着色器
+    const vertexShader = `
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+    `;
+
+    // 片段着色器
+    const fragmentShader = `
+        varying vec2 vUv;
+        void main() {
+            float d = length(vUv-vec2(0.5));
+            float v = 1.0-smoothstep(0.2,0.6,d);
+            gl_FragColor = vec4(1.0,v,1.0,1.0);
+        }
+    `;
+
+    const material = new THREE.ShaderMaterial({
+        vertexShader,
+        fragmentShader,
+        side: THREE.DoubleSide // 使材质双面渲染
+    })
+    //const material = new THREE.MeshBasicMaterial( { color: 0xffff00,opacity:0.7,depthWrite: true } );
+    const circle = new THREE.Mesh( geometry, material );
+    //circle.position.set(0,0,2)
+    //circle.rotation.x = THREE.MathUtils.degToRad(-90);
+    scene.add( circle );
+}
+
+
+
+
 
 
 const animate =()=>{
@@ -268,7 +324,7 @@ const init = ()=>{
     initControl()
     initStation()
     initRobots()
-
+    initBufferRect()
     initCircle()
 
     animate()
