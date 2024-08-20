@@ -81,28 +81,30 @@ const loadAllImage = ()=> {
 const initBasic = ()=>{
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / 800, 0.1, 1000);
-    camera.position.z = 3;
+    camera.position.z = 5;
+    camera.position.x = 0;
+    camera.position.y = 0;
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, 800);
     const el = document.querySelector('#homePage-banner')
     el.appendChild(renderer.domElement);
 
 
-    // const size = 100;
-    // const divisions = 100;
+    const size = 100;
+    const divisions = 100;
 
-    // const gridHelper = new THREE.GridHelper( size, divisions );
-    // scene.add( gridHelper );
+    const gridHelper = new THREE.GridHelper( size, divisions );
+    scene.add( gridHelper );
 
-    // const axesHelper = new THREE.AxesHelper( 5 );
-    // scene.add( axesHelper );
+    const axesHelper = new THREE.AxesHelper( 5 );
+    scene.add( axesHelper );
 
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 1); // 颜色和强度
-    //scene.add(ambientLight);
+    scene.add(ambientLight);
     const pointLight = new THREE.PointLight(0xffffff,1,0,1); // 颜色、强度和距离
-    pointLight.position.set(0, 3, 0); // 设置光源位置
-    //scene.add(pointLight);
+    pointLight.position.set(0, 10, 0); // 设置光源位置
+    scene.add(pointLight);
 }
 
 const initControl = ()=>{
@@ -124,7 +126,7 @@ const initEarth = ()=>{
             if (isLandByUV(c, f)) { // 根据横纵百分比判断在底图中的像素值
                 const vec3 = new THREE.Vector3()
                 var color = new THREE.Color();
-                vec3.setFromSpherical(new THREE.Spherical(1.5,f * Math.PI,c * Math.PI * 2 - Math.PI / 2))
+                vec3.setFromSpherical(new THREE.Spherical(3.0,f * Math.PI,c * Math.PI * 2 - Math.PI / 2))
                 positions.push(vec3.x,vec3.y,vec3.z)
                 color.setRGB(3/255,168/255,158/255);
                 colors.push(color.r, color.g, color.b);
@@ -136,31 +138,102 @@ const initEarth = ()=>{
     var material = new THREE.PointsMaterial({
         vertexColors:true,  // 颜色通过buffer传递进去
         size: 0.01,
-        blending:THREE.AdditiveBlending,
-        transparent:true,
-        depthWrite: true
+        //blending:THREE.AdditiveBlending,
+        transparent:false,
+        depthWrite: true,
+        deepTest:true
     });
     earthPoints = new THREE.Points(geometry, material);
-    earthPoints.scale.set(2,2,2)
+    //earthPoints.scale.set(2,2,2)
     scene.add(earthPoints);
 }
 
 
+// const initEarthGlow = ()=>{
+//     const map = new THREE.TextureLoader().load( './assets/img/glow.png' );
+
+//     const vertexShader = `
+//     varying vec2 vUv;
+//     void main() {
+//         vUv = uv;
+//         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+//     }
+// `;
+
+// const fragmentShader = `
+//     uniform sampler2D map;
+//     varying vec2 vUv;
+//     void main() {
+//         vec4 color = texture2D(map, vUv);
+//         if (color.a < 0.5) {
+//             // 将透明部分渲染成粉色
+//             gl_FragColor = vec4(1.0, 0.0, 1.0, 1.0); // 粉色 (R=1.0, G=0.0, B=1.0)
+//         } else {
+//             // 渲染正常部分
+//             gl_FragColor = color;
+//         }
+//     }
+// `;
+
+
+
+
+
+//     const material2 = new THREE.SpriteMaterial({
+//        uniforms: {
+//         map: { value: map }
+//        },
+//         vertexShader,
+//         fragmentShader,
+//         transparent: true,
+//         depthTest: true,
+//         depthWrite: true,
+//     });
+
+//     const sprite = new THREE.Sprite( material2 );
+//     sprite.position.set(0,0,0);
+//     sprite.scale.set(11.0,11.0,1.0)
+//     scene.add( sprite );
+// }
+function latLongToVector3(lat, lon, radius) {
+    const phi = (90 - lat) * (Math.PI / 180);
+    const theta = (lon + 180) * (Math.PI / 180);
+    const x = -(radius * Math.sin(phi) * Math.cos(theta));
+    const y = radius * Math.cos(phi);
+    const z = radius * Math.sin(phi) * Math.sin(theta);
+    return new THREE.Vector3(x, y, z);
+}
+
+// 初始化地球光柱
 const initEarthGlow = ()=>{
-    const map = new THREE.TextureLoader().load( './assets/img/glow.png' );
-    const material2 = new THREE.SpriteMaterial( {
-        map,
-        color: 0xffffff,
-        transparent: true, //开启透明
-        opacity: 0.8, // 可以通过透明度整体调节光圈
-        depthWrite: false, //禁止写入深度缓冲区数据
-    });
+    const material = new THREE.SpriteMaterial({
+        map:new THREE.TextureLoader().load( './assets/img/glow.png' ),
+        transparent:true,
+        depthWrite: true,
+        depthTest: true,
+    })
 
-    const sprite = new THREE.Sprite( material2 );
-    sprite.position.set(0,0,0);
-    sprite.scale.set(9.5,9.5,1)
-    scene.add( sprite );
+    const sprite = new THREE.Sprite(material)
+    sprite.scale.set(11.4,11.4,1);
+    scene.add(sprite);
+}
 
+
+const initLines = ()=>{
+    const radius = 3.5;  // 地球的半径
+    const beijing = latLongToVector3(39.9042, 116.4074, radius);
+    const london = latLongToVector3(51.5074, -0.1278, radius);
+    const curve = new THREE.CatmullRomCurve3([
+        beijing,
+        beijing.clone().lerp(london, 0.5).normalize().multiplyScalar(radius+1),  // 中间抬高点
+        london,
+    ]);
+
+    const points = curve.getPoints(50);
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    const material = new THREE.LineBasicMaterial({ color: 0xff0000 });  // 红色线条
+    const line = new THREE.Line(geometry, material);
+    scene.add(line);
 }
 
 
@@ -262,70 +335,20 @@ onMounted(async ()=>{
     initEarth()
     //initStars()
     // 初始地球光晕
+    //initEarthGlow()
     initEarthGlow()
+    initLines()
     // 初始月亮
-    initMoon()
+    //initMoon()
     // 木星
-    initJupiter()
+    //initJupiter()
 
-   const curve = new THREE.EllipseCurve(
-	0,  0,            // ax, aY
-	10, 10,           // xRadius, yRadius
-	0,  2 * Math.PI,  // aStartAngle, aEndAngle
-	false,            // aClockwise
-	0                 // aRotation
-);
-
-const points = curve.getPoints( 100 );
-const geometry = new THREE.BufferGeometry().setFromPoints( points );
-
-const material = new THREE.LineBasicMaterial( { color: 0xff0000 } );
-
-// Create the final object to add to the scene
-const ellipse = new THREE.Line( geometry, material );
-scene.add(ellipse)
-    // const { object, materials, loader} = await initUFO()
-    // const map2 = new THREE.TextureLoader().load( './assets/img/ufo/UFO_color.jpg' );
-    // object.traverse((child)=>{
-    //     if (child instanceof THREE.Mesh) {
-    //         const reflectiveMaterial = new THREE.MeshPhongMaterial({
-    //           color: 0xffffff, // 设置材质颜色
-    //           specular: 0xffffff, // 设置高光颜色
-    //           shininess: 800, // 设置高光亮度
-    //           map:map2
-    //         });
-    //         reflectiveMaterial.map = map2;
-    //         // 为每个网格创建一个新的材质，将纹理作为map属性传入
-    //         child.material = reflectiveMaterial;
-    //     }
-    // })
-    // loader.setMaterials(materials);
-    // object.scale.set(0.2, 0.2, 0.2);
-    // object.position.set(-3.0,0.0,0);
-    // scene.add(object)
-    let angle = 0
-    debugger
-    const action = new TWEEN.Tween({x:0,y:0,z:0})
-    .to({x:4,y:4,z:4},3000) 
-    .onUpdate(function(obj){ 
-        jupt.position.x=obj.x; // x:20
-        jupt.position.y=obj.y;
-        jupt.position.z=obj.z;
-    })
-    .repeat(Infinity)
-    .start()
 
 
     function animate() {
-        requestAnimationFrame(animate);
-        earthPoints.rotation.y += 0.006;
-        moon.rotation.y += 0.02;
-        moon.position.x = -4.0*Math.sin((3.1415/180)*angle)
-        moon.position.z = -4.0*Math.cos((3.1415/180)*angle)
-        jupt.rotation.y = jupt.rotation.y+0.01
-        renderer.render(scene, camera);
-        angle+=1
-        TWEEN.update()
+        requestAnimationFrame(animate)
+        earthPoints.rotation.y += 0.006
+        renderer.render(scene, camera)
     }
     
     animate();

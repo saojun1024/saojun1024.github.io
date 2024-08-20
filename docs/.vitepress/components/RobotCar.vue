@@ -286,9 +286,13 @@ const initBufferRect = ()=>{
     const fragmentShader = `
         varying vec2 vUv;
         void main() {
-            float d = length(vUv-vec2(0.5));
-            float v = 1.0-smoothstep(0.2,0.6,d);
-            gl_FragColor = vec4(1.0,v,1.0,1.0);
+            //float d = length(vUv-vec2(0.5));
+            //float v = 1.0-smoothstep(0.2,0.6,d);
+
+            float d = sqrt(vUv.x)*1000.0;
+            float d2 = sqrt(vUv.y)*1000.0;
+            gl_FragColor = vec4(vec3(fract(d+d2)),1.0);
+            //gl_FragColor = vec4(1.0,v,1.0,1.0);
         }
     `;
 
